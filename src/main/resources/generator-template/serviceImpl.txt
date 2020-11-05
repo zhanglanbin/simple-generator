@@ -1,0 +1,138 @@
+package ${generator.serviceImplPackagePath};
+
+${generator.importPackage}
+
+/**
+* @ClassName: ${generator.serviceImplClassName}
+* @Description: ${generator.explain}相关接口实现
+* @author ${generator.author}
+* @date ${generator.date}
+*/
+@Service
+public class ${generator.serviceImplClassName} implements ${generator.serviceClassName} {
+
+	private static final Logger log = LoggerFactory.getLogger(${generator.serviceImplClassName}.class);
+	
+	@Autowired
+    private ${generator.daoClassName} ${generator.daoVariableName};
+	
+	
+	/**
+    * @Title: save
+    * @author ${generator.author}
+    * @Description: 保存${generator.explain}
+    * @param ${generator.modelVariableName} ${generator.explain}
+    * @return ${generator.unifiedResponseClassName}<${generator.modelClassName}> 返回保存成功后的数据
+    * @throws
+    */
+    @Transactional
+    @Override
+	public ${generator.unifiedResponseClassName}<${generator.modelClassName}> insert(${generator.modelClassName} ${generator.modelVariableName}) {
+		${generator.daoVariableName}.insert(${generator.modelVariableName});
+		return new ${generator.unifiedResponseClassName}<${generator.modelClassName}>().success().setData(${generator.modelVariableName});
+	}
+	
+	
+	/**
+    * @Title: deleteBy${generator.modelPrimaryKeyMethodName}
+    * @author ${generator.author}
+    * @Description: 删除${generator.explain}
+    * @param ${generator.modelPrimaryKey}
+    * @return ${generator.unifiedResponseClassName}<Boolean> 返回成功或失败
+    * @throws
+    */
+    @Transactional
+    @Override
+	public ${generator.unifiedResponseClassName}<Boolean> deleteBy${generator.modelPrimaryKeyMethodName}(${generator.modelPrimaryKeyJavaType} ${generator.modelPrimaryKey}) {
+		int result = -1;
+		try {
+			result = ${generator.daoVariableName}.deleteBy${generator.modelPrimaryKeyMethodName}(${generator.modelPrimaryKey});
+			if(result != 1){
+				log.debug("删除单条记录异常::{}", ${generator.modelPrimaryKey});
+				throw new RuntimeException(new ${generator.unifiedResponseClassName}<Boolean>().fail().addFailMessages(State.$99990).toString());
+			}
+			return new ${generator.unifiedResponseClassName}<Boolean>().success();
+		} catch (RuntimeException re) {
+			log.error("{}, ${generator.modelPrimaryKey}::{}, 删除错误条数为::{}", re, ${generator.modelPrimaryKey}, result);
+			throw new RuntimeException(re);
+		} catch (Exception e) {
+			log.error("{}, ${generator.modelPrimaryKey}::{}, 删除错误条数为::{}", e, ${generator.modelPrimaryKey}, result);
+			throw new RuntimeException(e);
+		}
+	}
+	
+	
+	/**
+    * @Title: updateBy${generator.modelPrimaryKeyMethodName}
+    * @author ${generator.author}
+    * @Description: 修改${generator.explain}
+    * @param ${generator.modelVariableName} ${generator.explain}
+    * @return ${generator.unifiedResponseClassName}<Boolean> 返回成功或失败
+    * @throws
+    */
+    @Transactional
+    @Override
+	public ${generator.unifiedResponseClassName}<Boolean> updateBy${generator.modelPrimaryKeyMethodName}(${generator.modelClassName} ${generator.modelVariableName}) {
+		int result = -1;
+		try{
+			if(null == ${generator.modelVariableName}.get${generator.modelPrimaryKeyMethodName}()){
+				log.debug("修改操作参数不能为空::{}", ${generator.modelVariableName});
+				return new ${generator.unifiedResponseClassName}<Boolean>().fail().addFailMessages(State.$99989);
+			}
+			
+			result = ${generator.daoVariableName}.updateBy${generator.modelPrimaryKeyMethodName}(${generator.modelVariableName});
+			if(result != 1){
+				throw new RuntimeException(new ${generator.unifiedResponseClassName}<Boolean>().fail().addFailMessages(State.$99988).toString());
+			}
+			return new ${generator.unifiedResponseClassName}<Boolean>().success();
+		} catch(RuntimeException re) {
+			log.error("{}, ${generator.modelVariableName}::{}, 修改条数错误为::{}", re, ${generator.modelVariableName}, result);
+			throw new RuntimeException(re);
+		} catch(Exception e) {
+			log.error("{}, ${generator.modelVariableName}::{}, 修改条数错误为::{}", e, ${generator.modelVariableName}, result);
+			throw new RuntimeException(e);
+		}
+	}
+	
+	
+	/**
+    * @Title: findBy${generator.modelPrimaryKeyMethodName}
+    * @author ${generator.author}
+    * @Description: 查询${generator.explain}
+    * @param ${generator.modelPrimaryKey}
+    * @return ${generator.unifiedResponseClassName}<${generator.modelClassName}> 成功则返回单条数据
+    * @throws
+    */
+	public ${generator.unifiedResponseClassName}<${generator.modelClassName}> findBy${generator.modelPrimaryKeyMethodName}(${generator.modelPrimaryKeyJavaType} ${generator.modelPrimaryKey}) {
+		
+		${generator.modelClassName} ${generator.modelVariableName} = ${generator.daoVariableName}.findBy${generator.modelPrimaryKeyMethodName}(${generator.modelPrimaryKey});
+		if(null == ${generator.modelVariableName}){
+			return new ${generator.unifiedResponseClassName}<${generator.modelClassName}>().fail().addFailMessages(State.$99987);
+		}
+		
+		return new ${generator.unifiedResponseClassName}<${generator.modelClassName}>().success().setData(${generator.modelVariableName});
+	}
+	
+	
+	/**
+    * @Title: findList
+    * @author ${generator.author}
+    * @Description: 查询${generator.explain}列表
+    * @param ${generator.modelQueryVariableName} ${generator.explain}查询条件
+    * @return ${generator.unifiedResponseClassName}<${generator.pagingClassName}<${generator.modelClassName}>> 成功则返回一条或多条数据
+    * @throws
+    */
+	public ${generator.unifiedResponseClassName}<${generator.pagingClassName}<List<${generator.modelClassName}>>> findList(${generator.modelQueryClassName} ${generator.modelQueryVariableName}){
+		int row = ${generator.daoVariableName}.findTotalRow(${generator.modelQueryVariableName});
+		if(row < 1) {
+			log.debug("没有符合该条件::{}的数据", ${generator.modelQueryVariableName});
+			return new ${generator.unifiedResponseClassName}<${generator.pagingClassName}<List<${generator.modelClassName}>>>().fail().addFailMessages(State.$99987);
+		}
+		
+		List<${generator.modelClassName}> ${generator.modelListVariableName} = ${generator.daoVariableName}.findList(${generator.modelQueryVariableName});
+		${generator.pagingClassName}<List<${generator.modelClassName}>> ${generator.pagingVariableName} = new ${generator.pagingClassName}<>();
+		${generator.pagingVariableName}.setList(${generator.modelListVariableName});
+		${generator.pagingVariableName}.setTotalRow(row);
+		return new ${generator.unifiedResponseClassName}<${generator.pagingClassName}<List<${generator.modelClassName}>>>().success().setData(${generator.pagingVariableName});
+	}
+}

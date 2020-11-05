@@ -1,0 +1,62 @@
+package ${generator.servicePackagePath};
+
+${generator.importPackage}
+
+/**
+* @ClassName: ${generator.serviceClassName}
+* @Description: ${generator.explain}相关接口
+* @author ${generator.author}
+* @date ${generator.date}
+*/
+public interface ${generator.serviceClassName} {
+	/**
+    * @Title: save
+    * @author ${generator.author}
+    * @Description: 保存${generator.explain}
+    * @param ${generator.modelVariableName} ${generator.explain}
+    * @return ${generator.unifiedResponseClassName}<${generator.modelClassName}> 返回保存成功后的数据
+    * @throws
+    */
+	public ${generator.unifiedResponseClassName}<${generator.modelClassName}> insert(${generator.modelClassName} ${generator.modelVariableName});
+	
+	/**
+    * @Title: deleteBy${generator.modelPrimaryKeyMethodName}
+    * @author ${generator.author}
+    * @Description: 删除${generator.explain}
+    * @param ${generator.modelPrimaryKey}
+    * @return ${generator.unifiedResponseClassName}<Boolean> 返回成功或失败
+    * @throws
+    */
+	public ${generator.unifiedResponseClassName}<Boolean> deleteBy${generator.modelPrimaryKeyMethodName}(${generator.modelPrimaryKeyJavaType} ${generator.modelPrimaryKey});
+	
+	
+	/**
+    * @Title: updateBy${generator.modelPrimaryKeyMethodName}
+    * @author ${generator.author}
+    * @Description: 修改${generator.explain}
+    * @param ${generator.modelVariableName} ${generator.explain}
+    * @return ${generator.unifiedResponseClassName}<Boolean> 返回成功或失败
+    * @throws
+    */
+	public ${generator.unifiedResponseClassName}<Boolean> updateBy${generator.modelPrimaryKeyMethodName}(${generator.modelClassName} ${generator.modelVariableName});
+	
+	/**
+    * @Title: findBy${generator.modelPrimaryKeyMethodName}
+    * @author ${generator.author}
+    * @Description: 查询${generator.explain}
+    * @param ${generator.modelPrimaryKey}
+    * @return ${generator.unifiedResponseClassName}<${generator.modelClassName}> 成功则返回单条数据
+    * @throws
+    */
+	public ${generator.unifiedResponseClassName}<${generator.modelClassName}> findBy${generator.modelPrimaryKeyMethodName}(${generator.modelPrimaryKeyJavaType} ${generator.modelPrimaryKey});
+	
+	/**
+    * @Title: findList
+    * @author ${generator.author}
+    * @Description: 查询${generator.explain}列表
+    * @param ${generator.modelQueryVariableName} ${generator.explain}查询条件
+    * @return ${generator.unifiedResponseClassName}<${generator.pagingClassName}<${generator.modelClassName}>> 成功则返回一条或多条数据
+    * @throws
+    */
+	public ${generator.unifiedResponseClassName}<${generator.pagingClassName}<List<${generator.modelClassName}>>> findList(${generator.modelQueryClassName} ${generator.modelQueryVariableName});
+}

@@ -1,0 +1,21 @@
+package ${generator.modelPackagePath};
+
+${generator.importPackage}
+
+/**
+ * @Title: ${generator.modelClassName}
+ * @Description: ${generator.explain}
+ * @author: ${generator.author}
+ * @date: ${generator.date}
+ * */
+${generator.swaggerApiModelAnnotation}
+public class ${generator.modelClassName} implements Serializable {
+
+	private static final long serialVersionUID = ${generator.serialVersionUID};
+
+	${generator.modelAttribute}
+	${generator.getAndSetMethod}
+	${generator.toString}
+	${generator.hashCode}
+	${generator.equals}
+}

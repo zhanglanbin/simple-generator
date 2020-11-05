@@ -1,0 +1,236 @@
+package ${generator.groupId}.response;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+
+/**
+ * @Description: 统一返回对象
+ * @author ${generator.author}
+ * @date: ${generator.date}
+ * */
+@ApiModel(value="返回结果",description="返回结果")
+public class ResponseResult<T> implements Serializable {
+
+	private static final long serialVersionUID = ${generator.serialVersionUID};
+	
+	
+	/**
+     * 执行结果代码
+     * */
+	@ApiModelProperty(value="执行结果的代码" ,example = "fail")
+    private String code = State.FAIL.getCode();
+    /**
+     * 执行结果信息
+     * */
+	@ApiModelProperty(value="执行结果的说明" ,example = "失败")
+    private String message = State.FAIL.getMessage();
+	
+	/**
+	 * 失败原因
+	 * */
+	@ApiModelProperty(value="执行失败的信息" ,example = "\"[message{code:999999 ,message:系统错误}]\"")
+	private List<MyMessage> failMessages;
+	
+	/**
+	 * 其他附加信息
+	 * */
+	@ApiModelProperty(value="执行结果的其他附加消息" ,example = "\"[message{code:errorRow ,message:10}]\"")
+	private List<MyMessage> otherMessages;
+	
+    /**
+     * 返回对象
+     * */
+	@ApiModelProperty(value="执行结果的数据")
+    private T data;
+	
+	
+	
+	
+	public String getCode() {
+		return code;
+	}
+	public ResponseResult<T> setCode(String code) {
+		this.code = code;
+		return this;
+	}
+	
+	
+	
+	public String getMessage() {
+		return message;
+	}
+	public ResponseResult<T> setMessage(String message) {
+		this.message = message;
+		return this;
+	}
+	
+	
+	
+	
+	public ResponseResult<T> fail(){
+		this.code = State.FAIL.getCode();
+		this.message = State.FAIL.getMessage();
+		return this;
+	}
+
+	
+	
+	
+	public ResponseResult<T> fail(String message){
+		this.code = State.FAIL.getCode();
+		this.message = message;
+		return this;
+	}
+
+	
+	
+	
+	public ResponseResult<T> success(){
+		this.code = State.SUCCESS.getCode();
+		this.message = State.SUCCESS.getMessage();
+		return this;
+	}
+	
+	
+	public boolean isSuccess() {
+		if(this.code == State.SUCCESS.getCode()) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	public boolean isFail() {
+		if(this.code == State.FAIL.getCode()) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	public ResponseResult<T> addOtherMessages(String code, Object message){
+		if(null==otherMessages) {
+			synchronized (ResponseResult.class) {
+				if(null==otherMessages) {
+					this.otherMessages = new ArrayList<>();
+				}
+			}
+		}
+		this.otherMessages.add(new MyMessage(code,message));
+		return this;
+	}
+	
+	
+	
+	
+	public ResponseResult<T> addOtherMessages(Object message){
+		if(null==otherMessages) {
+			synchronized (ResponseResult.class) {
+				if(null==otherMessages) {
+					this.otherMessages = new ArrayList<>();
+				}
+			}
+		}
+		this.otherMessages.add(new MyMessage(String.valueOf(otherMessages.size()),message));
+		return this;
+	}
+	
+	
+	
+	
+	public List<MyMessage> getOtherMessages(){
+		return this.otherMessages;
+	}
+	
+	
+	
+	
+	public ResponseResult<T> addFailMessages(String code, String message){
+		if(null==failMessages) {
+			synchronized (ResponseResult.class) {
+				if(null==failMessages) {
+					this.failMessages = new ArrayList<>();
+				}
+			}
+		}
+		this.failMessages.add(new MyMessage(code,message));
+		return this;
+	}
+	
+	
+	
+	
+	public ResponseResult<T> addFailMessages(MyMessage myMessage){
+		if(null==failMessages) {
+			synchronized (ResponseResult.class) {
+				if(null==failMessages) {
+					this.failMessages = new ArrayList<>();
+				}
+			}
+		}
+		this.failMessages.add(myMessage);
+		return this;
+	}
+	
+	
+	
+	
+	
+	public ResponseResult<T> addFailMessages(State state){
+		if(null==failMessages) {
+			synchronized (ResponseResult.class) {
+				if(null==failMessages) {
+					this.failMessages = new ArrayList<>();
+				}
+			}
+		}
+		this.failMessages.add(new MyMessage(state.getCode(),state.getMessage()));
+		return this;
+	}
+	
+	
+	
+	
+	
+	public ResponseResult<T> addFailListMessages(List<MyMessage> messages){
+		if(null==failMessages) {
+			synchronized (ResponseResult.class) {
+				if(null==failMessages) {
+					this.failMessages = new ArrayList<>();
+				}
+			}
+		}
+		this.failMessages.addAll(messages);
+		return this;
+	}
+	
+	
+	
+	
+	
+	public List<MyMessage> getFailMessages(){
+		return this.failMessages;
+	}
+	
+	public T getData() {
+		return data;
+	}
+	public ResponseResult<T> setData(T data) {
+		this.data = data;
+		return this;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	@Override
+	public String toString() {
+		return "ResponseResult [code=" + code + ", message=" + message + ", failMessages=" + failMessages
+				+ ", OtherMessages=" + otherMessages + ", data=" + data + "]";
+	}
+}

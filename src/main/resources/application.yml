@@ -1,0 +1,129 @@
+server: 
+  port: 8080
+
+
+
+
+spring:  thymeleaf:    cache: false
+
+
+
+generate-project-config: 
+  database-name: forest_monitor_bn
+  database-url: jdbc:mysql://192.168.0.202:3306/forest_monitor_bn?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8
+  database-username: root
+  database-password: secton!!
+  isCreateProject: true
+  projectPath: D:\EclipseWorkSpace\test\forest-monitor
+  projectName: forest-monitor
+  author: zhanglanbin
+  groupId: com.secton.forest
+  java-jdk-version: 1.8
+  swaggerAnnotation: true
+  ignoreTalbePrefixList: 
+    - sys_
+    - test_
+    #实体类包路径, 例如: com.h3.test.pojo
+  modelPackagePath: com.secton.forest.pojo
+  #db dao 包路径 例如:com.h3.test.dao
+  daoPackagePath: com.secton.forest.dao
+  #mapper文件路径, 例如: src/main/resources/mybatis/mapper 或 src/main/java/com/h3/test/dao/mapper
+  mapperXmlFilePath: src/main/resources/mybatis/mapper
+  #service 包路径, 例如: com.h3.test.service
+  servicePackageFilePath: com.secton.forest.service
+  #serviceImpl 包路径, 例如: com.h3.test.service.impl
+  serviceImplPackageFilePath: com.secton.forest.service.*.impl
+  #controller 包路径, 例如: com.h3.test.controller
+  controllerPackageFilePath: com.secton.forest.controller
+  unifiedResponseClassName: ResponseResult
+  unifiedResponsePackage: com.secton.forest.response.ResponseResult
+  unifiedPageClassName: Page
+  unifiedPagePackage: com.secton.forest.response.Page
+  controller-annotation-list:
+    - annotation-package: com.secton.forest.aop
+      annotation: "@ApiManage(apiId = \"${yyyyMMddHHmmss}\", operType = OperType.FIND)"
+      method: find*, get*, select*
+    - annotation-package: com.secton.forest.aop
+      annotation: "@ApiManage(apiId = \"${yyyyMMddHHmmss}\", operType = OperType.ADD)"
+      method: insert*, save*, add*
+    - annotation-package: com.secton.forest.aop
+      annotation: "@ApiManage(apiId = \"${yyyyMMddHHmmss}\", operType = OperType.DELETE)"
+      method: delete*, del*, remove*
+    - annotation-package: com.secton.forest.aop
+      annotation: "@ApiManage(apiId = \"${yyyyMMddHHmmss}\", operType = OperType.UPDATE)"
+      method: update*, put*
+    - annotation-package: com.secton.forest.aop
+      annotation: "@ApiManage(apiId = \"${yyyyMMddHHmmss}\", operType = OperType.EDIT)"
+      method: edit*
+    - annotation-package: com.secton.forest.aop
+      annotation: "@ApiManage(apiId = \"${yyyyMMddHHmmss}\", operType = OperType.OTHER)"
+      exclude: find*, get*, select*, insert*, save*, add*, delete*, del*, remove*, update*, put*, edit*
+  #0=json, 1=eclipse, 2=idea
+  toStringFormatType: 1
+  groupPropertiesList: 
+    - group-name: user
+      group-table-name: 
+        - "sys_user"
+        - "sys_user_info"
+        - "sys_user_login_log"
+        - "sys_user_quick_menu"
+        - "sys_user_role"
+    - group-name: system
+      group-table-name: 
+        - "sys_role"
+        - "sys_user_role"
+        - "sys_api"
+        - "sys_area_device"
+        - "sys_area_info"
+        - "sys_area_level"
+        - "sys_area_map_info"
+        - "sys_class_info"
+        - "sys_config"
+        - "sys_device"
+        - "sys_device_preset"
+        - "sys_dictionary"
+        - "sys_focus_broadcast"
+        - "sys_exception_log"
+        - "sys_focus_broadcast"
+        - "sys_init_controller_info_filter_uri"
+        - "sys_ip_blacklist"
+        - "sys_map_basic_config"
+        - "sys_map_data_template"
+        - "sys_map_data_template_value"
+        - "sys_menu"
+        - "sys_menu_api"
+        - "sys_oper_log"
+        - "sys_oper_log_filter"
+        - "sys_prevention_plan"
+        - "sys_role"
+        - "sys_role_api"
+        - "sys_role_menu"
+        - "sys_scheduled_task"
+        - "sys_small_class_information"
+        - "sys_static_resource"
+        - "sys_user_blacklist"
+        - "sys_user_role"
+        - "sys_user_role"
+        - "sys_user_role"
+    - group-name: tree
+      group-table-name: 
+        - "sys_collection_discern"
+        - "sys_collection_discern_class"
+        - "sys_collection_info"
+        - "sys_collection_person_discern_detail"
+        - "tree_collection_elimination"
+        - "tree_collection_elimination_image"
+        - "tree_collection_task"
+        - "tree_collection_task_acceptance"
+        - "tree_collection_task_class"
+        - "tree_collection_task_image"
+        - "tree_collection_task_manage"
+        - "tree_collection_task_trail"
+        - "tree_collection_task_trail_image"
+
+
+
+
+
+
+

@@ -1,0 +1,176 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.simple.generator</groupId>
+	<artifactId>simple-generator</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>simple-generator</name>
+	<description>简化生成器</description>
+	<packaging>jar</packaging>
+
+	<properties>
+		<skipTests>true</skipTests>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<start-class>com.h3.simplify.SimplifyGeneratorApp</start-class>
+		<parentdir>D:\EclipseWorkSpace\codeGenerator\simple-generator</parentdir>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+
+		<springboot.version>2.3.4.RELEASE</springboot.version>
+		<alibaba.fastjson.version>1.2.15</alibaba.fastjson.version>
+		<logback.verson>1.2.3</logback.verson>
+		<junit.version>4.12</junit.version>
+		<mysql.version>8.0.15</mysql.version>
+		<springloaded.version>1.2.8.RELEASE</springloaded.version>
+		<knife4j-spring-boot-starter.version>2.0.5</knife4j-spring-boot-starter.version>
+	</properties>
+
+
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+			<version>${springboot.version}</version>
+		</dependency>
+		<!-- boot test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<version>${springboot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<version>${springboot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+			<version>${springboot.version}</version>
+		</dependency>
+		<!-- springboot web -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${springboot.version}</version>
+		</dependency>
+		<!-- 模版引擎 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+			<version>${springboot.version}</version>
+		</dependency>
+		<!-- =========================== 热部署 ============================= -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>springloaded</artifactId>
+			<version>${springloaded.version}</version>
+		</dependency>
+		<!-- =========================== 热部署 ============================= -->
+
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${alibaba.fastjson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>${logback.verson}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
+		</dependency>
+		
+		<!-- swagger2 -->
+		<dependency>
+			<groupId>com.github.xiaoymin</groupId>
+			<artifactId>knife4j-spring-boot-starter</artifactId>
+			<version>${knife4j-spring-boot-starter.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.github.xiaoymin</groupId>
+					<artifactId>knife4j-spring-ui</artifactId>
+				</exclusion>
+        	</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.gitlab.zlb</groupId>
+			<artifactId>knife4j-spring-ui</artifactId>
+			<version>${knife4j-spring-boot-starter.version}</version>
+		</dependency>
+	</dependencies>
+
+
+	<build>
+		<!-- 指定package生成的文件名为myApplication.jar -->
+		<finalName>${project.name}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<!-- 指定该Main Class为全局的唯一入口 -->
+					<mainClass>${start-class}</mainClass>
+					<layout>ZIP</layout>
+					<encoding>UTF-8</encoding>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- 解决前端图标字体文件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<nonFilteredFileExtensions>
+						<nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+						<nonFilteredFileExtension>woff</nonFilteredFileExtension>
+						<nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+					</nonFilteredFileExtensions>
+				</configuration>
+			</plugin>
+			<!-- 解决前端图标字体文件 -->
+		</plugins>
+
+		<!-- 解决前端图标字体文件 -->
+		<resources>
+			<resource>
+				<directory>${project.basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>static/**/**</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>${project.basedir}/src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>static/**/**</include>
+				</includes>
+			</resource>
+		</resources>
+		<!-- 解决前端图标字体文件 -->
+	</build>
+</project>

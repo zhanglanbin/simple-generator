@@ -1,0 +1,99 @@
+package ${generator.groupId}.response;
+
+/**
+ * @Description: 请求状态
+ * @author ${generator.author}
+ * @date: ${generator.date}
+ * */
+public enum State {
+	/**
+	 * 成功
+	 * */
+	SUCCESS("success" ,"成功"),
+	/**
+	 * 失败
+	 * */
+	FAIL("fail","失败"),
+	/**
+	 * 系统异常
+	 * */
+	$99999("99999" ,"系统繁忙, 请稍后再试!"),
+	/**
+	 * 无效请求
+	 * 没有执行代码,直接返回结果
+	 * */
+	$99998("99998" ,"无效请求"),
+	/**
+	 * 请求方式错误
+	 * */
+	$99997("99997" ,"请求方式错误"),
+	/**
+	 * 参数不符合标准, 请检查后再试!
+	 * */
+	$99996("99996" ,"参数不符合标准, 请检查后再试!"),
+	/**
+	 * 请勿重复提交
+	 * */
+	$99995("99995" ,"请勿重复提交"),
+	/**
+	 * 权限认证异常
+	 * */
+	$99994("99994" ,"权限认证异常!"),
+	/**
+	 * 登录授权失败
+	 * */
+	$99993("99993" ,"登录授权失败"),
+	/**
+	 * 权限不足
+	 * */
+	$99992("99992" ,"权限不足"),
+	/**
+	 * 权限认证失败
+	 * */
+	$99991("99991" ,"权限认证失败!"),
+	/**
+	 * 删除操作失败!
+	 * */
+	$99990("99990" ,"删除操作失败!"),
+	/**
+	 * 修改索引参数不能为空!
+	 * */
+	$99989("99989" ,"修改索引参数不能为空!"),
+	/**
+	 * 修改失败!
+	 * */
+	$99988("99988" ,"修改失败!"),
+	/**
+	 * 查询的数据不存在!
+	 * */
+	$99987("99987" ,"查询的数据不存在!");
+	
+	
+	private String code;
+	private String message;
+	
+	State(String code, String message){
+		this.code = code;
+		this.message = message;
+	}
+	public static String getMessage(String message) {
+		for (State global : State.values()) {
+			if (message.equals(global.getCode())) {
+				return global.message;
+			}
+		}
+		return "";
+	}
+	
+	public String getMessage() {
+		return message;
+	}
+	
+	public String getCode() {
+		return code;
+	}
+	
+	public MyMessage getMyMessage() {
+		return new MyMessage(code, message);
+	}
+}

@@ -1,0 +1,24 @@
+package ${generator.groupId};
+
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
+
+@MapperScan(value = { "${generator.daoTopPackagePath}" })
+@SpringBootApplication
+@ServletComponentScan // 开启druid
+public class MainApp {
+	public static void main(String[] args) {
+	    try {
+			SpringApplication sa = new SpringApplication(MainApp.class);
+        	sa.run(args);
+        } catch (Exception e) {
+			if (!(e.getStackTrace() != null && e.getStackTrace().length <= 16
+					&& "org.springframework.boot.devtools.restart.SilentExitExceptionHandler"
+							.equals(e.getStackTrace()[0].getClassName()))) {
+				e.printStackTrace();
+			}
+		}
+	}
+}

@@ -1,0 +1,11 @@
+package ${generator.modelMDPackagePath};
+
+/**
+ * @Title: ${generator.modelMDClassName}
+ * @Description: ${generator.explain} 对象的属性名相关定义
+ * @author: ${generator.author}
+ * @date: ${generator.date}
+ * */
+public interface ${generator.modelMDClassName} {
+	${generator.modelMDAttribute}
+}

@@ -1,0 +1,162 @@
+package ${generator.modelPackagePath};
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.ArrayList;
+
+
+/**
+ * @Title: CommonQueryParam
+ * @Description: 公共查询参数
+ * @author: ${generator.author}
+ * @date: ${generator.date}
+ * */
+public class CommonQueryParam implements Serializable {
+
+	private static final long serialVersionUID = ${generator.serialVersionUID};
+
+	/**
+	 * @Description: 是否模糊匹配: false=为模糊匹配, true=为精确匹配
+	 * */
+	private Boolean isAccurate;
+
+	/**
+	 * @Description: 页号
+	 * */
+	private Integer pageNumber;
+
+	/**
+	 * @Description: 开始行数
+	 * */
+	private Integer startRowNumber;
+
+	/**
+	 * @Description: 结束行数
+	 * */
+	private Integer endRowNumber;
+
+	/**
+	 * @Description: 创建时间开始 %Y-%m-%d %T:%i:%s
+	 * */
+	private String createTimeStart;
+
+	/**
+	 * @Description: 创建时间结束 %Y-%m-%d %T:%i:%s
+	 * */
+	private String createTimeEnd;
+
+	/**
+	 * @Description: 修改时间开始 %Y-%m-%d %T:%i:%s
+	 * */
+	private String updateTimeStart;
+
+	/**
+	 * @Description: 修改时间结束 %Y-%m-%d %T:%i:%s
+	 * */
+	private String updateTimeEnd;
+
+	/**
+	 * @Description: 数据列名集合
+	 * */
+	private List<String> columnList;
+
+
+	public Boolean getIsAccurate() {
+		return isAccurate;
+	}
+	public void setIsAccurate(Boolean isAccurate) {
+		this.isAccurate = isAccurate;
+	}
+
+	public Integer getPageNumber() {
+		return pageNumber;
+	}
+	public void setPageNumber(Integer pageNumber) {
+		this.pageNumber = pageNumber;
+	}
+
+	public Integer getStartRowNumber() {
+		return startRowNumber;
+	}
+	public void setStartRowNumber(Integer startRowNumber) {
+		this.startRowNumber = startRowNumber;
+	}
+
+	public Integer getEndRowNumber() {
+		return endRowNumber;
+	}
+	public void setEndRowNumber(Integer endRowNumber) {
+		this.endRowNumber = endRowNumber;
+	}
+
+	public String getCreateTimeStart() {
+		return createTimeStart;
+	}
+	public void setCreateTimeStart(String createTimeStart) {
+		this.createTimeStart = createTimeStart;
+	}
+
+	public String getCreateTimeEnd() {
+		return createTimeEnd;
+	}
+	public void setCreateTimeEnd(String createTimeEnd) {
+		this.createTimeEnd = createTimeEnd;
+	}
+
+	public String getUpdateTimeStart() {
+		return updateTimeStart;
+	}
+	public void setUpdateTimeStart(String updateTimeStart) {
+		this.updateTimeStart = updateTimeStart;
+	}
+
+	public String getUpdateTimeEnd() {
+		return updateTimeEnd;
+	}
+	public void setUpdateTimeEnd(String updateTimeEnd) {
+		this.updateTimeEnd = updateTimeEnd;
+	}
+
+	public List<String> getColumnList() {
+		return columnList;
+	}
+	public void setColumnList(List<String> columnList) {
+		this.columnList = columnList;
+	}
+
+	protected CommonQueryParam addColumn(String column) {
+		if(null == this.columnList) {
+			synchronized (CommonQueryParam.class) {
+				if(null == this.columnList) {
+					this.columnList = new ArrayList<>();
+				}
+			}
+		}
+		this.columnList.add(column);
+		return this;
+	}
+
+	protected CommonQueryParam removeColumn(String column) {
+		if(null == this.columnList) {
+			return this;
+		}
+		this.columnList.remove(column);
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "CommonQueryParam [" +
+			"isAccurate=" + isAccurate + 
+			", pageNumber=" + pageNumber + 
+			", startRowNumber=" + startRowNumber + 
+			", endRowNumber=" + endRowNumber + 
+			", createTimeStart=" + createTimeStart + 
+			", createTimeEnd=" + createTimeEnd + 
+			", updateTimeStart=" + updateTimeStart + 
+			", updateTimeEnd=" + updateTimeEnd + 
+			", columnList=" + columnList + 
+		"]";
+	}
+}

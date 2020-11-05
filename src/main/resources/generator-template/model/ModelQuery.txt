@@ -1,0 +1,20 @@
+package ${generator.modelQueryPackagePath};
+
+${generator.importPackage}
+
+/**
+ * @Title: ${generator.modelQueryClassName}
+ * @Description: ${generator.explain}
+ * @author: ${generator.author}
+ * @date: ${generator.date}
+ * */
+${generator.swaggerApiModelAnnotation}
+public class ${generator.modelQueryClassName} extends ${generator.commonQueryClassName} implements Serializable {
+
+	private static final long serialVersionUID = ${generator.serialVersionUID};
+	
+	${generator.modelAttribute}
+	${generator.getAndSetMethod}
+	${generator.toString}
+	${generator.querySynamicColumnMethod}
+}

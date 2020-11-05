@@ -1,0 +1,59 @@
+package ${generator.groupId}.response;
+
+import java.io.Serializable;
+import java.util.Collections;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+/**
+ * @Description: 分页数据
+ * @author ${generator.author}
+ * @date: ${generator.date}
+ * */
+@ApiModel(value="分页数据",description="分页数据")
+public class Page<T> implements Serializable {
+
+	private static final long serialVersionUID = ${generator.serialVersionUID};
+	
+	
+	/**
+	 * 数据总条数
+	 * */
+	@ApiModelProperty(value="数据总条数")
+	private int totalRow;
+	
+    /**
+     * 返回对象
+     * */
+	@ApiModelProperty(value="执行结果的数据")
+    private T list;
+	
+	
+	@SuppressWarnings("unchecked")
+	public Page() {
+		this.totalRow = 0;
+		this.list = (T) Collections.emptyList();
+	}
+	
+	
+	public int getTotalRow() {
+		return totalRow;
+	}
+	public Page<T> setTotalRow(int totalRow) {
+		this.totalRow = totalRow;
+		return this;
+	}
+	
+	public T getList() {
+		return list;
+	}
+	public Page<T> setList(T list) {
+		this.list = list;
+		return this;
+	}
+	@Override
+	public String toString() {
+		return "Page [totalRow=" + totalRow + ", list=" + list + "]";
+	}
+}

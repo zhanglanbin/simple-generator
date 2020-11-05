@@ -1,0 +1,151 @@
+#swagger配置
+knife4j:
+  enable: true
+  basic:
+    enable: true
+    username: admin
+    password: 123456
+  setting:
+    enableHost: true
+
+
+
+#服务端配置
+server:
+  port: 8080    #配置ssl后,这个端口为https入口的端口号,      没配置ssl, 这个端口则是http入口的端口号
+  tomcat: 
+    uri-encoding: UTF-8
+    max-threads: 100        #最大线程数
+    max-connections: 20000   #接受和处理的最大连接数
+    min-SpareThreads: 3     #初始化时创建的线程数
+    acceptCount: 2000         #可以放到处理队列中的请求数
+  servlet:
+    context-path: /
+  
+  
+spring:
+  application:
+    name: ${generator.projectName}
+  devtools:
+    restart:
+      enabled: false
+  messages: 
+    encoding: UTF-8
+  resources: 
+      chain: 
+        strategy: 
+          content: 
+            enabled: true #是否开启内容版本策略，默认为false
+            paths: /**  #指定要应用的版本的路径，多个以逗号分隔，默认为:[/**]
+  jackson:
+    #default-property-inclusion: NON_NULL  #请求不返回空字段
+    date-format: 'yyyy-MM-dd HH:mm:ss'
+    time-zone: GMT+8
+    serialization: 
+      write-dates-as-timestamps: false
+  servlet: 
+    multipart: 
+      max-request-size: 30MB #上传文件总的最大值 ,限制上传的多个文件的总大小
+      max-file-size: 10MB #单个文件的最大值 ,限制单个文件的最大值
+  jms:
+    pub-sub-domain: true #默认false 只提供queue模式，如果要开启topic,必须设置为true
+  datasource: 
+    url: ${generator.databaseUrl}          #数据库名称
+    username: ${generator.databaseUsername}
+    password: ${generator.databasePassword}
+    driver-class-name: com.mysql.jdbc.Driver            #mysql 驱动包
+    type: com.alibaba.druid.pool.DruidDataSource          #当前数据源操作类型
+    #datasource druid pool
+    druid: 
+      initial-size: 2 #初始化大小
+      min-idle: 2      #最小
+      max-active: 5   #最大
+      max-wait: 60000   #配置获取连接等待超时的时间
+      time-between-eviction-runs-millis: 3000  #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      min-evictable-idle-time-millis: 30000  #配置一个连接在池中最小生存的时间，单位是毫秒
+      validation-query: select 'x'    #用来检测连接是否有效的sql
+            #建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，
+            #如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true   
+      test-on-borrow: false   #申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-return: false   #归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+      pool-prepared-statements: true    #打开PSCache
+      max-pool-prepared-statement-per-connection-size: 20   #指定每个连接上PSCache的大小
+      #druid监控配置
+      filters: stat,wall,slf4j   #配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+            #通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000     
+      #useGlobalDataSourceStat: true  # 合并多个DruidDataSource的监控数据
+            #是否启用StatFilter默认值true
+      web-stat-filter: 
+        enabled: true   #是否开启拦截统计
+        url-pattern: /*   #拦截所有
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"   #排除不统计哪些URL
+        session-stat-enable: true #session统计功能
+        session-stat-max-count: 100000   #最大session数
+        principal-session-name: admin   #你可以配置principalSessionName，使得druid能够知道当前的session的用户是谁
+        principal-cookie-name: admin    #你可以配置principalSessionName，使得druid能够知道当前的cookie的用户是谁
+        profile-enable: true    #置profileEnable能够监控单个url调用的sql列表。
+      # StatViewServlet配置，说明请参考Druid Wiki，配置_StatViewServlet配置
+      stat-view-servlet: 
+        enabled: true   #启用
+        url-pattern: /druid/*   #视图
+        reset-enable: false      #禁用HTML页面上的“Reset All”功能, 禁止手动重置监控数据
+        login-username: admin     #druid 管理中心用户名
+        login-password: secton888    #druid 管理中心密码
+        allow: 218.70.17.230,192.168.0.68,192.168.0.82 #IP白名单(没有配置或者为空，则允许所有访问)
+        deny:  #IP黑名单 (存在共同时，deny优先于allow)
+      #Spring监控，对内部各接口调用的监控
+      aop-patterns: ${generator.groupId}.service.*.*,${generator.groupId}.dao.*.*,${generator.groupId}.controller.*.*,classpath:mybatis.mapper.*.*
+            #配置wall filter
+      filter: 
+        wall: 
+          enabled: true
+          db-type: mysql
+          log-violation: true    #对被认为是攻击的SQL进行LOG.error输出
+          throw-exception: true    #对被认为是攻击的SQL抛出SQLExcepton
+          #https://github.com/alibaba/druid/wiki/配置-wallfilter
+          config: 
+            alter-table-allow: false    #是否允许执行Alter Table语句
+            truncate-allow: false     #truncate语句是危险，缺省打开，若需要自行关闭
+            drop-table-allow: false   #是否允许修改表
+            none-base-statement-allow: false  #是否允许非以上基本语句的其他语句，缺省关闭，通过这个选项就能够屏蔽DDL。
+            update-where-none-check: true  #检查UPDATE语句是否无where条件，这是有风险的，但不是SQL注入类型的风险
+            select-into-outfile-allow: false #SELECT ... INTO OUTFILE 是否允许，这个是mysql注入攻击的常见手段，缺省是禁止的
+            metadata-allow: true   #是否允许调用Connection.getMetadata方法，这个方法调用会暴露数据库的表信息
+                        #是否允许调用Connection/Statement/ResultSet的isWrapFor和unwrap方法，
+                        #这两个方法调用，使得有办法拿到原生驱动的对象，绕过WallFilter的检测直接执行SQL。
+            wrapAllow: true
+                        #这个选项是防御程序通过调用select *获得数据表的结构信息。是否允许执行SELECT * FROM T这样的语句。
+                        #如果设置为false，不允许执行select * from t，但select * from (select id, name from t) a。
+            select-all-column-allow: false
+            #Connection.getMetadata
+            do-privileged-allow: false
+            multi-statement-allow: true
+
+
+
+
+#日志配置
+logging:
+  config: classpath:logback-spring.xml
+logback: 
+  log-path: /usr/local/logs/${spring.application.name}/web
+
+
+#mybatis配置
+mybatis:
+  type-aliases-package: ${generator.modelPackagePath}   #所有实体类所在包
+  mapper-locations:
+    - classpath:mybatis/mapper/**/*.xml                   #mapper映射文件
+  configuration: 
+    map-underscore-to-camel-case: false    #true开启驼峰命名规则
+    cache-enabled: true
+
+
+
+
+
+
+
+

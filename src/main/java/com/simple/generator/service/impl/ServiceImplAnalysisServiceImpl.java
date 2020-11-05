@@ -3,7 +3,8 @@ package com.simple.generator.service.impl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 
 import com.simple.generator.config.GeneratorConfig;
@@ -15,7 +16,7 @@ import com.simple.generator.utils.GeneratorUtils;
 @Component
 public class ServiceImplAnalysisServiceImpl implements AssembleAnalysisService {
 	
-	@Autowired
+	@Resource
 	private GeneratorConfig generatorConfig;
 	
 	@Override

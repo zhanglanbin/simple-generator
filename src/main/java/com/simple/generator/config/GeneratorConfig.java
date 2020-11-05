@@ -1,6 +1,7 @@
 package com.simple.generator.config;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -9,126 +10,224 @@ import org.springframework.stereotype.Component;
 import com.simple.generator.pojo.ControllerAnnotation;
 import com.simple.generator.pojo.dto.GenerateModelDTO;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
-@ApiModel("生成工程配置")
+/**
+ * 生成器配置
+ * */
 @Component
-@ConfigurationProperties(prefix = "generate-project-config")
+@ConfigurationProperties(prefix = "generator-config")
 public class GeneratorConfig implements Serializable {
 	
 	private static final long serialVersionUID = -8266356787895928670L;
 	
-	@ApiModelProperty("数据库名")
+	/**
+	 * 数据库名
+	 * */
 	private String databaseName;
 	
-	@ApiModelProperty("数据库连接地址")
+	/**
+	 * 数据库连接地址
+	 * */
 	private String databaseUrl;
 	
-	@ApiModelProperty("数据库用户名")
+	/**
+	 * 数据库用户名
+	 * */
 	private String databaseUsername;
 	
-	@ApiModelProperty("数据库密码")
+	/**
+	 * 数据库密码
+	 * */
 	private String databasePassword;
 	
-	@ApiModelProperty("是否创建工程, 默认:是")
+	/**
+	 * 是否创建工程, 默认:是
+	 * */
 	private Boolean isCreateProject = true;
 	
-	@ApiModelProperty("工程路径, 如果为空, 默认为生成工具同级路径")
+	/**
+	 * 工程路径, 如果为空, 默认为生成工具同级路径
+	 * */
 	private String projectPath;
 	
-	@ApiModelProperty("工程名称, 不能为空")
+	/**
+	 * 工程名称, 不能为空
+	 * */
 	private String projectName;
 	
-	@ApiModelProperty("作者")
+	/**
+	 * 作者
+	 * */
 	private String author = "generator";
 	
-	@ApiModelProperty("组织id")
-	private String groupId = "com.h3.generator";
+	/**
+	 * 组织id
+	 * */
+	private String groupId = "com.simple.generator";
 	
-	@ApiModelProperty("是否使用swagger注解")
+	/**
+	 * 是否使用swagger注解
+	 * */
 	private boolean swaggerAnnotation = true;
 	
-	@ApiModelProperty("忽略表前缀")
-	private List<String> ignoreTalbePrefixList;
+	/**
+	 * 忽略表前缀
+	 * */
+	private List<String> ignoreTalbePrefixList = Collections.emptyList();
 	
-	@ApiModelProperty("实体类包路径")
-	private String modelPackagePath = groupId + ".pojo";
+	/**
+	 * 实体类包路径
+	 * */
+	private String modelPackagePath;
 	
-	@ApiModelProperty("db dao 包路径")
-	private String daoPackagePath = groupId + ".dao";
+	/**
+	 * db dao 包路径
+	 * */
+	private String daoPackagePath;
 	
-	@ApiModelProperty("mapper文件路径")
+	/**
+	 * mapper文件路径
+	 * */
 	private String mapperXmlFilePath = "src/main/resources/mybatis/mapper";
 	
-	@ApiModelProperty("service 包路径")
-	private String servicePackageFilePath = groupId + ".service";
+	/**
+	 * service 包路径
+	 * */
+	private String servicePackageFilePath;
 	
-	@ApiModelProperty("serviceImpl 包路径")
-	private String serviceImplPackageFilePath = servicePackageFilePath;
+	/**
+	 * serviceImpl 包路径
+	 * */
+	private String serviceImplPackageFilePath;
 	
-	@ApiModelProperty("controller 包路径")
-	private String controllerPackageFilePath = groupId + ".controller";
+	/**
+	 * controller 包路径
+	 * */
+	private String controllerPackageFilePath;
 	
-	@ApiModelProperty("方法自定义扩展注解, key=方法名称,*表示所有方法, 所有方法有, save*,find*,update*,delete*,也可以使用find*, findById,    value=注解全名称, 例如:org.springframework.stereotype.Controller ")
+	/**
+	 * 方法自定义扩展注解, key=方法名称,*表示所有方法, 所有方法有, save*,find*,update*,delete*,也可以使用find*, findById,    value=注解全名称, 例如:org.springframework.stereotype.Controller 
+	 * */
 	private List<ControllerAnnotation> controllerAnnotationList;
 	
-	@ApiModelProperty("model 配置")
+	/**
+	 * model 配置
+	 * */
 	private List<GenerateModelDTO> generateModelConfig;
 
-	@ApiModelProperty("0=json, 1=eclipse, 2=idea")
+	/**
+	 * 0=json, 1=eclipse, 2=idea
+	 * */
 	private int toStringFormatType = 1;
 	
-	@ApiModelProperty("java jdk版本")
+	/**
+	 * java jdk版本
+	 * */
 	private String javaJdkVersion = "1.8";
 	
-	@ApiModelProperty("是否转换日期时间格式")
+	/**
+	 * 是否转换日期时间格式
+	 * */
 	private boolean dateFormat = true;
 
-	@ApiModelProperty("分组配置")
+	/**
+	 * 分组配置
+	 * */
 	private List<GroupProperties> groupPropertiesList;
 	
-	@ApiModelProperty("List集合变量名后缀")
+	/**
+	 * List集合变量名后缀
+	 * */
 	private String listVariableNameSuffix = "List";
 	
-	@ApiModelProperty("model query 后缀")
+	/**
+	 * model query 后缀
+	 * */
 	private String modelQueryClassSuffix = "Query";
 	
-	@ApiModelProperty("model query 子包")
+	/**
+	 * model query 子包名
+	 * */
 	private String modelQuerySubPackageName = "query";
 	
-	@ApiModelProperty("model MD 后缀")
+	/**
+	 * model MD 后缀
+	 * */
 	private String modelMDClassSuffix = "MD";
 	
-	@ApiModelProperty("model MD 子包")
+	/**
+	 * model MD 子包
+	 * */
 	private String modelMDSubPackageName = "md";
 	
-	@ApiModelProperty("dao class 后缀")
+	/**
+	 * dao class 后缀
+	 * */
 	private String daoClassSuffix = "Dao";
 	
-	@ApiModelProperty("mapper 文件 后缀")
+	/**
+	 * mapper 文件 后缀
+	 * */
 	private String mapperFileNameSuffix = "Mapper";
 	
-	@ApiModelProperty("service class 后缀")
+	/**
+	 * service class 后缀
+	 * */
 	private String serviceClassSuffix = "Service";
 	
-	@ApiModelProperty("service Impl class 后缀")
+	/**
+	 * service Impl class 后缀
+	 * */
 	private String serviceImplClassSuffix = "ServiceImpl";
 	
-	@ApiModelProperty("controller class 后缀")
+	/**
+	 * controller class 后缀
+	 * */
 	private String controllerClassSuffix = "Controller";
 	
-	@ApiModelProperty("统一返回类名")
+	/**
+	 * 统一返回类名
+	 * */
 	private String unifiedResponseClassName = "ResponseResult";
 	
-	@ApiModelProperty("统一返回包")
-	private String unifiedResponsePackage = groupId + ".response";
+	/**
+	 * 统一返回包
+	 * */
+	private String unifiedResponsePackage;
 	
-	@ApiModelProperty("统一分页对象类名")
+	/**
+	 * 统一分页对象类名
+	 * */
 	private String unifiedPageClassName = "Page";
 
-	@ApiModelProperty("统一分页对象包")
-	private String unifiedPagePackage = unifiedResponsePackage;
+	/**
+	 * 统一分页对象包
+	 * */
+	private String unifiedPagePackage;
+	
+	/**
+	 * swagger 配置类包路径
+	 * */
+	private String swaggerConfigPackagePath;
+	
+	/**
+	 * swagger 配置类名称
+	 * */
+	private String swaggerConfigClassName = "SwaggerConfig";
+	
+	/**
+	 * logback 配置类包路径
+	 * */
+	private String logbackConfigPackagePath;
+	
+	/**
+	 * logback 配置类名称
+	 * */
+	private String logbackConfigClassName = "ThreadDiscriminator";
+	
+	/**
+	 * logback xml 名称
+	 * */
+	private String logbackXmlName = "logback-spring";
 
 	public String getDatabaseName() {
 		return databaseName;
@@ -426,13 +525,53 @@ public class GeneratorConfig implements Serializable {
 		this.unifiedPagePackage = unifiedPagePackage;
 	}
 
+	public String getSwaggerConfigPackagePath() {
+		return swaggerConfigPackagePath;
+	}
+
+	public void setSwaggerConfigPackagePath(String swaggerConfigPackagePath) {
+		this.swaggerConfigPackagePath = swaggerConfigPackagePath;
+	}
+
+	public String getSwaggerConfigClassName() {
+		return swaggerConfigClassName;
+	}
+
+	public void setSwaggerConfigClassName(String swaggerConfigClassName) {
+		this.swaggerConfigClassName = swaggerConfigClassName;
+	}
+
+	public String getLogbackConfigPackagePath() {
+		return logbackConfigPackagePath;
+	}
+
+	public void setLogbackConfigPackagePath(String logbackConfigPackagePath) {
+		this.logbackConfigPackagePath = logbackConfigPackagePath;
+	}
+
+	public String getLogbackConfigClassName() {
+		return logbackConfigClassName;
+	}
+
+	public void setLogbackConfigClassName(String logbackConfigClassName) {
+		this.logbackConfigClassName = logbackConfigClassName;
+	}
+
+	public String getLogbackXmlName() {
+		return logbackXmlName;
+	}
+
+	public void setLogbackXmlName(String logbackXmlName) {
+		this.logbackXmlName = logbackXmlName;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
 	@Override
 	public String toString() {
-		return "GenerateProjectConfig [databaseName=" + databaseName + ", databaseUrl=" + databaseUrl + ", databaseUsername=" + databaseUsername
+		return "GeneratorConfig [databaseName=" + databaseName + ", databaseUrl=" + databaseUrl + ", databaseUsername=" + databaseUsername
 		        + ", databasePassword=" + databasePassword + ", isCreateProject=" + isCreateProject + ", projectPath=" + projectPath + ", projectName="
 		        + projectName + ", author=" + author + ", groupId=" + groupId + ", swaggerAnnotation=" + swaggerAnnotation + ", ignoreTalbePrefixList="
 		        + ignoreTalbePrefixList + ", modelPackagePath=" + modelPackagePath + ", daoPackagePath=" + daoPackagePath + ", mapperXmlFilePath="
@@ -444,6 +583,9 @@ public class GeneratorConfig implements Serializable {
 		        + modelMDClassSuffix + ", modelMDSubPackageName=" + modelMDSubPackageName + ", daoClassSuffix=" + daoClassSuffix + ", mapperFileNameSuffix="
 		        + mapperFileNameSuffix + ", serviceClassSuffix=" + serviceClassSuffix + ", serviceImplClassSuffix=" + serviceImplClassSuffix
 		        + ", controllerClassSuffix=" + controllerClassSuffix + ", unifiedResponseClassName=" + unifiedResponseClassName + ", unifiedResponsePackage="
-		        + unifiedResponsePackage + ", unifiedPageClassName=" + unifiedPageClassName + ", unifiedPagePackage=" + unifiedPagePackage + "]";
+		        + unifiedResponsePackage + ", unifiedPageClassName=" + unifiedPageClassName + ", unifiedPagePackage=" + unifiedPagePackage
+		        + ", swaggerConfigPackagePath=" + swaggerConfigPackagePath + ", swaggerConfigClassName=" + swaggerConfigClassName
+		        + ", logbackConfigPackagePath=" + logbackConfigPackagePath + ", logbackConfigClassName=" + logbackConfigClassName + ", logbackXmlName="
+		        + logbackXmlName + "]";
 	}
 }

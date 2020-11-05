@@ -5,15 +5,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Component;
 
 import com.simple.generator.config.GeneratorConfig;
 import com.simple.generator.pojo.PrepareGennerateFile;
 import com.simple.generator.utils.GeneratorUtils;
 
-@Configuration
+@Component
 public class AssembleCommonQueryModel {
 
+	@DependsOn(value = "generatorConfig")
 	@Bean
 	public PrepareGennerateFile commonQueryModel(final GeneratorConfig generatorConfig) {
 		InputStream commonQueryParamStream = null;

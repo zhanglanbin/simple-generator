@@ -185,6 +185,22 @@ public class GeneratorUtils {
 		}
 		return jarF.getParentFile().getParentFile().toString();
 	}
+	
+	/**
+	 * 获取运行程序的上级目录
+	 * 
+	 * @return 上级目录
+	 */
+	public static String getThisProjectPath() {
+		ApplicationHome h = new ApplicationHome(new Object().getClass());
+		File jarF = h.getSource();
+		if (null == jarF) {
+			jarF = new File(h.getDir().toString());
+
+		}
+		return jarF.getParentFile().toString();
+	}
+	
 
 	/**
 	 * 首字母转大写
@@ -441,5 +457,37 @@ public class GeneratorUtils {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	/**
+	 * 字符串是否, 为空
+	 * 为空或"" 返回true , 否则返回false
+	 * */
+	public static boolean isEmpty(String str) {
+		return (null==str || "".equals(str) || " ".equals(str) || "null".equals(str) || "undefined".equals(str));
+	}
+	
+	
+	/**
+	 * 字符串是否, 不为空
+	 * 不为空并且不为"" , 返回true, 否则返回false
+	 * */
+	public static boolean isNotEmpty(String str) {
+		return (null!=str && !"".equals(str) && !" ".equals(str) && !"null".equals(str) && !"undefined".equals(str));
+	}
+	
+	
+	/**
+	 * 字符串是否包含 值, 允许是null
+	 * */
+	public static boolean isContainAllowEmpty(String str,String... str2) {
+		for(String s : str2) {
+			if(null==str && str==s) {
+				return true;
+			} else if(null!=str && str.equals(s)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

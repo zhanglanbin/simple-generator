@@ -10,20 +10,19 @@ import com.simple.generator.pojo.PrepareGennerateFile;
 import com.simple.generator.utils.GeneratorUtils;
 
 @Configuration
-public class AssembleSwaggerJavaConfig {
+public class AssembleLogbackJavaConfig {
 	
 	@Bean
 	public PrepareGennerateFile swaggerConfig(final GeneratorConfig generatorConfig) {
-		InputStream swaggerJavaConfigStream = ClassLoader.getSystemResourceAsStream("\\generator-template\\swaggerJavaConfig.txt");
+		InputStream swaggerJavaConfigStream = ClassLoader.getSystemResourceAsStream("\\generator-template\\ThreadDiscriminator.txt");
 		String swaggerJavaConfigText = GeneratorUtils.readTxt(swaggerJavaConfigStream);
 		swaggerJavaConfigText = swaggerJavaConfigText
-				.replace("${generator.groupId}", generatorConfig.getGroupId())
-				.replace("${generator.swaggerConfigClassName}", generatorConfig.getSwaggerConfigClassName())
-				.replace("${generator.controllerTopPackagePath}", generatorConfig.getControllerPackageFilePath());
+				.replace("${generator.logbackConfigPackagePath}", generatorConfig.getLogbackConfigPackagePath())
+				.replace("${generator.logbackConfigClassName}", generatorConfig.getLogbackConfigClassName());
 		
 		PrepareGennerateFile gennerateFile = new PrepareGennerateFile();
-		gennerateFile.setFileName(generatorConfig.getSwaggerConfigClassName());
-		gennerateFile.setFilePath(GeneratorUtils.analysisFilePath(generatorConfig.getProjectPath(), generatorConfig.getSwaggerConfigPackagePath()));
+		gennerateFile.setFileName(generatorConfig.getLogbackConfigClassName());
+		gennerateFile.setFilePath(GeneratorUtils.analysisFilePath(generatorConfig.getProjectPath(), generatorConfig.getLogbackConfigPackagePath()));
 		gennerateFile.setFileSuffix("java");
 		gennerateFile.setText(swaggerJavaConfigText);
 		

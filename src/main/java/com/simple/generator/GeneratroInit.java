@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
 import com.simple.generator.config.GeneratorConfig;
 import com.simple.generator.config.GroupProperties;
@@ -20,7 +21,9 @@ import com.simple.generator.utils.MysqlLibStructure;
 @Configuration
 public class GeneratroInit {
 	
-	@Bean
+	
+	@DependsOn(value = "generatorConfig")
+	@Bean(name = "generateModelDTOList")
 	public List<GenerateModelDTO> generateModelDTOList(GeneratorConfig generatorConfig) {
 		MysqlLibStructure mysqlLibStructure = new MysqlLibStructure(generatorConfig.getDatabaseUrl()
 				, generatorConfig.getDatabaseUsername()
@@ -96,6 +99,74 @@ public class GeneratroInit {
 		}
 		return generateModelDTOList;
 	}
+	
+	
+	@Bean(name = "generatorConfig")
+	public GeneratorConfig generatorConfig(GeneratorConfig generatorConfig) {
+		// 解析数据库 库名
+		if(GeneratorUtils.isNotEmpty(generatorConfig.getDatabaseUrl()) && generatorConfig.getDatabaseUrl().contains("?")) {
+			String[] split = generatorConfig.getDatabaseUrl().split("\\?");
+			String connPath = split[0];
+			if(GeneratorUtils.isNotEmpty(connPath) && connPath.contains("/")) {
+				String[] split2 = connPath.split("\\/");
+				String connName = split2[split2.length-1];
+				generatorConfig.setDatabaseName(connName);
+			}
+		}
+		
+		// 如果未配置项目名, 则使用数据库连接名
+		if(GeneratorUtils.isEmpty(generatorConfig.getProjectName())) {
+			String projectName = generatorConfig.getDatabaseName().toLowerCase().replace("_", "-");
+			generatorConfig.setProjectName(projectName);
+		}
+		
+		if(GeneratorUtils.isEmpty(generatorConfig.getProjectPath())) {
+			String thisProjectPath = GeneratorUtils.getThisProjectPath();
+			generatorConfig.setProjectPath(thisProjectPath + File.separatorChar + generatorConfig.getProjectName());
+		} else {
+			generatorConfig.setProjectPath(generatorConfig.getProjectPath() + File.separatorChar + generatorConfig.getProjectName());
+		}
+		
+		if(GeneratorUtils.isEmpty(generatorConfig.getModelPackagePath())) {
+			generatorConfig.setModelPackagePath(generatorConfig.getGroupId() + ".pojo");
+		}
+		
+		if(GeneratorUtils.isEmpty(generatorConfig.getDaoPackagePath())) {
+			generatorConfig.setDaoPackagePath(generatorConfig.getGroupId() + ".dao");
+		}
+		
+		if(GeneratorUtils.isEmpty(generatorConfig.getServicePackageFilePath())) {
+			generatorConfig.setServicePackageFilePath(generatorConfig.getGroupId() + ".service");
+		}
+		
+		if(GeneratorUtils.isEmpty(generatorConfig.getServiceImplPackageFilePath())) {
+			generatorConfig.setServiceImplPackageFilePath(generatorConfig.getGroupId() + ".service.*.impl");
+		}
+		
+		if(GeneratorUtils.isEmpty(generatorConfig.getControllerPackageFilePath())) {
+			generatorConfig.setControllerPackageFilePath(generatorConfig.getGroupId() + ".controller");
+		}
+		
+		if(GeneratorUtils.isEmpty(generatorConfig.getUnifiedResponsePackage())) {
+			generatorConfig.setUnifiedResponsePackage(generatorConfig.getGroupId() + ".response." + generatorConfig.getUnifiedResponseClassName());
+		}
+		
+		if(GeneratorUtils.isEmpty(generatorConfig.getUnifiedPagePackage())) {
+			generatorConfig.setUnifiedPagePackage(generatorConfig.getGroupId() + ".response." + generatorConfig.getUnifiedPageClassName());
+		}
+		
+		if(GeneratorUtils.isEmpty(generatorConfig.getSwaggerConfigPackagePath())) {
+			generatorConfig.setSwaggerConfigPackagePath(generatorConfig.getGroupId() + ".config.swagger");
+		}
+		
+		if(GeneratorUtils.isEmpty(generatorConfig.getLogbackConfigPackagePath())) {
+			generatorConfig.setLogbackConfigPackagePath(generatorConfig.getGroupId() + ".config.logback");
+		}
+		
+		return generatorConfig;
+	}
+	
+	
 	
 	
 	@Bean

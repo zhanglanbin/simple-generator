@@ -25,7 +25,7 @@ public class Generatro implements CommandLineRunner {
 	
 	private static final Logger log = LoggerFactory.getLogger(Generatro.class);
 	
-	@Autowired
+	@Resource
 	private GeneratorConfig generatorConfig;
 	
 	@Autowired
@@ -59,6 +59,8 @@ public class Generatro implements CommandLineRunner {
 	private PrepareGennerateFile applicationYml;
 	@Resource
 	private PrepareGennerateFile swaggerConfig;
+	@Resource
+	private PrepareGennerateFile logbackSpringXml;
 	
 	
 	
@@ -166,6 +168,11 @@ public class Generatro implements CommandLineRunner {
 		file = GeneratorUtils.createJavaFile(swaggerConfig.getFilePath(), swaggerConfig.getFileName(), swaggerConfig.getFileSuffix(), swaggerConfig.getText());
 		if(null==file) {
 			log.info("{}生成失败!", swaggerConfig.getFileName());
+		}
+		//生成swagger config
+		file = GeneratorUtils.createJavaFile(logbackSpringXml.getFilePath(), logbackSpringXml.getFileName(), logbackSpringXml.getFileSuffix(), logbackSpringXml.getText());
+		if(null==file) {
+			log.info("{}生成失败!", logbackSpringXml.getFileName());
 		}
 		
 		

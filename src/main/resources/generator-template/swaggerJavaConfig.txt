@@ -22,7 +22,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @Configuration
 @EnableSwagger2WebMvc
 @ConditionalOnProperty(prefix = "knife4j", value = { "enable" }, havingValue = "true")
-public class SwaggerConfig {
+public class ${generator.swaggerConfigClassName} {
 
 	@Bean
 	public Docket sysRestApi() {

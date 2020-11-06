@@ -9,48 +9,48 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.simple.generator.config.SimpleGeneratorConfiguration;
 import com.simple.generator.pojo.PrepareGennerateFile;
+import com.simple.generator.pojo.dto.SimpleGeneratorConfigurationDTO;
 import com.simple.generator.utils.GeneratorUtils;
 
 @Configuration
 public class AssembleResponseModel {
 
 	@Bean
-	public List<PrepareGennerateFile> responseModelList(final SimpleGeneratorConfiguration generatorConfig) {
+	public List<PrepareGennerateFile> responseModelList(final SimpleGeneratorConfigurationDTO simpleGeneratorConfigurationDTO) {
 		
 		List<PrepareGennerateFile> responseModelList = new ArrayList<>();
 		
 		InputStream myMessageStream = ClassLoader.getSystemResourceAsStream("\\generator-template\\response\\MyMessage.txt");
 		String myMessageTxt = GeneratorUtils.readTxt(myMessageStream);
-		myMessageTxt = myMessageTxt.replace("${generator.groupId}", generatorConfig.getGroupId())
-				.replace("${generator.author}", generatorConfig.getAuthor())
+		myMessageTxt = myMessageTxt.replace("${generator.groupId}", simpleGeneratorConfigurationDTO.getGroupId())
+				.replace("${generator.author}", simpleGeneratorConfigurationDTO.getAuthor())
 				.replace("${generator.date}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
 				.replace("${generator.serialVersionUID}", GeneratorUtils.getSerialVersionUID().toString());
 		
 		InputStream pageDataStream = ClassLoader.getSystemResourceAsStream("\\generator-template\\response\\Page.txt");
 		String pageDataTxt = GeneratorUtils.readTxt(pageDataStream);
-		pageDataTxt = pageDataTxt.replace("${generator.groupId}", generatorConfig.getGroupId())
-				.replace("${generator.author}", generatorConfig.getAuthor())
+		pageDataTxt = pageDataTxt.replace("${generator.groupId}", simpleGeneratorConfigurationDTO.getGroupId())
+				.replace("${generator.author}", simpleGeneratorConfigurationDTO.getAuthor())
 				.replace("${generator.date}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
 				.replace("${generator.serialVersionUID}", GeneratorUtils.getSerialVersionUID().toString());
 		
 		InputStream responseDataStream = ClassLoader.getSystemResourceAsStream("\\generator-template\\response\\ResponseResult.txt");
 		String responseDataTxt = GeneratorUtils.readTxt(responseDataStream);
-		responseDataTxt = responseDataTxt.replace("${generator.groupId}", generatorConfig.getGroupId())
-				.replace("${generator.author}", generatorConfig.getAuthor())
+		responseDataTxt = responseDataTxt.replace("${generator.groupId}", simpleGeneratorConfigurationDTO.getGroupId())
+				.replace("${generator.author}", simpleGeneratorConfigurationDTO.getAuthor())
 				.replace("${generator.date}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
 				.replace("${generator.serialVersionUID}", GeneratorUtils.getSerialVersionUID().toString());
 		
 		InputStream stateStream = ClassLoader.getSystemResourceAsStream("\\generator-template\\response\\State.txt");
 		String stateTxt = GeneratorUtils.readTxt(stateStream);
-		stateTxt = stateTxt.replace("${generator.groupId}", generatorConfig.getGroupId())
-				.replace("${generator.author}", generatorConfig.getAuthor())
+		stateTxt = stateTxt.replace("${generator.groupId}", simpleGeneratorConfigurationDTO.getGroupId())
+				.replace("${generator.author}", simpleGeneratorConfigurationDTO.getAuthor())
 				.replace("${generator.date}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
 				.replace("${generator.serialVersionUID}", GeneratorUtils.getSerialVersionUID().toString());
 		
 		
-		String analysisPackagePathToFilePath = GeneratorUtils.analysisFilePath(generatorConfig.getProjectPath(), generatorConfig.getGroupId() + ".response");
+		String analysisPackagePathToFilePath = GeneratorUtils.analysisFilePath(simpleGeneratorConfigurationDTO.getProjectPath(), simpleGeneratorConfigurationDTO.getGroupId() + ".response");
 		
 		PrepareGennerateFile myMessage = new PrepareGennerateFile();
 		myMessage.setFileName("MyMessage");

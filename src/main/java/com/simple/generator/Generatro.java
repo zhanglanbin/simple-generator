@@ -14,9 +14,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.simple.generator.config.SimpleGeneratorConfiguration;
 import com.simple.generator.constant.PathConstant;
 import com.simple.generator.pojo.PrepareGennerateFile;
+import com.simple.generator.pojo.dto.SimpleGeneratorConfigurationDTO;
 import com.simple.generator.utils.GeneratorUtils;
 
 @Component
@@ -26,7 +26,7 @@ public class Generatro implements CommandLineRunner {
 	private static final Logger log = LoggerFactory.getLogger(Generatro.class);
 	
 	@Resource
-	private SimpleGeneratorConfiguration generatorConfig;
+	private SimpleGeneratorConfigurationDTO simpleGeneratorConfigurationDTO;
 	
 	@Autowired
     private ApplicationContext appContext;
@@ -70,7 +70,7 @@ public class Generatro implements CommandLineRunner {
 	
 	@Override
     public void run(String... args) throws Exception {
-		System.out.println(generatorConfig);
+		System.out.println(simpleGeneratorConfigurationDTO);
 		
 		String[] beans = appContext.getBeanDefinitionNames();
         Arrays.sort(beans);
@@ -184,11 +184,11 @@ public class Generatro implements CommandLineRunner {
 		
 		
 		// 生成test目录
-		File testJava = new File(generatorConfig.getProjectPath() + File.separatorChar + PathConstant.testJavaPath + File.separatorChar+"test.java");
+		File testJava = new File(simpleGeneratorConfigurationDTO.getProjectPath() + File.separatorChar + PathConstant.testJavaPath + File.separatorChar+"test.java");
 		if (!testJava.getParentFile().exists()) {
 			testJava.getParentFile().mkdirs();
 		}
-		File testResources = new File(generatorConfig.getProjectPath() + File.separatorChar + PathConstant.testResourcesPath + File.separatorChar+"test.xml");
+		File testResources = new File(simpleGeneratorConfigurationDTO.getProjectPath() + File.separatorChar + PathConstant.testResourcesPath + File.separatorChar+"test.xml");
 		if (!testResources.getParentFile().exists()) {
 			testResources.getParentFile().mkdirs();
 		}

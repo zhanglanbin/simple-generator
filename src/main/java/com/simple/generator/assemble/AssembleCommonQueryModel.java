@@ -5,35 +5,33 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.simple.generator.config.SimpleGeneratorConfiguration;
 import com.simple.generator.pojo.PrepareGennerateFile;
+import com.simple.generator.pojo.dto.SimpleGeneratorConfigurationDTO;
 import com.simple.generator.utils.GeneratorUtils;
 
-@Order(3)
 @Component
 public class AssembleCommonQueryModel {
 
 	@Bean
-	public PrepareGennerateFile commonQueryModel(final SimpleGeneratorConfiguration generatorConfig) {
+	public PrepareGennerateFile commonQueryModel(final SimpleGeneratorConfigurationDTO simpleGeneratorConfigurationDTO) {
 		InputStream commonQueryParamStream = null;
-		if(generatorConfig.isSwaggerAnnotation()) {
+		if(simpleGeneratorConfigurationDTO.isSwaggerAnnotation()) {
 			commonQueryParamStream = ClassLoader.getSystemResourceAsStream("\\generator-template\\model\\swagger\\CommonQueryParamBySwagger.txt");
 		} else {
 			commonQueryParamStream = ClassLoader.getSystemResourceAsStream("\\generator-template\\model\\CommonQueryParam.txt");
 		}
 		String commonQueryParamTxt = GeneratorUtils.readTxt(commonQueryParamStream);
 		commonQueryParamTxt = commonQueryParamTxt
-				.replace("${generator.modelPackagePath}", generatorConfig.getModelPackagePath())
-				.replace("${generator.author}", generatorConfig.getAuthor())
+				.replace("${generator.modelPackagePath}", simpleGeneratorConfigurationDTO.getModelPackagePath())
+				.replace("${generator.author}", simpleGeneratorConfigurationDTO.getAuthor())
 				.replace("${generator.date}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
 				.replace("${generator.serialVersionUID}", GeneratorUtils.getSerialVersionUID().toString());
 		
 		PrepareGennerateFile gennerateFile = new PrepareGennerateFile();
 		gennerateFile.setFileName("CommonQueryParam");
-		gennerateFile.setFilePath(GeneratorUtils.analysisFilePath(generatorConfig.getProjectPath(), generatorConfig.getModelPackagePath()));
+		gennerateFile.setFilePath(GeneratorUtils.analysisFilePath(simpleGeneratorConfigurationDTO.getProjectPath(), simpleGeneratorConfigurationDTO.getModelPackagePath()));
 		gennerateFile.setFileSuffix("java");
 		gennerateFile.setText(commonQueryParamTxt);
 		

@@ -14,7 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.simple.generator.config.GeneratorConfig;
+import com.simple.generator.config.SimpleGeneratorConfiguration;
 import com.simple.generator.constant.PathConstant;
 import com.simple.generator.pojo.PrepareGennerateFile;
 import com.simple.generator.utils.GeneratorUtils;
@@ -26,7 +26,7 @@ public class Generatro implements CommandLineRunner {
 	private static final Logger log = LoggerFactory.getLogger(Generatro.class);
 	
 	@Resource
-	private GeneratorConfig generatorConfig;
+	private SimpleGeneratorConfiguration generatorConfig;
 	
 	@Autowired
     private ApplicationContext appContext;
@@ -58,9 +58,11 @@ public class Generatro implements CommandLineRunner {
 	@Resource
 	private PrepareGennerateFile applicationYml;
 	@Resource
-	private PrepareGennerateFile swaggerConfig;
+	private PrepareGennerateFile swaggerJavaConfig;
 	@Resource
 	private PrepareGennerateFile logbackSpringXml;
+	@Resource
+	private PrepareGennerateFile logbackJavaConfig;
 	
 	
 	
@@ -165,14 +167,19 @@ public class Generatro implements CommandLineRunner {
 			log.info("{}生成失败!", applicationYml.getFileName());
 		}
 		//生成swagger config
-		file = GeneratorUtils.createJavaFile(swaggerConfig.getFilePath(), swaggerConfig.getFileName(), swaggerConfig.getFileSuffix(), swaggerConfig.getText());
+		file = GeneratorUtils.createJavaFile(swaggerJavaConfig.getFilePath(), swaggerJavaConfig.getFileName(), swaggerJavaConfig.getFileSuffix(), swaggerJavaConfig.getText());
 		if(null==file) {
-			log.info("{}生成失败!", swaggerConfig.getFileName());
+			log.info("{}生成失败!", swaggerJavaConfig.getFileName());
 		}
-		//生成swagger config
+		//生成logback-spring.xml
 		file = GeneratorUtils.createJavaFile(logbackSpringXml.getFilePath(), logbackSpringXml.getFileName(), logbackSpringXml.getFileSuffix(), logbackSpringXml.getText());
 		if(null==file) {
 			log.info("{}生成失败!", logbackSpringXml.getFileName());
+		}
+		//生成logback java config
+		file = GeneratorUtils.createJavaFile(logbackJavaConfig.getFilePath(), logbackJavaConfig.getFileName(), logbackJavaConfig.getFileSuffix(), logbackJavaConfig.getText());
+		if(null==file) {
+			log.info("{}生成失败!", logbackJavaConfig.getFileName());
 		}
 		
 		

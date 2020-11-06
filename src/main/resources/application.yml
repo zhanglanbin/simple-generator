@@ -2,7 +2,7 @@ spring:  thymeleaf:    cache: false
   main:
     allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
 
-generator-config: 
+simple-generator: 
   database-url: jdbc:mysql://192.168.0.202:3306/simple_generator_demo?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8
   database-username: root
   database-password: secton!!

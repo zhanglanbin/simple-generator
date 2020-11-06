@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-import com.simple.generator.config.GeneratorConfig;
+import com.simple.generator.config.SimpleGeneratorConfiguration;
 import com.simple.generator.constant.Symbol;
 import com.simple.generator.pojo.dto.GenerateModelDTO;
 import com.simple.generator.service.AssembleAnalysisService;
@@ -16,7 +16,7 @@ import com.simple.generator.service.AssembleAnalysisService;
 public class ControllerAnalysisServiceImpl implements AssembleAnalysisService {
 	
 	@Resource
-	private GeneratorConfig generatorConfig;
+	private SimpleGeneratorConfiguration generatorConfig;
 	
 	@Override
 	public String analysis(String str, GenerateModelDTO generateModelDTO) {

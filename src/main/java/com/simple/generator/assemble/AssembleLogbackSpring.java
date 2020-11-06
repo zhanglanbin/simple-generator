@@ -6,7 +6,7 @@ import java.io.InputStream;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import com.simple.generator.config.GeneratorConfig;
+import com.simple.generator.config.SimpleGeneratorConfiguration;
 import com.simple.generator.constant.PathConstant;
 import com.simple.generator.pojo.PrepareGennerateFile;
 import com.simple.generator.utils.GeneratorUtils;
@@ -14,7 +14,7 @@ import com.simple.generator.utils.GeneratorUtils;
 @Component
 public class AssembleLogbackSpring {
 	@Bean
-	public PrepareGennerateFile logbackSpringXml(final GeneratorConfig generatorConfig) {
+	public PrepareGennerateFile logbackSpringXml(final SimpleGeneratorConfiguration generatorConfig) {
 		InputStream mainAppStream = ClassLoader.getSystemResourceAsStream("\\generator-template\\logbackSpringXml.txt");
 		String mainAppText = GeneratorUtils.readTxt(mainAppStream);
 		mainAppText = mainAppText

@@ -9,7 +9,7 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.simple.generator.config.GeneratorConfig;
+import com.simple.generator.config.SimpleGeneratorConfiguration;
 import com.simple.generator.pojo.PrepareGennerateFile;
 import com.simple.generator.utils.GeneratorUtils;
 
@@ -17,7 +17,7 @@ import com.simple.generator.utils.GeneratorUtils;
 public class AssembleResponseModel {
 
 	@Bean
-	public List<PrepareGennerateFile> responseModelList(final GeneratorConfig generatorConfig) {
+	public List<PrepareGennerateFile> responseModelList(final SimpleGeneratorConfiguration generatorConfig) {
 		
 		List<PrepareGennerateFile> responseModelList = new ArrayList<>();
 		

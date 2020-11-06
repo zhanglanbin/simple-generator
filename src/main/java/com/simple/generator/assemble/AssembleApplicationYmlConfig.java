@@ -6,7 +6,7 @@ import java.io.InputStream;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.simple.generator.config.GeneratorConfig;
+import com.simple.generator.config.SimpleGeneratorConfiguration;
 import com.simple.generator.constant.PathConstant;
 import com.simple.generator.pojo.PrepareGennerateFile;
 import com.simple.generator.utils.GeneratorUtils;
@@ -14,7 +14,7 @@ import com.simple.generator.utils.GeneratorUtils;
 @Configuration
 public class AssembleApplicationYmlConfig {
 	@Bean
-	public PrepareGennerateFile applicationYml(final GeneratorConfig generatorConfig) {
+	public PrepareGennerateFile applicationYml(final SimpleGeneratorConfiguration generatorConfig) {
 		InputStream mainAppStream = ClassLoader.getSystemResourceAsStream("\\generator-template\\applicationYml.txt");
 		String mainAppText = GeneratorUtils.readTxt(mainAppStream);
 		mainAppText = mainAppText

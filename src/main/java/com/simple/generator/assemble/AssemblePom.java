@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.simple.generator.config.GeneratorConfig;
+import com.simple.generator.config.SimpleGeneratorConfiguration;
 import com.simple.generator.pojo.PrepareGennerateFile;
 import com.simple.generator.utils.GeneratorUtils;
 
@@ -14,7 +14,7 @@ import com.simple.generator.utils.GeneratorUtils;
 public class AssemblePom {
 	
 	@Bean
-	public List<PrepareGennerateFile> pom(GeneratorConfig generatorConfig){
+	public List<PrepareGennerateFile> pom(SimpleGeneratorConfiguration generatorConfig){
 		List<PrepareGennerateFile> pom = new ArrayList<>();
 		
 		String pomText = GeneratorUtils.getCodeTemplate("\\generator-template\\pom.txt");

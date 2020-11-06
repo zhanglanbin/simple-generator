@@ -5,19 +5,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.simple.generator.config.GeneratorConfig;
+import com.simple.generator.config.SimpleGeneratorConfiguration;
 import com.simple.generator.pojo.PrepareGennerateFile;
 import com.simple.generator.utils.GeneratorUtils;
 
+@Order(3)
 @Component
 public class AssembleCommonQueryModel {
 
-	@DependsOn(value = "generatorConfig")
 	@Bean
-	public PrepareGennerateFile commonQueryModel(final GeneratorConfig generatorConfig) {
+	public PrepareGennerateFile commonQueryModel(final SimpleGeneratorConfiguration generatorConfig) {
 		InputStream commonQueryParamStream = null;
 		if(generatorConfig.isSwaggerAnnotation()) {
 			commonQueryParamStream = ClassLoader.getSystemResourceAsStream("\\generator-template\\model\\swagger\\CommonQueryParamBySwagger.txt");

@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
-import com.simple.generator.config.GeneratorConfig;
+import com.simple.generator.config.SimpleGeneratorConfiguration;
 import com.simple.generator.config.GroupProperties;
 import com.simple.generator.constant.DateFormatString;
 import com.simple.generator.pojo.ControllerAnnotation;
@@ -18,13 +18,13 @@ import com.simple.generator.pojo.dto.GenerateModelDTO;
 import com.simple.generator.utils.GeneratorUtils;
 import com.simple.generator.utils.MysqlLibStructure;
 
-@Configuration
+@Order(2)
+@Component
 public class GeneratroInit {
 	
 	
-	@DependsOn(value = "generatorConfig")
-	@Bean(name = "generateModelDTOList")
-	public List<GenerateModelDTO> generateModelDTOList(GeneratorConfig generatorConfig) {
+	@Bean
+	public List<GenerateModelDTO> generateModelDTOList(SimpleGeneratorConfiguration generatorConfig) {
 		MysqlLibStructure mysqlLibStructure = new MysqlLibStructure(generatorConfig.getDatabaseUrl()
 				, generatorConfig.getDatabaseUsername()
 				, generatorConfig.getDatabasePassword()
@@ -100,9 +100,10 @@ public class GeneratroInit {
 		return generateModelDTOList;
 	}
 	
-	
-	@Bean(name = "generatorConfig")
-	public GeneratorConfig generatorConfig(GeneratorConfig generatorConfig) {
+	//simpleGeneratorConfiguration
+	@Bean
+	public SimpleGeneratorConfiguration generatorConfig(SimpleGeneratorConfiguration simpleGeneratorConfiguration) {
+		SimpleGeneratorConfiguration generatorConfig = (SimpleGeneratorConfiguration)simpleGeneratorConfiguration.clone();
 		// 解析数据库 库名
 		if(GeneratorUtils.isNotEmpty(generatorConfig.getDatabaseUrl()) && generatorConfig.getDatabaseUrl().contains("?")) {
 			String[] split = generatorConfig.getDatabaseUrl().split("\\?");
@@ -120,6 +121,7 @@ public class GeneratroInit {
 			generatorConfig.setProjectName(projectName);
 		}
 		
+		//工程路径
 		if(GeneratorUtils.isEmpty(generatorConfig.getProjectPath())) {
 			String thisProjectPath = GeneratorUtils.getThisProjectPath();
 			generatorConfig.setProjectPath(thisProjectPath + File.separatorChar + generatorConfig.getProjectName());
@@ -170,7 +172,7 @@ public class GeneratroInit {
 	
 	
 	@Bean
-	public CommonQueryDTO commonQueryDTO(GeneratorConfig generatorConfig) {
+	public CommonQueryDTO commonQueryDTO(SimpleGeneratorConfiguration generatorConfig) {
 		CommonQueryDTO commonQueryDTO = new CommonQueryDTO();
 		commonQueryDTO.setAuthor(generatorConfig.getAuthor());
 		commonQueryDTO.setExplain("公共查询参数");
@@ -212,7 +214,7 @@ public class GeneratroInit {
 	/**
 	 * 表名
 	 * */
-	private String assembleMapperPath(String tableName, GeneratorConfig generatorConfig) {
+	private String assembleMapperPath(String tableName, SimpleGeneratorConfiguration generatorConfig) {
 		String projectPath = generatorConfig.getProjectPath();
 		String mapperXmlFilePath = generatorConfig.getMapperXmlFilePath();
 		String analysisGroupName = analysisGroupName(tableName, generatorConfig.getGroupPropertiesList());

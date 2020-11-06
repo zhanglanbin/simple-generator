@@ -5,7 +5,7 @@ import java.io.InputStream;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.simple.generator.config.GeneratorConfig;
+import com.simple.generator.config.SimpleGeneratorConfiguration;
 import com.simple.generator.pojo.PrepareGennerateFile;
 import com.simple.generator.utils.GeneratorUtils;
 
@@ -13,7 +13,7 @@ import com.simple.generator.utils.GeneratorUtils;
 public class AssembleLogbackJavaConfig {
 	
 	@Bean
-	public PrepareGennerateFile swaggerConfig(final GeneratorConfig generatorConfig) {
+	public PrepareGennerateFile logbackJavaConfig(final SimpleGeneratorConfiguration generatorConfig) {
 		InputStream swaggerJavaConfigStream = ClassLoader.getSystemResourceAsStream("\\generator-template\\ThreadDiscriminator.txt");
 		String swaggerJavaConfigText = GeneratorUtils.readTxt(swaggerJavaConfigStream);
 		swaggerJavaConfigText = swaggerJavaConfigText

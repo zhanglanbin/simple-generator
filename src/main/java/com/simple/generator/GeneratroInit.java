@@ -5,110 +5,186 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
-import com.simple.generator.config.GeneratorConfig;
+import com.simple.generator.config.SimpleGeneratorConfiguration;
 import com.simple.generator.config.GroupProperties;
 import com.simple.generator.constant.DateFormatString;
 import com.simple.generator.pojo.ControllerAnnotation;
 import com.simple.generator.pojo.dto.CommonQueryDTO;
 import com.simple.generator.pojo.dto.GenerateModelDTO;
+import com.simple.generator.pojo.dto.SimpleGeneratorConfigurationDTO;
 import com.simple.generator.utils.GeneratorUtils;
 import com.simple.generator.utils.MysqlLibStructure;
 
-@Configuration
+@Order(2)
+@Component
 public class GeneratroInit {
 	
+	
 	@Bean
-	public List<GenerateModelDTO> generateModelDTOList(GeneratorConfig generatorConfig) {
-		MysqlLibStructure mysqlLibStructure = new MysqlLibStructure(generatorConfig.getDatabaseUrl()
-				, generatorConfig.getDatabaseUsername()
-				, generatorConfig.getDatabasePassword()
-				, generatorConfig.getDatabaseName()
-				, generatorConfig.getIgnoreTalbePrefixList());
+	public List<GenerateModelDTO> generateModelDTOList(SimpleGeneratorConfigurationDTO simpleGeneratorConfigurationDTO) {
+		MysqlLibStructure mysqlLibStructure = new MysqlLibStructure(simpleGeneratorConfigurationDTO.getDatabaseUrl()
+				, simpleGeneratorConfigurationDTO.getDatabaseUsername()
+				, simpleGeneratorConfigurationDTO.getDatabasePassword()
+				, simpleGeneratorConfigurationDTO.getDatabaseName()
+				, simpleGeneratorConfigurationDTO.getIgnoreTalbePrefixList());
 		List<GenerateModelDTO> generateModelDTOList = mysqlLibStructure.getGenerateModelDTOList();
 		
 		mysqlLibStructure.closeConnection(mysqlLibStructure.getConnection());
 		for(int i=0 ; null!=generateModelDTOList&&i<generateModelDTOList.size() ; i++) {
 			GenerateModelDTO generateModelDTO = generateModelDTOList.get(i);
-			generateModelDTO.setAuthor(generatorConfig.getAuthor());
-			generateModelDTO.setIgnoreTalbePrefixList(generatorConfig.getIgnoreTalbePrefixList());
+			generateModelDTO.setAuthor(simpleGeneratorConfigurationDTO.getAuthor());
+			generateModelDTO.setIgnoreTalbePrefixList(simpleGeneratorConfigurationDTO.getIgnoreTalbePrefixList());
 			
-			String analysisGroupName = analysisGroupName(generateModelDTO.getModelTableName(), generatorConfig.getGroupPropertiesList());
+			String analysisGroupName = analysisGroupName(generateModelDTO.getModelTableName(), simpleGeneratorConfigurationDTO.getGroupPropertiesList());
 			analysisGroupName = "."+analysisGroupName;
-			generateModelDTO.setModelPackagePath(generatorConfig.getModelPackagePath() + analysisGroupName);
+			generateModelDTO.setModelPackagePath(simpleGeneratorConfigurationDTO.getModelPackagePath() + analysisGroupName);
 			generateModelDTO.setModelPackage(generateModelDTO.getModelPackagePath() + "." + generateModelDTO.getModelClassName());
-			generateModelDTO.setModelJavaFilePath(GeneratorUtils.analysisFilePath(generatorConfig.getProjectPath(), generateModelDTO.getModelPackagePath()));
+			generateModelDTO.setModelJavaFilePath(GeneratorUtils.analysisFilePath(simpleGeneratorConfigurationDTO.getProjectPath(), generateModelDTO.getModelPackagePath()));
 			
 			String modelClassName = generateModelDTO.getModelClassName();
 			generateModelDTO.setModelVariableName(firstCharToLowerCase(modelClassName));
-			generateModelDTO.setModelListVariableName(firstCharToLowerCase(modelClassName) + generatorConfig.getListVariableNameSuffix());
+			generateModelDTO.setModelListVariableName(firstCharToLowerCase(modelClassName) + simpleGeneratorConfigurationDTO.getListVariableNameSuffix());
 			
-			generateModelDTO.setModelQueryClassName(modelClassName + generatorConfig.getModelQueryClassSuffix());
-			generateModelDTO.setModelQueryPackagePath(generateModelDTO.getModelPackagePath() + "." + generatorConfig.getModelQuerySubPackageName());
+			generateModelDTO.setModelQueryClassName(modelClassName + simpleGeneratorConfigurationDTO.getModelQueryClassSuffix());
+			generateModelDTO.setModelQueryPackagePath(generateModelDTO.getModelPackagePath() + "." + simpleGeneratorConfigurationDTO.getModelQuerySubPackageName());
 			generateModelDTO.setModelQueryPackage(generateModelDTO.getModelQueryPackagePath() + "." + generateModelDTO.getModelQueryClassName());
-			generateModelDTO.setModelQueryJavaFilePath(GeneratorUtils.analysisFilePath(generatorConfig.getProjectPath(), generateModelDTO.getModelQueryPackagePath()));
+			generateModelDTO.setModelQueryJavaFilePath(GeneratorUtils.analysisFilePath(simpleGeneratorConfigurationDTO.getProjectPath(), generateModelDTO.getModelQueryPackagePath()));
 			generateModelDTO.setModelQueryVariableName(firstCharToLowerCase(generateModelDTO.getModelQueryClassName()));
 			
-			generateModelDTO.setModelMDClassName(modelClassName + generatorConfig.getModelMDClassSuffix());
-			generateModelDTO.setModelMDPackagePath(generateModelDTO.getModelPackagePath() + "." + generatorConfig.getModelMDSubPackageName());
+			generateModelDTO.setModelMDClassName(modelClassName + simpleGeneratorConfigurationDTO.getModelMDClassSuffix());
+			generateModelDTO.setModelMDPackagePath(generateModelDTO.getModelPackagePath() + "." + simpleGeneratorConfigurationDTO.getModelMDSubPackageName());
 			generateModelDTO.setModelMDPackage(generateModelDTO.getModelMDPackagePath() + "." + generateModelDTO.getModelMDClassName());
-			generateModelDTO.setModelMDJavaFilePath(GeneratorUtils.analysisFilePath(generatorConfig.getProjectPath(), generateModelDTO.getModelMDPackagePath()));
+			generateModelDTO.setModelMDJavaFilePath(GeneratorUtils.analysisFilePath(simpleGeneratorConfigurationDTO.getProjectPath(), generateModelDTO.getModelMDPackagePath()));
 			
-			generateModelDTO.setDaoClassName(modelClassName + generatorConfig.getDaoClassSuffix());
-			generateModelDTO.setDaoPackagePath(generatorConfig.getDaoPackagePath() + analysisGroupName);
+			generateModelDTO.setDaoClassName(modelClassName + simpleGeneratorConfigurationDTO.getDaoClassSuffix());
+			generateModelDTO.setDaoPackagePath(simpleGeneratorConfigurationDTO.getDaoPackagePath() + analysisGroupName);
 			generateModelDTO.setDaoPackage(generateModelDTO.getDaoPackagePath() + "." + generateModelDTO.getDaoClassName());
-			generateModelDTO.setDaoJavaFilePath(GeneratorUtils.analysisFilePath(generatorConfig.getProjectPath(), generateModelDTO.getDaoPackagePath()));
+			generateModelDTO.setDaoJavaFilePath(GeneratorUtils.analysisFilePath(simpleGeneratorConfigurationDTO.getProjectPath(), generateModelDTO.getDaoPackagePath()));
 			generateModelDTO.setDaoVariableName(firstCharToLowerCase(generateModelDTO.getDaoClassName()));
 			generateModelDTO.setDaoModelPrimaryKeyMethodName(GeneratorUtils.firstCharToUpperCase(generateModelDTO.getModelPrimaryKeyInfo().getJavaName()));
-			generateModelDTO.setDaoModelPrimaryKeyListMethodName(generateModelDTO.getDaoModelPrimaryKeyMethodName() + generatorConfig.getListVariableNameSuffix());
-			generateModelDTO.setDaoModelPrimaryKeyListParamVariableName(generateModelDTO.getModelPrimaryKeyInfo().getJavaName() + generatorConfig.getListVariableNameSuffix());
+			generateModelDTO.setDaoModelPrimaryKeyListMethodName(generateModelDTO.getDaoModelPrimaryKeyMethodName() + simpleGeneratorConfigurationDTO.getListVariableNameSuffix());
+			generateModelDTO.setDaoModelPrimaryKeyListParamVariableName(generateModelDTO.getModelPrimaryKeyInfo().getJavaName() + simpleGeneratorConfigurationDTO.getListVariableNameSuffix());
 			
-			generateModelDTO.setMapperXmlName(modelClassName + generatorConfig.getMapperFileNameSuffix());
-			generateModelDTO.setMapperXmlFilePath(assembleMapperPath(generateModelDTO.getModelTableName(), generatorConfig));
+			generateModelDTO.setMapperXmlName(modelClassName + simpleGeneratorConfigurationDTO.getMapperFileNameSuffix());
+			generateModelDTO.setMapperXmlFilePath(assembleMapperPath(generateModelDTO.getModelTableName(), simpleGeneratorConfigurationDTO));
 			
-			generateModelDTO.setServiceClassName(modelClassName + generatorConfig.getServiceClassSuffix());
-			generateModelDTO.setServicePackagePath(generatorConfig.getServicePackageFilePath() + analysisGroupName);
+			generateModelDTO.setServiceClassName(modelClassName + simpleGeneratorConfigurationDTO.getServiceClassSuffix());
+			generateModelDTO.setServicePackagePath(simpleGeneratorConfigurationDTO.getServicePackageFilePath() + analysisGroupName);
 			generateModelDTO.setServicePackage(generateModelDTO.getServicePackagePath() + "." + generateModelDTO.getServiceClassName());
-			generateModelDTO.setServiceJavaFilePath(GeneratorUtils.analysisFilePath(generatorConfig.getProjectPath(), generateModelDTO.getServicePackagePath()));
+			generateModelDTO.setServiceJavaFilePath(GeneratorUtils.analysisFilePath(simpleGeneratorConfigurationDTO.getProjectPath(), generateModelDTO.getServicePackagePath()));
 			generateModelDTO.setServiceVariableName(firstCharToLowerCase(generateModelDTO.getServiceClassName()));
 			
-			generateModelDTO.setServiceImplClassName(modelClassName + generatorConfig.getServiceImplClassSuffix());
-			generateModelDTO.setServiceImplPackagePath(generatorConfig.getServiceImplPackageFilePath().replace(".*", analysisGroupName));
+			generateModelDTO.setServiceImplClassName(modelClassName + simpleGeneratorConfigurationDTO.getServiceImplClassSuffix());
+			generateModelDTO.setServiceImplPackagePath(simpleGeneratorConfigurationDTO.getServiceImplPackageFilePath().replace(".*", analysisGroupName));
 			generateModelDTO.setServiceImplPackage(generateModelDTO.getServiceImplPackagePath() + "." + generateModelDTO.getServiceImplClassName());
-			generateModelDTO.setServiceImplJavaFilePath(GeneratorUtils.analysisFilePath(generatorConfig.getProjectPath(), generateModelDTO.getServiceImplPackagePath()));
+			generateModelDTO.setServiceImplJavaFilePath(GeneratorUtils.analysisFilePath(simpleGeneratorConfigurationDTO.getProjectPath(), generateModelDTO.getServiceImplPackagePath()));
 			generateModelDTO.setServiceImplVariableName(firstCharToLowerCase(generateModelDTO.getServiceImplClassName()));
 			
-			generateModelDTO.setControllerClassName(modelClassName + generatorConfig.getControllerClassSuffix());
-			generateModelDTO.setControllerPackagePath(generatorConfig.getControllerPackageFilePath() + analysisGroupName);
+			generateModelDTO.setControllerClassName(modelClassName + simpleGeneratorConfigurationDTO.getControllerClassSuffix());
+			generateModelDTO.setControllerPackagePath(simpleGeneratorConfigurationDTO.getControllerPackageFilePath() + analysisGroupName);
 			generateModelDTO.setControllerPackage(generateModelDTO.getControllerPackagePath() + "." + generateModelDTO.getControllerClassName());
-			generateModelDTO.setControllerJavaFilePath(GeneratorUtils.analysisFilePath(generatorConfig.getProjectPath(), generateModelDTO.getControllerPackagePath()));
+			generateModelDTO.setControllerJavaFilePath(GeneratorUtils.analysisFilePath(simpleGeneratorConfigurationDTO.getProjectPath(), generateModelDTO.getControllerPackagePath()));
 			generateModelDTO.setControllerVariableName(firstCharToLowerCase(generateModelDTO.getControllerClassName()));
 			
-			generateModelDTO.setControllerAnnotations(analysisControllerAnnotationListToMap(generatorConfig.getControllerAnnotationList()));
+			generateModelDTO.setControllerAnnotations(analysisControllerAnnotationListToMap(simpleGeneratorConfigurationDTO.getControllerAnnotationList()));
 			
-			generateModelDTO.setSwaggerAnnotation(generatorConfig.isSwaggerAnnotation());
+			generateModelDTO.setSwaggerAnnotation(simpleGeneratorConfigurationDTO.isSwaggerAnnotation());
 			
-			generateModelDTO.setToStringFormatType(generatorConfig.getToStringFormatType());
+			generateModelDTO.setToStringFormatType(simpleGeneratorConfigurationDTO.getToStringFormatType());
 			
-			generateModelDTO.setDateFormat(generatorConfig.isDateFormat());
+			generateModelDTO.setDateFormat(simpleGeneratorConfigurationDTO.isDateFormat());
 		}
 		return generateModelDTOList;
 	}
 	
+	//simpleGeneratorConfiguration
+	@Bean
+	public SimpleGeneratorConfigurationDTO simpleGeneratorConfigurationDTO(SimpleGeneratorConfiguration simpleGeneratorConfiguration) {
+		SimpleGeneratorConfigurationDTO simpleGeneratorConfigurationDTO = new SimpleGeneratorConfigurationDTO();
+		BeanUtils.copyProperties(simpleGeneratorConfiguration,simpleGeneratorConfigurationDTO);
+		// 解析数据库 库名
+		if(GeneratorUtils.isNotEmpty(simpleGeneratorConfigurationDTO.getDatabaseUrl()) && simpleGeneratorConfigurationDTO.getDatabaseUrl().contains("?")) {
+			String[] split = simpleGeneratorConfigurationDTO.getDatabaseUrl().split("\\?");
+			String connPath = split[0];
+			if(GeneratorUtils.isNotEmpty(connPath) && connPath.contains("/")) {
+				String[] split2 = connPath.split("\\/");
+				String connName = split2[split2.length-1];
+				simpleGeneratorConfigurationDTO.setDatabaseName(connName);
+			}
+		}
+		
+		// 如果未配置项目名, 则使用数据库连接名
+		if(GeneratorUtils.isEmpty(simpleGeneratorConfigurationDTO.getProjectName())) {
+			String projectName = simpleGeneratorConfigurationDTO.getDatabaseName().toLowerCase().replace("_", "-");
+			simpleGeneratorConfigurationDTO.setProjectName(projectName);
+		}
+		
+		//工程路径
+		if(GeneratorUtils.isEmpty(simpleGeneratorConfigurationDTO.getProjectPath())) {
+			String thisProjectPath = GeneratorUtils.getThisProjectPath();
+			simpleGeneratorConfigurationDTO.setProjectPath(thisProjectPath + File.separatorChar + simpleGeneratorConfigurationDTO.getProjectName());
+		} else {
+			simpleGeneratorConfigurationDTO.setProjectPath(simpleGeneratorConfigurationDTO.getProjectPath() + File.separatorChar + simpleGeneratorConfigurationDTO.getProjectName());
+		}
+		
+		if(GeneratorUtils.isEmpty(simpleGeneratorConfigurationDTO.getModelPackagePath())) {
+			simpleGeneratorConfigurationDTO.setModelPackagePath(simpleGeneratorConfigurationDTO.getGroupId() + ".pojo");
+		}
+		
+		if(GeneratorUtils.isEmpty(simpleGeneratorConfigurationDTO.getDaoPackagePath())) {
+			simpleGeneratorConfigurationDTO.setDaoPackagePath(simpleGeneratorConfigurationDTO.getGroupId() + ".dao");
+		}
+		
+		if(GeneratorUtils.isEmpty(simpleGeneratorConfigurationDTO.getServicePackageFilePath())) {
+			simpleGeneratorConfigurationDTO.setServicePackageFilePath(simpleGeneratorConfigurationDTO.getGroupId() + ".service");
+		}
+		
+		if(GeneratorUtils.isEmpty(simpleGeneratorConfigurationDTO.getServiceImplPackageFilePath())) {
+			simpleGeneratorConfigurationDTO.setServiceImplPackageFilePath(simpleGeneratorConfigurationDTO.getGroupId() + ".service.*.impl");
+		}
+		
+		if(GeneratorUtils.isEmpty(simpleGeneratorConfigurationDTO.getControllerPackageFilePath())) {
+			simpleGeneratorConfigurationDTO.setControllerPackageFilePath(simpleGeneratorConfigurationDTO.getGroupId() + ".controller");
+		}
+		
+		if(GeneratorUtils.isEmpty(simpleGeneratorConfigurationDTO.getUnifiedResponsePackage())) {
+			simpleGeneratorConfigurationDTO.setUnifiedResponsePackage(simpleGeneratorConfigurationDTO.getGroupId() + ".response." + simpleGeneratorConfigurationDTO.getUnifiedResponseClassName());
+		}
+		
+		if(GeneratorUtils.isEmpty(simpleGeneratorConfigurationDTO.getUnifiedPagePackage())) {
+			simpleGeneratorConfigurationDTO.setUnifiedPagePackage(simpleGeneratorConfigurationDTO.getGroupId() + ".response." + simpleGeneratorConfigurationDTO.getUnifiedPageClassName());
+		}
+		
+		if(GeneratorUtils.isEmpty(simpleGeneratorConfigurationDTO.getSwaggerConfigPackagePath())) {
+			simpleGeneratorConfigurationDTO.setSwaggerConfigPackagePath(simpleGeneratorConfigurationDTO.getGroupId() + ".config.swagger");
+		}
+		
+		if(GeneratorUtils.isEmpty(simpleGeneratorConfigurationDTO.getLogbackConfigPackagePath())) {
+			simpleGeneratorConfigurationDTO.setLogbackConfigPackagePath(simpleGeneratorConfigurationDTO.getGroupId() + ".config.logback");
+		}
+		
+		return simpleGeneratorConfigurationDTO;
+	}
+	
+	
+	
 	
 	@Bean
-	public CommonQueryDTO commonQueryDTO(GeneratorConfig generatorConfig) {
+	public CommonQueryDTO commonQueryDTO(SimpleGeneratorConfigurationDTO simpleGeneratorConfigurationDTO) {
 		CommonQueryDTO commonQueryDTO = new CommonQueryDTO();
-		commonQueryDTO.setAuthor(generatorConfig.getAuthor());
+		commonQueryDTO.setAuthor(simpleGeneratorConfigurationDTO.getAuthor());
 		commonQueryDTO.setExplain("公共查询参数");
 		commonQueryDTO.setModelClassName("CommonQueryParam");
-		commonQueryDTO.setSwaggerAnnotation(generatorConfig.isSwaggerAnnotation());
-		commonQueryDTO.setToStringFormatType(generatorConfig.getToStringFormatType());
-		commonQueryDTO.setCommonQueryPackagePath(generatorConfig.getModelPackagePath());
+		commonQueryDTO.setSwaggerAnnotation(simpleGeneratorConfigurationDTO.isSwaggerAnnotation());
+		commonQueryDTO.setToStringFormatType(simpleGeneratorConfigurationDTO.getToStringFormatType());
+		commonQueryDTO.setCommonQueryPackagePath(simpleGeneratorConfigurationDTO.getModelPackagePath());
 		commonQueryDTO.setCommonQuerypackage(commonQueryDTO.getCommonQueryPackagePath() + "." + commonQueryDTO.getModelClassName());
-		commonQueryDTO.setCommonQueryJavaFilePath(GeneratorUtils.analysisFilePath(generatorConfig.getProjectPath(), commonQueryDTO.getCommonQueryPackagePath()));
+		commonQueryDTO.setCommonQueryJavaFilePath(GeneratorUtils.analysisFilePath(simpleGeneratorConfigurationDTO.getProjectPath(), commonQueryDTO.getCommonQueryPackagePath()));
 		
 		return commonQueryDTO;
 	}
@@ -141,10 +217,10 @@ public class GeneratroInit {
 	/**
 	 * 表名
 	 * */
-	private String assembleMapperPath(String tableName, GeneratorConfig generatorConfig) {
-		String projectPath = generatorConfig.getProjectPath();
-		String mapperXmlFilePath = generatorConfig.getMapperXmlFilePath();
-		String analysisGroupName = analysisGroupName(tableName, generatorConfig.getGroupPropertiesList());
+	private String assembleMapperPath(String tableName, SimpleGeneratorConfigurationDTO simpleGeneratorConfigurationDTO) {
+		String projectPath = simpleGeneratorConfigurationDTO.getProjectPath();
+		String mapperXmlFilePath = simpleGeneratorConfigurationDTO.getMapperXmlFilePath();
+		String analysisGroupName = analysisGroupName(tableName, simpleGeneratorConfigurationDTO.getGroupPropertiesList());
 		
 		return projectPath +File.separatorChar+ mapperXmlFilePath +File.separatorChar+ analysisGroupName;
 	}

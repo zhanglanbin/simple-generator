@@ -3,20 +3,21 @@ package com.simple.generator.service.impl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 
-import com.simple.generator.config.GeneratorConfig;
 import com.simple.generator.constant.Symbol;
 import com.simple.generator.pojo.dto.GenerateModelDTO;
+import com.simple.generator.pojo.dto.SimpleGeneratorConfigurationDTO;
 import com.simple.generator.service.AssembleAnalysisService;
 import com.simple.generator.utils.GeneratorUtils;
 
 @Component
 public class ServiceImplAnalysisServiceImpl implements AssembleAnalysisService {
 	
-	@Autowired
-	private GeneratorConfig generatorConfig;
+	@Resource
+	private SimpleGeneratorConfigurationDTO simpleGeneratorConfigurationDTO;
 	
 	@Override
 	public String analysis(String str, GenerateModelDTO generateModelDTO) {
@@ -27,13 +28,13 @@ public class ServiceImplAnalysisServiceImpl implements AssembleAnalysisService {
 				.replace("${generator.author}", generateModelDTO.getAuthor())
 				.replace("${generator.date}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
 				.replace("${generator.modelVariableName}", generateModelDTO.getModelVariableName())
-				.replace("${generator.unifiedResponseClassName}", generatorConfig.getUnifiedResponseClassName())
+				.replace("${generator.unifiedResponseClassName}", simpleGeneratorConfigurationDTO.getUnifiedResponseClassName())
 				.replace("${generator.modelClassName}", generateModelDTO.getModelClassName())
 				.replace("${generator.modelPrimaryKeyMethodName}", generateModelDTO.getDaoModelPrimaryKeyMethodName())
 				.replace("${generator.modelPrimaryKeyJavaType}", generateModelDTO.getModelPrimaryKeyInfo().getJavaType().getSimpleName())
 				.replace("${generator.modelPrimaryKey}", generateModelDTO.getModelPrimaryKeyInfo().getJavaName())
-				.replace("${generator.pagingClassName}", generatorConfig.getUnifiedPageClassName())
-				.replace("${generator.pagingVariableName}", GeneratorUtils.firstCharToUpperCase(generatorConfig.getUnifiedPageClassName()))
+				.replace("${generator.pagingClassName}", simpleGeneratorConfigurationDTO.getUnifiedPageClassName())
+				.replace("${generator.pagingVariableName}", GeneratorUtils.firstCharToUpperCase(simpleGeneratorConfigurationDTO.getUnifiedPageClassName()))
 				.replace("${generator.modelQueryClassName}", generateModelDTO.getModelQueryClassName())
 				.replace("${generator.modelQueryVariableName}", generateModelDTO.getModelQueryVariableName())
 				.replace("${generator.serviceImplClassName}", generateModelDTO.getServiceImplClassName())
@@ -53,9 +54,9 @@ public class ServiceImplAnalysisServiceImpl implements AssembleAnalysisService {
 				+ "import org.springframework.stereotype.Service;"+ Symbol.lineStr
 				+ "import org.springframework.transaction.annotation.Transactional;"+ Symbol.lineStr
 				+ Symbol.lineStr
-				+ "import " + generatorConfig.getUnifiedResponsePackage() + ";" + Symbol.lineStr
-				+ "import " + generatorConfig.getUnifiedPagePackage() + ";" + Symbol.lineStr
-				+ "import " + generatorConfig.getUnifiedPagePackage().replace("Page", "State") + ";" + Symbol.lineStr
+				+ "import " + simpleGeneratorConfigurationDTO.getUnifiedResponsePackage() + ";" + Symbol.lineStr
+				+ "import " + simpleGeneratorConfigurationDTO.getUnifiedPagePackage() + ";" + Symbol.lineStr
+				+ "import " + simpleGeneratorConfigurationDTO.getUnifiedPagePackage().replace("Page", "State") + ";" + Symbol.lineStr
 				+ Symbol.lineStr
 				+ "import " + generateModelDTO.getServicePackage() + ";" + Symbol.lineStr
 				+ "import " + generateModelDTO.getModelPackage() + ";" + Symbol.lineStr

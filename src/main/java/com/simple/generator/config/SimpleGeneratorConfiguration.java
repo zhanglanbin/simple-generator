@@ -14,8 +14,8 @@ import com.simple.generator.pojo.dto.GenerateModelDTO;
  * 生成器配置
  * */
 @Component
-@ConfigurationProperties(prefix = "generator-config")
-public class GeneratorConfig implements Serializable {
+@ConfigurationProperties(prefix = "simple-generator")
+public class SimpleGeneratorConfiguration implements Serializable {
 	
 	private static final long serialVersionUID = -8266356787895928670L;
 	

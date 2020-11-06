@@ -101,18 +101,6 @@
 			<groupId>com.github.xiaoymin</groupId>
 			<artifactId>knife4j-spring-boot-starter</artifactId>
 			<version>${knife4j-spring-boot-starter.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.github.xiaoymin</groupId>
-					<artifactId>knife4j-spring-ui</artifactId>
-				</exclusion>
-        	</exclusions>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.gitlab.zlb</groupId>
-			<artifactId>knife4j-spring-ui</artifactId>
-			<version>${knife4j-spring-boot-starter.version}</version>
 		</dependency>
 	</dependencies>
 

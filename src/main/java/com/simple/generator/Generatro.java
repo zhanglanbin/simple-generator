@@ -14,9 +14,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.simple.generator.config.GeneratorConfig;
 import com.simple.generator.constant.PathConstant;
 import com.simple.generator.pojo.PrepareGennerateFile;
+import com.simple.generator.pojo.dto.SimpleGeneratorConfigurationDTO;
 import com.simple.generator.utils.GeneratorUtils;
 
 @Component
@@ -25,8 +25,8 @@ public class Generatro implements CommandLineRunner {
 	
 	private static final Logger log = LoggerFactory.getLogger(Generatro.class);
 	
-	@Autowired
-	private GeneratorConfig generatorConfig;
+	@Resource
+	private SimpleGeneratorConfigurationDTO simpleGeneratorConfigurationDTO;
 	
 	@Autowired
     private ApplicationContext appContext;
@@ -58,7 +58,11 @@ public class Generatro implements CommandLineRunner {
 	@Resource
 	private PrepareGennerateFile applicationYml;
 	@Resource
-	private PrepareGennerateFile swaggerConfig;
+	private PrepareGennerateFile swaggerJavaConfig;
+	@Resource
+	private PrepareGennerateFile logbackSpringXml;
+	@Resource
+	private PrepareGennerateFile logbackJavaConfig;
 	
 	
 	
@@ -66,7 +70,7 @@ public class Generatro implements CommandLineRunner {
 	
 	@Override
     public void run(String... args) throws Exception {
-		System.out.println(generatorConfig);
+		System.out.println(simpleGeneratorConfigurationDTO);
 		
 		String[] beans = appContext.getBeanDefinitionNames();
         Arrays.sort(beans);
@@ -163,18 +167,28 @@ public class Generatro implements CommandLineRunner {
 			log.info("{}生成失败!", applicationYml.getFileName());
 		}
 		//生成swagger config
-		file = GeneratorUtils.createJavaFile(swaggerConfig.getFilePath(), swaggerConfig.getFileName(), swaggerConfig.getFileSuffix(), swaggerConfig.getText());
+		file = GeneratorUtils.createJavaFile(swaggerJavaConfig.getFilePath(), swaggerJavaConfig.getFileName(), swaggerJavaConfig.getFileSuffix(), swaggerJavaConfig.getText());
 		if(null==file) {
-			log.info("{}生成失败!", swaggerConfig.getFileName());
+			log.info("{}生成失败!", swaggerJavaConfig.getFileName());
+		}
+		//生成logback-spring.xml
+		file = GeneratorUtils.createJavaFile(logbackSpringXml.getFilePath(), logbackSpringXml.getFileName(), logbackSpringXml.getFileSuffix(), logbackSpringXml.getText());
+		if(null==file) {
+			log.info("{}生成失败!", logbackSpringXml.getFileName());
+		}
+		//生成logback java config
+		file = GeneratorUtils.createJavaFile(logbackJavaConfig.getFilePath(), logbackJavaConfig.getFileName(), logbackJavaConfig.getFileSuffix(), logbackJavaConfig.getText());
+		if(null==file) {
+			log.info("{}生成失败!", logbackJavaConfig.getFileName());
 		}
 		
 		
 		// 生成test目录
-		File testJava = new File(generatorConfig.getProjectPath() + File.separatorChar + PathConstant.testJavaPath + File.separatorChar+"test.java");
+		File testJava = new File(simpleGeneratorConfigurationDTO.getProjectPath() + File.separatorChar + PathConstant.testJavaPath + File.separatorChar+"test.java");
 		if (!testJava.getParentFile().exists()) {
 			testJava.getParentFile().mkdirs();
 		}
-		File testResources = new File(generatorConfig.getProjectPath() + File.separatorChar + PathConstant.testResourcesPath + File.separatorChar+"test.xml");
+		File testResources = new File(simpleGeneratorConfigurationDTO.getProjectPath() + File.separatorChar + PathConstant.testResourcesPath + File.separatorChar+"test.xml");
 		if (!testResources.getParentFile().exists()) {
 			testResources.getParentFile().mkdirs();
 		}

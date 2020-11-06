@@ -1,21 +1,16 @@
-package com.simple.generator.config;
+package com.simple.generator.pojo.dto;
 
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-
+import com.simple.generator.config.GroupProperties;
 import com.simple.generator.pojo.ControllerAnnotation;
-import com.simple.generator.pojo.dto.GenerateModelDTO;
 
 /**
  * 生成器配置
  * */
-@Component
-@ConfigurationProperties(prefix = "generator-config")
-public class GeneratorConfig implements Serializable {
+public class SimpleGeneratorConfigurationDTO implements Serializable {
 	
 	private static final long serialVersionUID = -8266356787895928670L;
 	

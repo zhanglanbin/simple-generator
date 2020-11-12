@@ -80,6 +80,11 @@ public class SimpleGeneratorConfiguration implements Serializable {
 	private String modelPackagePath;
 	
 	/**
+	 * 实体类set方法是否返回本类对象
+	 * */
+	private boolean modelSetMethodIsReturnThis = true;
+	
+	/**
 	 * db dao 包路径
 	 * */
 	private String daoPackagePath;
@@ -323,6 +328,14 @@ public class SimpleGeneratorConfiguration implements Serializable {
 
 	public void setModelPackagePath(String modelPackagePath) {
 		this.modelPackagePath = modelPackagePath;
+	}
+
+	public boolean isModelSetMethodIsReturnThis() {
+		return modelSetMethodIsReturnThis;
+	}
+
+	public void setModelSetMethodIsReturnThis(boolean modelSetMethodIsReturnThis) {
+		this.modelSetMethodIsReturnThis = modelSetMethodIsReturnThis;
 	}
 
 	public String getDaoPackagePath() {
@@ -571,21 +584,21 @@ public class SimpleGeneratorConfiguration implements Serializable {
 
 	@Override
 	public String toString() {
-		return "GeneratorConfig [databaseName=" + databaseName + ", databaseUrl=" + databaseUrl + ", databaseUsername=" + databaseUsername
+		return "SimpleGeneratorConfiguration [databaseName=" + databaseName + ", databaseUrl=" + databaseUrl + ", databaseUsername=" + databaseUsername
 		        + ", databasePassword=" + databasePassword + ", isCreateProject=" + isCreateProject + ", projectPath=" + projectPath + ", projectName="
 		        + projectName + ", author=" + author + ", groupId=" + groupId + ", swaggerAnnotation=" + swaggerAnnotation + ", ignoreTalbePrefixList="
-		        + ignoreTalbePrefixList + ", modelPackagePath=" + modelPackagePath + ", daoPackagePath=" + daoPackagePath + ", mapperXmlFilePath="
-		        + mapperXmlFilePath + ", servicePackageFilePath=" + servicePackageFilePath + ", serviceImplPackageFilePath=" + serviceImplPackageFilePath
-		        + ", controllerPackageFilePath=" + controllerPackageFilePath + ", controllerAnnotationList=" + controllerAnnotationList
-		        + ", generateModelConfig=" + generateModelConfig + ", toStringFormatType=" + toStringFormatType + ", javaJdkVersion=" + javaJdkVersion
-		        + ", dateFormat=" + dateFormat + ", groupPropertiesList=" + groupPropertiesList + ", listVariableNameSuffix=" + listVariableNameSuffix
-		        + ", modelQueryClassSuffix=" + modelQueryClassSuffix + ", modelQuerySubPackageName=" + modelQuerySubPackageName + ", modelMDClassSuffix="
-		        + modelMDClassSuffix + ", modelMDSubPackageName=" + modelMDSubPackageName + ", daoClassSuffix=" + daoClassSuffix + ", mapperFileNameSuffix="
-		        + mapperFileNameSuffix + ", serviceClassSuffix=" + serviceClassSuffix + ", serviceImplClassSuffix=" + serviceImplClassSuffix
-		        + ", controllerClassSuffix=" + controllerClassSuffix + ", unifiedResponseClassName=" + unifiedResponseClassName + ", unifiedResponsePackage="
-		        + unifiedResponsePackage + ", unifiedPageClassName=" + unifiedPageClassName + ", unifiedPagePackage=" + unifiedPagePackage
-		        + ", swaggerConfigPackagePath=" + swaggerConfigPackagePath + ", swaggerConfigClassName=" + swaggerConfigClassName
-		        + ", logbackConfigPackagePath=" + logbackConfigPackagePath + ", logbackConfigClassName=" + logbackConfigClassName + ", logbackXmlName="
-		        + logbackXmlName + "]";
+		        + ignoreTalbePrefixList + ", modelPackagePath=" + modelPackagePath + ", modelSetMethodIsReturnThis=" + modelSetMethodIsReturnThis
+		        + ", daoPackagePath=" + daoPackagePath + ", mapperXmlFilePath=" + mapperXmlFilePath + ", servicePackageFilePath=" + servicePackageFilePath
+		        + ", serviceImplPackageFilePath=" + serviceImplPackageFilePath + ", controllerPackageFilePath=" + controllerPackageFilePath
+		        + ", controllerAnnotationList=" + controllerAnnotationList + ", generateModelConfig=" + generateModelConfig + ", toStringFormatType="
+		        + toStringFormatType + ", javaJdkVersion=" + javaJdkVersion + ", dateFormat=" + dateFormat + ", groupPropertiesList=" + groupPropertiesList
+		        + ", listVariableNameSuffix=" + listVariableNameSuffix + ", modelQueryClassSuffix=" + modelQueryClassSuffix + ", modelQuerySubPackageName="
+		        + modelQuerySubPackageName + ", modelMDClassSuffix=" + modelMDClassSuffix + ", modelMDSubPackageName=" + modelMDSubPackageName
+		        + ", daoClassSuffix=" + daoClassSuffix + ", mapperFileNameSuffix=" + mapperFileNameSuffix + ", serviceClassSuffix=" + serviceClassSuffix
+		        + ", serviceImplClassSuffix=" + serviceImplClassSuffix + ", controllerClassSuffix=" + controllerClassSuffix + ", unifiedResponseClassName="
+		        + unifiedResponseClassName + ", unifiedResponsePackage=" + unifiedResponsePackage + ", unifiedPageClassName=" + unifiedPageClassName
+		        + ", unifiedPagePackage=" + unifiedPagePackage + ", swaggerConfigPackagePath=" + swaggerConfigPackagePath + ", swaggerConfigClassName="
+		        + swaggerConfigClassName + ", logbackConfigPackagePath=" + logbackConfigPackagePath + ", logbackConfigClassName=" + logbackConfigClassName
+		        + ", logbackXmlName=" + logbackXmlName + "]";
 	}
 }

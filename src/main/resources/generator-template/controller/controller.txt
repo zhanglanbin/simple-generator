@@ -1,0 +1,70 @@
+package [(${generateModelDTO.controllerPackagePath})];
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import [(${simpleGeneratorConfigurationDTO.unifiedResponsePackage})];
+import [(${simpleGeneratorConfigurationDTO.unifiedPagePackage})];
+
+import [(${generateModelDTO.modelPackage})];
+import [(${generateModelDTO.modelQueryPackage})];
+import [(${generateModelDTO.servicePackage})];
+[# th:if="${generateModelDTO.swaggerAnnotation}"]
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+[/]
+[# th:if="${generateModelDTO.swaggerAnnotation}"]@Api(value="[(${generateModelDTO.explain})]相关接口", tags={"[(${generateModelDTO.explain})]相关接口"})[/]
+@Controller
+public class [(${generateModelDTO.controllerClassName})] {
+	
+	@Autowired
+	private [(${generateModelDTO.serviceClassName})] [(${generateModelDTO.serviceVariableName})];
+	
+	@ApiOperation(value = "保存[(${generateModelDTO.explain})]")
+	@ResponseBody
+	@PostMapping("/[(${generateModelDTO.modelVariableName})]")
+	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]> insert(@RequestBody [(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]) {
+		return [(${generateModelDTO.serviceVariableName})].insert([(${generateModelDTO.modelVariableName})]);
+	}
+	
+	
+	@ApiOperation(value = "删除[(${generateModelDTO.explain})]")
+	@ResponseBody
+	@DeleteMapping("/[(${generateModelDTO.modelVariableName})]/{[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]}")
+	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean> deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})](@PathVariable [(${modelPrimaryKeyJavaTypeName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]) {
+		return [(${generateModelDTO.serviceVariableName})].deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
+	}
+	
+	
+	@ApiOperation(value = "修改[(${generateModelDTO.explain})]")
+	@ResponseBody
+	@PutMapping("/[(${generateModelDTO.modelVariableName})]")
+	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean> updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]) {
+		return [(${generateModelDTO.serviceVariableName})].updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelVariableName})]);
+	}
+	
+	
+	@ApiOperation(value = "查询[(${generateModelDTO.explain})]")
+	@ResponseBody
+	@GetMapping("/[(${generateModelDTO.modelVariableName})]/{[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]}")
+	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]> findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})](@PathVariable [(${modelPrimaryKeyJavaTypeName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]) {
+		return [(${generateModelDTO.serviceVariableName})].findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
+	}
+	
+	
+	@ApiOperation(value = "查询[(${generateModelDTO.explain})]列表")
+	@ResponseBody
+	@GetMapping("/[(${generateModelDTO.modelVariableName})]/list")
+	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<List<[(${generateModelDTO.modelClassName})]>>> findList([(${generateModelDTO.modelQueryClassName})] [(${generateModelDTO.modelQueryVariableName})]) {
+		return [(${generateModelDTO.serviceVariableName})].findList([(${generateModelDTO.modelQueryVariableName})]);
+	}
+}

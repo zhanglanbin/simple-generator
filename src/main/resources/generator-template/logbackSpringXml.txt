@@ -38,7 +38,7 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
 
 	<!-- 分线程输出源 -->
     <appender name="frameworkthread" class="ch.qos.logback.classic.sift.SiftingAppender">
-        <discriminator class="${generator.logbackConfigPackagePath}.${generator.logbackConfigClassName}">
+        <discriminator class="[(${simpleGeneratorConfigurationDTO.logbackConfigPackagePath})].[(${simpleGeneratorConfigurationDTO.logbackConfigClassName})]">
             <key>threadName</key>
         </discriminator>
 		<sift>
@@ -138,46 +138,46 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
     
     <!-- 定义日志级别 -->
     <springProfile name="dev">
-	   	<logger name="${generator.groupId}" level="DEBUG"/>
+	   	<logger name="[(${simpleGeneratorConfigurationDTO.groupId})]" level="DEBUG"/>
 	    <!-- Spring framework logger -->
 	    <logger name="org.springframework" level="ERROR"/>
 		<logger name="org.mybatis" level="DEBUG"/>
 		<!-- 屏蔽这个包下的日志 -->
 	    <logger name="com.alibaba.druid.wall.WallFilter" level="debug" additivity="false"/>
-	    <logger name="org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet]" level="debug" additivity="false"/>
+	    <logger name="org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].&#91;/&#93;.[dispatcherServlet]" level="debug" additivity="false"/>
 	    <logger name="springfox" level="ERROR"/>
     </springProfile>
     
     <springProfile name="test">
-   	   	<logger name="${generator.groupId}" level="DEBUG"/>
+   	   	<logger name="[(${simpleGeneratorConfigurationDTO.groupId})]" level="DEBUG"/>
 	    <!-- Spring framework logger -->
 	    <logger name="org.springframework" level="DEBUG"/>
 		<logger name="org.mybatis" level="DEBUG"/>
 		<!-- 屏蔽这个包下的日志 -->
 	    <logger name="com.alibaba.druid.wall.WallFilter" level="debug" additivity="false"/>
-	    <logger name="org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet]" level="debug" additivity="false"/>
+	    <logger name="org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].&#91;/&#93;.[dispatcherServlet]" level="debug" additivity="false"/>
 	    <logger name="springfox" level="ERROR"/>
     </springProfile>
     
     <springProfile name="uat">
-       	<logger name="${generator.groupId}" level="DEBUG"/>
+       	<logger name="[(${simpleGeneratorConfigurationDTO.groupId})]" level="DEBUG"/>
 	    <!-- Spring framework logger -->
 	    <logger name="org.springframework" level="DEBUG"/>
 		<logger name="org.mybatis" level="DEBUG"/>
 		<!-- 屏蔽这个包下的日志 -->
 	    <logger name="com.alibaba.druid.wall.WallFilter" level="debug" additivity="false"/>
-	    <logger name="org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet]" level="debug" additivity="false"/>
+	    <logger name="org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].&#91;/&#93;.[dispatcherServlet]" level="debug" additivity="false"/>
 	    <logger name="springfox" level="ERROR"/>
     </springProfile>
     
     <springProfile name="prod">
-   	   	<logger name="${generator.groupId}" level="error"/>
+   	   	<logger name="[(${simpleGeneratorConfigurationDTO.groupId})]" level="error"/>
 	    <!-- Spring framework logger -->
 	    <logger name="org.springframework" level="error"/>
 		<logger name="org.mybatis" level="error"/>
 		<!-- 屏蔽这个包下的日志 -->
 	    <logger name="com.alibaba.druid.wall.WallFilter" level="debug" additivity="false"/>
-	    <logger name="org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet]" level="debug" additivity="false"/>
+	    <logger name="org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].&#91;/&#93;.[dispatcherServlet]" level="debug" additivity="false"/>
 	    <logger name="springfox" level="error"/>
     </springProfile>
     

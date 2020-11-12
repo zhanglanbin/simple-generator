@@ -7,149 +7,264 @@ import java.util.Map;
 import com.simple.generator.pojo.ColumnInfo;
 import com.simple.generator.pojo.ControllerAnnotation;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
-@ApiModel("生成Model配置")
+/**
+ * @deprecated: 生成Model配置
+ * @author zhanglanbin
+ */
 public class GenerateModelDTO implements Serializable {
 	
 	private static final long serialVersionUID = -4203078793655652564L;
 	
-	@ApiModelProperty("是否覆盖")
+	/**
+	 * 是否覆盖
+	 * */
 	private Boolean isCover;
 	
-	@ApiModelProperty("作者")
+	/**
+	 * 作者
+	 * */
 	private String author;
 	
-	@ApiModelProperty("是否使用swagger注解")
+	/**
+	 * 是否使用swagger注解
+	 * */
 	private boolean swaggerAnnotation;
 	
-	@ApiModelProperty("是否转换日期时间格式")
+	/**
+	 * 是否转换日期时间格式
+	 * */
 	private boolean dateFormat;
 	
-	@ApiModelProperty("是否导入java.util.Date包")
+	/**
+	 * 是否导入java.util.Date包
+	 * */
 	private boolean importDate;
 	
-	@ApiModelProperty("忽略表前缀, 多个用逗号隔开, 为空则不忽略")
+	/**
+	 * 忽略表前缀, 多个用逗号隔开, 为空则不忽略
+	 * */
 	private List<String> ignoreTalbePrefixList;
 	
-	@ApiModelProperty("实体类DTO, 可以多个, key=dto名称, value=多个字段用逗号隔开")
+	/**
+	 * 实体类DTO, 可以多个, key=dto名称, value=多个字段用逗号隔开
+	 * */
 	private Map<String, String> dtoList;
 	
-	@ApiModelProperty("实体类VO, 可以多个, key=dto名称, value=多个字段用逗号隔开")
+	/**
+	 * 实体类VO, 可以多个, key=dto名称, value=多个字段用逗号隔开
+	 * */
 	private Map<String, String> voList;
 	
-	@ApiModelProperty("实体类BO, 可以多个, key=dto名称, value=多个字段用逗号隔开")
+	/**
+	 * 实体类BO, 可以多个, key=dto名称, value=多个字段用逗号隔开
+	 * */
 	private Map<String, String> boList;
 	
-	@ApiModelProperty("方法自定义扩展注解, key=方法名称,*表示所有方法, 所有方法有, save*,find*,update*,delete*,也可以使用find*, findById,    value=注解全名称, 例如:org.springframework.stereotype.Controller ")
+	/**
+	 * 方法自定义扩展注解, key=方法名称,*表示所有方法,
+	 *  所有方法有, save*,find*,update*,delete*,也可以使用find*, findById
+	 *  ,    value=注解全名称, 例如:org.springframework.stereotype.Controller
+	 * */
 	private Map<String, ControllerAnnotation> controllerAnnotations;
 	
-	@ApiModelProperty("实体类java文件路径")
+	/**
+	 * 实体类java文件路径
+	 * */
 	private String modelJavaFilePath;
-	@ApiModelProperty("实体类包路径")
+	/**
+	 * 实体类包路径
+	 * */
 	private String modelPackagePath;
-	@ApiModelProperty("实体类包")
+	/**
+	 * 实体类包
+	 * */
 	private String modelPackage;
-	@ApiModelProperty("实体类 类名")
+	/**
+	 * 实体类 类名
+	 * */
 	private String modelClassName;
-	@ApiModelProperty("实体类 变量名")
+	/**
+	 * 实体类 变量名
+	 * */
 	private String modelVariableName;
-	@ApiModelProperty("实体类 list 变量名")
+	/**
+	 * 实体类 list 变量名
+	 * */
 	private String modelListVariableName;
-	@ApiModelProperty("实体类 数据库表名")
+	/**
+	 * 实体类 数据库表名
+	 * */
 	private String modelTableName;
 	
-	@ApiModelProperty("实体类 md java文件路径")
+	/**
+	 * 实体类 md java文件路径
+	 * */
 	private String modelMDJavaFilePath;
-	@ApiModelProperty("实体类 md 包路径")
+	/**
+	 * 实体类 md 包路径
+	 * */
 	private String modelMDPackagePath;
-	@ApiModelProperty("实体类 md 包")
+	/**
+	 * 实体类 md 包
+	 * */
 	private String modelMDPackage;
-	@ApiModelProperty("实体类 md 类名")
+	/**
+	 * 实体类 md 类名
+	 * */
 	private String modelMDClassName;
 	
-	@ApiModelProperty("实体类query java文件路径")
+	/**
+	 * 实体类query java文件路径
+	 * */
 	private String modelQueryJavaFilePath;
-	@ApiModelProperty("实体类query 包路径")
+	/**
+	 * 实体类query 包路径
+	 * */
 	private String modelQueryPackagePath;
-	@ApiModelProperty("实体类query 包")
+	/**
+	 * 实体类query 包
+	 * */
 	private String modelQueryPackage;
-	@ApiModelProperty("实体类query 类名")
+	/**
+	 * 实体类query 类名
+	 * */
 	private String modelQueryClassName;
-	@ApiModelProperty("实体类query 变量名")
+	/**
+	 * 实体类query 变量名
+	 * */
 	private String modelQueryVariableName;
 	
-	@ApiModelProperty("db dao java文件路径")
+	/**
+	 * db dao java文件路径
+	 * */
 	private String daoJavaFilePath;
-	@ApiModelProperty("db dao 包路径")
+	/**
+	 * db dao 包路径
+	 * */
 	private String daoPackagePath;
-	@ApiModelProperty("db dao 包")
+	/**
+	 * db dao 包
+	 * */
 	private String daoPackage;
-	@ApiModelProperty("db dao 类名")
+	/**
+	 * db dao 类名
+	 * */
 	private String daoClassName;
-	@ApiModelProperty("db dao 变量名")
+	/**
+	 * db dao 变量名
+	 * */
 	private String daoVariableName;
-	@ApiModelProperty("db dao 主键方法名")
+	/**
+	 * db dao 主键方法名
+	 * */
 	private String daoModelPrimaryKeyMethodName;
-	@ApiModelProperty("db dao 主键List集合方法名")
+	/**
+	 * db dao 主键List集合方法名
+	 * */
 	private String daoModelPrimaryKeyListMethodName;
-	@ApiModelProperty("db dao 主键List集合参数变量名")
+	/**
+	 * db dao 主键List集合参数变量名
+	 * */
 	private String daoModelPrimaryKeyListParamVariableName;
 	
-	
-	@ApiModelProperty("mapper文件路径")
+	/**
+	 * mapper文件路径
+	 * */
 	private String mapperXmlFilePath;
-	@ApiModelProperty("mapper xml文件名称")
+	/**
+	 * mapper xml文件名称
+	 * */
 	private String mapperXmlName;
 	
-	@ApiModelProperty("service java文件路径")
+	/**
+	 * service java文件路径
+	 * */
 	private String serviceJavaFilePath;
-	@ApiModelProperty("service 包路径")
+	/**
+	 * service 包路径
+	 * */
 	private String servicePackagePath;
-	@ApiModelProperty("service 包")
+	/**
+	 * service 包
+	 * */
 	private String servicePackage;
-	@ApiModelProperty("service 类名")
+	/**
+	 * service 类名
+	 * */
 	private String serviceClassName;
-	@ApiModelProperty("service 变量名")
+	/**
+	 * service 变量名
+	 * */
 	private String serviceVariableName;
 	
-	@ApiModelProperty("serviceImpl java文件路径")
+	/**
+	 * serviceImpl java文件路径
+	 * */
 	private String serviceImplJavaFilePath;
-	@ApiModelProperty("serviceImpl 包路径")
+	/**
+	 * serviceImpl 包路径
+	 * */
 	private String serviceImplPackagePath;
-	@ApiModelProperty("serviceImpl 包")
+	/**
+	 * serviceImpl 包
+	 * */
 	private String serviceImplPackage;
-	@ApiModelProperty("serviceImpl 类名")
+	/**
+	 * serviceImpl 类名
+	 * */
 	private String serviceImplClassName;
-	@ApiModelProperty("serviceImpl 变量名")
+	/**
+	 * serviceImpl 变量名
+	 * */
 	private String serviceImplVariableName;
 	
-	@ApiModelProperty("controller java文件路径")
+	/**
+	 * controller java文件路径
+	 * */
 	private String controllerJavaFilePath;
-	@ApiModelProperty("controller 包路径")
+	/**
+	 * controller 包路径
+	 * */
 	private String controllerPackagePath;
-	@ApiModelProperty("controller 包")
+	/**
+	 * controller 包
+	 * */
 	private String controllerPackage;
-	@ApiModelProperty("controller 类名")
+	/**
+	 * controller 类名
+	 * */
 	private String controllerClassName;
-	@ApiModelProperty("controller 变量名")
+	/**
+	 * controller 变量名
+	 * */
 	private String controllerVariableName;
 	
-	@ApiModelProperty("字段信息列表")
+	/**
+	 * 字段信息列表
+	 * */
 	private List<ColumnInfo> columnInfos;
 	
-	@ApiModelProperty("主键字段信息")
+	/**
+	 * 主键字段信息
+	 */
 	private ColumnInfo modelPrimaryKeyInfo;
 	
-	@ApiModelProperty("备注")
+	/**
+	 * 备注
+	 */
 	private String explain;
 
-	@ApiModelProperty("是否存在bigDecimal")
+	/**
+	 * 是否存在bigDecimal
+	 */
 	private boolean isImportBigDecimal;
-	@ApiModelProperty("是否存在List")
+	/**
+	 * 是否存在List
+	 */
 	private boolean isImportList;
-	@ApiModelProperty("0=json, 1=eclipse, 2=idea")
+	/**
+	 * 0=json, 1=eclipse, 2=idea
+	 */
 	private int toStringFormatType;
 	public Boolean getIsCover() {
 		return isCover;

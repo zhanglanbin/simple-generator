@@ -1,20 +1,19 @@
-package ${generator.modelPackagePath};
+package [(${simpleGeneratorConfigurationDTO.modelPackagePath})];
 
 import java.io.Serializable;
 
 import java.util.List;
 import java.util.ArrayList;
 
-
 /**
  * @Title: CommonQueryParam
  * @Description: 公共查询参数
- * @author: ${generator.author}
- * @date: ${generator.date}
+ * @author: [(${simpleGeneratorConfigurationDTO.author})]
+ * @date: [(${notesDate})]
  * */
 public class CommonQueryParam implements Serializable {
 
-	private static final long serialVersionUID = ${generator.serialVersionUID};
+	private static final long serialVersionUID = [(${serialVersionUID})];
 
 	/**
 	 * @Description: 是否模糊匹配: false=为模糊匹配, true=为精确匹配
@@ -25,6 +24,11 @@ public class CommonQueryParam implements Serializable {
 	 * @Description: 页号
 	 * */
 	private Integer pageNumber;
+	
+	/**
+	 * @Description: 条目数
+	 * */
+	private Integer rowNumber;
 
 	/**
 	 * @Description: 开始行数
@@ -35,26 +39,6 @@ public class CommonQueryParam implements Serializable {
 	 * @Description: 结束行数
 	 * */
 	private Integer endRowNumber;
-
-	/**
-	 * @Description: 创建时间开始 %Y-%m-%d %T:%i:%s
-	 * */
-	private String createTimeStart;
-
-	/**
-	 * @Description: 创建时间结束 %Y-%m-%d %T:%i:%s
-	 * */
-	private String createTimeEnd;
-
-	/**
-	 * @Description: 修改时间开始 %Y-%m-%d %T:%i:%s
-	 * */
-	private String updateTimeStart;
-
-	/**
-	 * @Description: 修改时间结束 %Y-%m-%d %T:%i:%s
-	 * */
-	private String updateTimeEnd;
 
 	/**
 	 * @Description: 数据列名集合
@@ -74,8 +58,18 @@ public class CommonQueryParam implements Serializable {
 	}
 	public void setPageNumber(Integer pageNumber) {
 		this.pageNumber = pageNumber;
+		if(null != this.rowNumber) {
+			this.startRowNumber = (pageNumber - 1) * this.rowNumber;
+		}
 	}
 
+	public Integer getRowNumber() {
+		return rowNumber;
+	}
+	public void setRowNumber(Integer rowNumber) {
+		this.rowNumber = rowNumber;
+	}
+	
 	public Integer getStartRowNumber() {
 		return startRowNumber;
 	}
@@ -88,34 +82,6 @@ public class CommonQueryParam implements Serializable {
 	}
 	public void setEndRowNumber(Integer endRowNumber) {
 		this.endRowNumber = endRowNumber;
-	}
-
-	public String getCreateTimeStart() {
-		return createTimeStart;
-	}
-	public void setCreateTimeStart(String createTimeStart) {
-		this.createTimeStart = createTimeStart;
-	}
-
-	public String getCreateTimeEnd() {
-		return createTimeEnd;
-	}
-	public void setCreateTimeEnd(String createTimeEnd) {
-		this.createTimeEnd = createTimeEnd;
-	}
-
-	public String getUpdateTimeStart() {
-		return updateTimeStart;
-	}
-	public void setUpdateTimeStart(String updateTimeStart) {
-		this.updateTimeStart = updateTimeStart;
-	}
-
-	public String getUpdateTimeEnd() {
-		return updateTimeEnd;
-	}
-	public void setUpdateTimeEnd(String updateTimeEnd) {
-		this.updateTimeEnd = updateTimeEnd;
 	}
 
 	public List<String> getColumnList() {
@@ -150,12 +116,9 @@ public class CommonQueryParam implements Serializable {
 		return "CommonQueryParam [" +
 			"isAccurate=" + isAccurate + 
 			", pageNumber=" + pageNumber + 
+			", rowNumber=" + rowNumber + 
 			", startRowNumber=" + startRowNumber + 
 			", endRowNumber=" + endRowNumber + 
-			", createTimeStart=" + createTimeStart + 
-			", createTimeEnd=" + createTimeEnd + 
-			", updateTimeStart=" + updateTimeStart + 
-			", updateTimeEnd=" + updateTimeEnd + 
 			", columnList=" + columnList + 
 		"]";
 	}

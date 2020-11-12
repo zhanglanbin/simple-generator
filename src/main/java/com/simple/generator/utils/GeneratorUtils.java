@@ -15,6 +15,7 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.system.ApplicationHome;
+import org.springframework.core.io.ClassPathResource;
 
 import com.simple.generator.constant.PathConstant;
 import com.simple.generator.constant.Symbol;
@@ -226,20 +227,20 @@ public class GeneratorUtils {
 	 * 组装toString()方法
 	 * */
 	public static String asModelToString(GenerateModelDTO generateModelDTO) {
-		return asModelToString(generateModelDTO, false);
+		return asModelToString(generateModelDTO, false, false);
 	}
 	
 	/**
 	 * 组装toString()方法
 	 * */
-	public static String asModelToString(GenerateModelDTO generateModelDTO, boolean isSuperToString) {
+	public static String asModelToString(GenerateModelDTO generateModelDTO, boolean isSuperToString, boolean isQueryModel) {
 		if(generateModelDTO.getToStringFormatType() == 2) {
 			//idea格式toString
-			return ideaToString(generateModelDTO, isSuperToString);
+			return ideaToString(generateModelDTO, isSuperToString, isQueryModel);
 			
 		} else if(generateModelDTO.getToStringFormatType() == 1) {
 			//eclipse格式toString
-			return eclipseToString(generateModelDTO, isSuperToString);
+			return eclipseToString(generateModelDTO, isSuperToString, isQueryModel);
 			
 		} else if(generateModelDTO.getToStringFormatType() == 0) {
 			//json格式toString
@@ -255,13 +256,10 @@ public class GeneratorUtils {
 	
 	
 	
-	public static String ideaToString(GenerateModelDTO generateModelDTO, boolean isSuperToString) {
+	public static String ideaToString(GenerateModelDTO generateModelDTO, boolean isSuperToString, boolean isQueryModel) {
 		StringBuffer toStringBuffer = new StringBuffer();
 		List<ColumnInfo> columnInfos = generateModelDTO.getColumnInfos();
 		toStringBuffer
-		.append(Symbol.lineStr)
-		.append(Symbol.lineStr)
-		.append(Symbol.lineStr)
 		.append(Symbol.tabBy1).append("@Override").append(Symbol.lineStr)
 		.append(Symbol.tabBy1).append("public String toString() {").append(Symbol.lineStr)
 		.append(Symbol.tabBy1).append(Symbol.tabBy1).append("return \"").append(generateModelDTO.getModelClassName()).append("{\" +");
@@ -271,17 +269,37 @@ public class GeneratorUtils {
 			String name = columnInfo.getJavaName();
 			String type = columnInfo.getJavaType().getName();
 			
-			if(String.class.getName().equals(type)) {
-				toStringBuffer.append(Symbol.lineStr)
-				.append(Symbol.tabBy1).append(Symbol.tabBy1).append(Symbol.tabBy1).append("\"").append(str).append(strsp).append(name).append("=").append("'\" + ").append(name)
-				.append(" + '\\'' + ");
+			if(isJdbcDate(columnInfo) && isQueryModel) {
+				String startAttributeName = columnInfo.getJavaName() + "Start";
+				String endAttributeName = columnInfo.getJavaName() + "End";
+				if(String.class.getName().equals(type)) {
+					toStringBuffer.append(Symbol.lineStr)
+					.append(Symbol.tabBy1).append(Symbol.tabBy1).append(Symbol.tabBy1).append("\"").append(str).append(strsp).append(startAttributeName).append("=").append("'\" + ").append(startAttributeName)
+					.append(" + '\\'' + ");
+					toStringBuffer.append(Symbol.lineStr)
+					.append(Symbol.tabBy1).append(Symbol.tabBy1).append(Symbol.tabBy1).append("\"").append(str).append(strsp).append(endAttributeName).append("=").append("'\" + ").append(endAttributeName)
+					.append(" + '\\'' + ");
+				} else {
+					//不是字符串组装不需要外加引号"'"
+					toStringBuffer.append(Symbol.lineStr)
+					.append(Symbol.tabBy1).append(Symbol.tabBy1).append(Symbol.tabBy1).append("\"").append(str).append(strsp).append(startAttributeName).append("=").append("\" + ").append(startAttributeName)
+					.append(" + ");
+					toStringBuffer.append(Symbol.lineStr)
+					.append(Symbol.tabBy1).append(Symbol.tabBy1).append(Symbol.tabBy1).append("\"").append(str).append(strsp).append(endAttributeName).append("=").append("\" + ").append(endAttributeName)
+					.append(" + ");
+				}
 			} else {
-				//不是字符串组装不需要外加引号"'"
-				toStringBuffer.append(Symbol.lineStr)
-				.append(Symbol.tabBy1).append(Symbol.tabBy1).append(Symbol.tabBy1).append("\"").append(str).append(strsp).append(name).append("=").append("\" + ").append(name)
-				.append(" + ");
+				if(String.class.getName().equals(type)) {
+					toStringBuffer.append(Symbol.lineStr)
+					.append(Symbol.tabBy1).append(Symbol.tabBy1).append(Symbol.tabBy1).append("\"").append(str).append(strsp).append(name).append("=").append("'\" + ").append(name)
+					.append(" + '\\'' + ");
+				} else {
+					//不是字符串组装不需要外加引号"'"
+					toStringBuffer.append(Symbol.lineStr)
+					.append(Symbol.tabBy1).append(Symbol.tabBy1).append(Symbol.tabBy1).append("\"").append(str).append(strsp).append(name).append("=").append("\" + ").append(name)
+					.append(" + ");
+				}
 			}
-			
 			str = ",";
 			strsp = " ";
 		}
@@ -295,13 +313,10 @@ public class GeneratorUtils {
 	}
 	
 	
-	public static String eclipseToString(GenerateModelDTO generateModelDTO, boolean isSuperToString) {
+	public static String eclipseToString(GenerateModelDTO generateModelDTO, boolean isSuperToString, boolean isQueryModel) {
 		StringBuffer toStringBuffer = new StringBuffer();
 		List<ColumnInfo> columnInfos = generateModelDTO.getColumnInfos();
 		toStringBuffer
-		.append(Symbol.lineStr)
-		.append(Symbol.lineStr)
-		.append(Symbol.lineStr)
 		.append(Symbol.tabBy1).append("@Override").append(Symbol.lineStr)
 		.append(Symbol.tabBy1).append("public String toString() {").append(Symbol.lineStr)
 		.append(Symbol.tabBy1).append(Symbol.tabBy1).append("return \"").append(generateModelDTO.getModelClassName()).append(" [\" +");
@@ -310,11 +325,23 @@ public class GeneratorUtils {
 		for(ColumnInfo columnInfo : columnInfos) {
 			String name = columnInfo.getJavaName();
 			
-			//不是字符串组装不需要外加引号"'"
-			toStringBuffer.append(Symbol.lineStr)
-			.append(Symbol.tabBy1).append(Symbol.tabBy1).append(Symbol.tabBy1).append("\"").append(str).append(strsp).append(name).append("=").append("\" + ").append(name)
-			.append(" + ");
-			
+			if(isJdbcDate(columnInfo) && isQueryModel) {
+				String startAttributeName = columnInfo.getJavaName() + "Start";
+				String endAttributeName = columnInfo.getJavaName() + "End";
+				
+				//不是字符串组装不需要外加引号"'"
+				toStringBuffer.append(Symbol.lineStr)
+				.append(Symbol.tabBy1).append(Symbol.tabBy1).append(Symbol.tabBy1).append("\"").append(str).append(strsp).append(startAttributeName).append("=").append("\" + ").append(startAttributeName)
+				.append(" + ");
+				toStringBuffer.append(Symbol.lineStr)
+				.append(Symbol.tabBy1).append(Symbol.tabBy1).append(Symbol.tabBy1).append("\"").append(str).append(strsp).append(endAttributeName).append("=").append("\" + ").append(endAttributeName)
+				.append(" + ");
+			} else {
+				//不是字符串组装不需要外加引号"'"
+				toStringBuffer.append(Symbol.lineStr)
+				.append(Symbol.tabBy1).append(Symbol.tabBy1).append(Symbol.tabBy1).append("\"").append(str).append(strsp).append(name).append("=").append("\" + ").append(name)
+				.append(" + ");
+			}
 			str = ",";
 			strsp = " ";
 		}
@@ -331,9 +358,6 @@ public class GeneratorUtils {
 	public static String jsonToString() {
 		StringBuffer toStringBuffer = new StringBuffer();
 		toStringBuffer
-		.append(Symbol.lineStr)
-		.append(Symbol.lineStr)
-		.append(Symbol.lineStr)
 		.append(Symbol.tabBy1).append("@Override").append(Symbol.lineStr)
 		.append(Symbol.tabBy1).append("public String toString() {").append(Symbol.lineStr)
 		.append(Symbol.tabBy1).append(Symbol.tabBy1).append("return JSON.toJSONString(this, new SerializerFeature[] {").append(Symbol.lineStr)
@@ -346,6 +370,18 @@ public class GeneratorUtils {
 		.append(Symbol.tabBy1).append("}");
 		return toStringBuffer.toString();
 	}
+	
+	
+	public static boolean isJdbcDate(ColumnInfo columnInfo) {
+		if(columnInfo.getJavaType().getName().equals(Date.class.getName())) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	
+	
 	
 	
 	/**
@@ -373,7 +409,7 @@ public class GeneratorUtils {
 	public static String getModelAttrNotes(String columnExplain) {
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer
-		.append(Symbol.tabBy1).append("/**").append(Symbol.lineStr)
+		.append("/**").append(Symbol.lineStr)
 		.append(Symbol.tabBy1).append(" * @Description: ").append(columnExplain).append(Symbol.lineStr)
 		.append(Symbol.tabBy1).append(" * */");
 		return stringBuffer.toString();
@@ -437,7 +473,9 @@ public class GeneratorUtils {
 		InputStream stream = null;
 		String codeTxt = null;
 		try {
-			stream = ClassLoader.getSystemResourceAsStream(resourcePath);
+			
+			stream = new ClassPathResource(resourcePath).getInputStream();
+//					ClassLoader.getSystemResourceAsStream(resourcePath);
 			if(null == stream) {
 				return null;
 			}

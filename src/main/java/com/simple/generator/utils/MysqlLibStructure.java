@@ -175,6 +175,9 @@ public class MysqlLibStructure {
 				String javaName = analysisNameToHump(columnName);
 				columnInfo.setJavaName(javaName);
 				
+				//java方法名称, 首字母大写
+				columnInfo.setJavaMethodName(GeneratorUtils.firstCharToUpperCase(javaName));
+				
 				//依次的位置
 				String sortPositionStr = rs.getString("ORDINAL_POSITION");
 				int sortPosition = null!=sortPositionStr&&!"".equals(sortPositionStr) ? Integer.parseInt(sortPositionStr) : 1;
@@ -202,6 +205,9 @@ public class MysqlLibStructure {
 					generateModelDTO.setImportBigDecimal(true);
 				}
 				columnInfo.setJavaType(javaType);
+				
+				columnInfo.setJavaTypeSimpleName(javaType.getSimpleName());
+				
 				
 				//解析jdbcType
 				String jdbcType = analysisDataTypeToJdbcType(dataType);

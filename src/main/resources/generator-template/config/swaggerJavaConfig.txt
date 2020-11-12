@@ -1,0 +1,73 @@
+package [(${simpleGeneratorConfigurationDTO.groupId})].config.swagger;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.request.async.DeferredResult;
+
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.ModelRef;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Parameter;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+
+/**
+* @ClassName: [(${simpleGeneratorConfigurationDTO.swaggerConfigClassName})]
+* @Description: swagger 配置类
+* @author [(${simpleGeneratorConfigurationDTO.author})]
+* @date [(${notesDate})]
+*/
+@Configuration
+@EnableSwagger2WebMvc
+@ConditionalOnProperty(prefix = "knife4j", value = { "enable" }, havingValue = "true")
+public class [(${simpleGeneratorConfigurationDTO.swaggerConfigClassName})] {
+
+	@Bean
+	public Docket sysRestApi() {
+		String groupName = "系统相关接口";
+		return new Docket(DocumentationType.SWAGGER_2)
+				.groupName(groupName)
+				.genericModelSubstitutes(DeferredResult.class)
+				.apiInfo(apiInfo(groupName,groupName))
+				.select()
+				.apis(RequestHandlerSelectors.basePackage("[(${simpleGeneratorConfigurationDTO.controllerPackageFilePath})]"))
+				.paths(PathSelectors.any())
+				.build();
+	}
+	
+	/**
+	 * doc主页信息
+	 * */
+	private ApiInfo apiInfo(String title,String description) {
+		return new ApiInfoBuilder()
+				.title(title)
+				.description(description)
+				.version("1.0")
+				.build();
+	}
+	
+	/**
+	 * 添加head参数end
+	 * */
+	public List<Parameter> operationParameters() {
+		// 添加head参数start
+		ParameterBuilder tokenPar = new ParameterBuilder();
+		List<Parameter> pars = new ArrayList<Parameter>();
+		tokenPar.name("x-access-token")
+				.description("令牌")
+				.modelRef(new ModelRef("string"))
+				.parameterType("header")
+				.required(false).build();
+		pars.add(tokenPar.build());
+		// 添加head参数end
+		return pars;
+	}
+}

@@ -102,7 +102,6 @@ public class GeneratroInit {
 		return generateModelDTOList;
 	}
 	
-	//simpleGeneratorConfiguration
 	@Bean
 	public SimpleGeneratorConfigurationDTO simpleGeneratorConfigurationDTO(SimpleGeneratorConfiguration simpleGeneratorConfiguration) {
 		SimpleGeneratorConfigurationDTO simpleGeneratorConfigurationDTO = new SimpleGeneratorConfigurationDTO();

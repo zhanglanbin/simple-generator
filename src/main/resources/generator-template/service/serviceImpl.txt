@@ -1,0 +1,138 @@
+package [(${generateModelDTO.serviceImplPackagePath})];
+
+[(${importPackage})]
+
+/**
+* @ClassName: [(${generateModelDTO.serviceImplClassName})]
+* @Description: [(${generateModelDTO.explain})]相关接口实现
+* @author [(${generateModelDTO.author})]
+* @date [(${notesDate})]
+*/
+@Service
+public class [(${generateModelDTO.serviceImplClassName})] implements [(${generateModelDTO.serviceClassName})] {
+
+	private static final Logger log = LoggerFactory.getLogger([(${generateModelDTO.serviceImplClassName})].class);
+	
+	@Autowired
+    private [(${generateModelDTO.daoClassName})] [(${generateModelDTO.daoVariableName})];
+	
+	
+	/**
+    * @Title: save
+    * @author [(${generateModelDTO.author})]
+    * @Description: 保存[(${generateModelDTO.explain})]
+    * @param [(${generateModelDTO.modelVariableName})] [(${generateModelDTO.explain})]
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]> 返回保存成功后的数据
+    * @throws
+    */
+    @Transactional
+    @Override
+	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]> insert([(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]) {
+		[(${generateModelDTO.daoVariableName})].insert([(${generateModelDTO.modelVariableName})]);
+		return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]>().success().setData([(${generateModelDTO.modelVariableName})]);
+	}
+	
+	
+	/**
+    * @Title: deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]
+    * @author [(${generateModelDTO.author})]
+    * @Description: 删除[(${generateModelDTO.explain})]
+    * @param [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean> 返回成功或失败
+    * @throws
+    */
+    @Transactional
+    @Override
+	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean> deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelPrimaryKeyInfo.javaTypeSimpleName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]) {
+		int result = -1;
+		try {
+			result = [(${generateModelDTO.daoVariableName})].deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
+			if(result != 1){
+				log.debug("删除单条记录异常::{}", [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
+				throw new RuntimeException(new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean>().fail().addFailMessages(State.$99990).toString());
+			}
+			return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean>().success();
+		} catch (RuntimeException re) {
+			log.error("{}, [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]::{}, 删除错误条数为::{}", re, [(${generateModelDTO.modelPrimaryKeyInfo.javaName})], result);
+			throw new RuntimeException(re);
+		} catch (Exception e) {
+			log.error("{}, [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]::{}, 删除错误条数为::{}", e, [(${generateModelDTO.modelPrimaryKeyInfo.javaName})], result);
+			throw new RuntimeException(e);
+		}
+	}
+	
+	
+	/**
+    * @Title: updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]
+    * @author [(${generateModelDTO.author})]
+    * @Description: 修改[(${generateModelDTO.explain})]
+    * @param [(${generateModelDTO.modelVariableName})] [(${generateModelDTO.explain})]
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean> 返回成功或失败
+    * @throws
+    */
+    @Transactional
+    @Override
+	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean> updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]) {
+		int result = -1;
+		try{
+			if(null == [(${generateModelDTO.modelVariableName})].get[(${generateModelDTO.daoModelPrimaryKeyMethodName})]()){
+				log.debug("修改操作参数不能为空::{}", [(${generateModelDTO.modelVariableName})]);
+				return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean>().fail().addFailMessages(State.$99989);
+			}
+			
+			result = [(${generateModelDTO.daoVariableName})].updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelVariableName})]);
+			if(result != 1){
+				throw new RuntimeException(new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean>().fail().addFailMessages(State.$99988).toString());
+			}
+			return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean>().success();
+		} catch(RuntimeException re) {
+			log.error("{}, [(${generateModelDTO.modelVariableName})]::{}, 修改条数错误为::{}", re, [(${generateModelDTO.modelVariableName})], result);
+			throw new RuntimeException(re);
+		} catch(Exception e) {
+			log.error("{}, [(${generateModelDTO.modelVariableName})]::{}, 修改条数错误为::{}", e, [(${generateModelDTO.modelVariableName})], result);
+			throw new RuntimeException(e);
+		}
+	}
+	
+	
+	/**
+    * @Title: findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]
+    * @author [(${generateModelDTO.author})]
+    * @Description: 查询[(${generateModelDTO.explain})]
+    * @param [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]> 成功则返回单条数据
+    * @throws
+    */
+	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]> findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelPrimaryKeyInfo.javaTypeSimpleName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]) {
+		
+		[(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})] = [(${generateModelDTO.daoVariableName})].findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
+		if(null == [(${generateModelDTO.modelVariableName})]){
+			return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]>().fail().addFailMessages(State.$99987);
+		}
+		
+		return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]>().success().setData([(${generateModelDTO.modelVariableName})]);
+	}
+	
+	
+	/**
+    * @Title: findList
+    * @author [(${generateModelDTO.author})]
+    * @Description: 查询[(${generateModelDTO.explain})]列表
+    * @param [(${generateModelDTO.modelQueryVariableName})] [(${generateModelDTO.explain})]查询条件
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<[(${generateModelDTO.modelClassName})]>> 成功则返回一条或多条数据
+    * @throws
+    */
+	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<List<[(${generateModelDTO.modelClassName})]>>> findList([(${generateModelDTO.modelQueryClassName})] [(${generateModelDTO.modelQueryVariableName})]){
+		int row = [(${generateModelDTO.daoVariableName})].findTotalRow([(${generateModelDTO.modelQueryVariableName})]);
+		if(row < 1) {
+			log.debug("没有符合该条件::{}的数据", [(${generateModelDTO.modelQueryVariableName})]);
+			return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<List<[(${generateModelDTO.modelClassName})]>>>().fail().addFailMessages(State.$99987);
+		}
+		
+		List<[(${generateModelDTO.modelClassName})]> [(${generateModelDTO.modelListVariableName})] = [(${generateModelDTO.daoVariableName})].findList([(${generateModelDTO.modelQueryVariableName})]);
+		[(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<List<[(${generateModelDTO.modelClassName})]>> [(${pagingVariableName})] = new [(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<>();
+		[(${pagingVariableName})].setList([(${generateModelDTO.modelListVariableName})]);
+		[(${pagingVariableName})].setTotalRow(row);
+		return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<List<[(${generateModelDTO.modelClassName})]>>>().success().setData([(${pagingVariableName})]);
+	}
+}

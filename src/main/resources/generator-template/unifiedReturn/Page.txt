@@ -1,0 +1,59 @@
+package [(${simpleGeneratorConfigurationDTO.groupId})].response;
+
+import java.io.Serializable;
+import java.util.Collections;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+/**
+ * @Description: 分页数据
+ * @author [(${simpleGeneratorConfigurationDTO.author})]
+ * @date: [(${notesDate})]
+ * */
+@ApiModel(value="分页数据",description="分页数据")
+public class [(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<T> implements Serializable {
+
+	private static final long serialVersionUID = [(${serialVersionUID})];
+	
+	
+	/**
+	 * 数据总条数
+	 * */
+	@ApiModelProperty(value="数据总条数")
+	private int totalRow;
+	
+    /**
+     * 返回对象
+     * */
+	@ApiModelProperty(value="执行结果的数据")
+    private T list;
+	
+	
+	@SuppressWarnings("unchecked")
+	public [(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]() {
+		this.totalRow = 0;
+		this.list = (T) Collections.emptyList();
+	}
+	
+	
+	public int getTotalRow() {
+		return totalRow;
+	}
+	public [(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<T> setTotalRow(int totalRow) {
+		this.totalRow = totalRow;
+		return this;
+	}
+	
+	public T getList() {
+		return list;
+	}
+	public [(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<T> setList(T list) {
+		this.list = list;
+		return this;
+	}
+	@Override
+	public String toString() {
+		return "[(${simpleGeneratorConfigurationDTO.unifiedPageClassName})] [totalRow=" + totalRow + ", list=" + list + "]";
+	}
+}

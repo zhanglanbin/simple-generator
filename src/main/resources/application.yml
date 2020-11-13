@@ -1,13 +1,25 @@
-spring:  thymeleaf:    cache: false
-  main:
-    allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
-
 simple-generator: 
   database-url: jdbc:mysql://192.168.0.202:3306/simple_generator_demo?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8
   database-username: root
   database-password: secton!!
   projectPath: D:\EclipseWorkSpace\test
   author: zhanglanbin
+  # 是否生成工程
+  isCreateProject: true
+  # 是否使用swagger
+  swaggerAnnotation: true
+  # 是否生成controller层
+  generateController: true
+  # 是否生成service层
+  generateService: true
+  # 是否生成dao层, 包括xml
+  generateDao: true
+  # 是否生成查询model
+  generateQueryModel: true
+  # 是否生成model 属性定义接口
+  generateModelMD: false
+  # 是否生成pojo实体类, 此项为false的话, 所有的model都不会生成
+  generatePojo: true
   groupPropertiesList: 
     - group-name: user
       group-table-name: 

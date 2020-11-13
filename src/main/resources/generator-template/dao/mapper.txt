@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper 
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="[(${generateModelDTO.daoPackage})]">
+
+	<!-- 查询所有字段 -->
+	<sql id="findAllColumns">
+		[(${findAllColumns})]
+	</sql>
+
+	<!-- 查询所有, 模糊条件匹配 -->
+	<sql id="findAllConditionVague">
+		[(${findAllConditionVague})]
+	</sql>
+
+	<!-- 查询所有, 精确条件匹配 -->
+	<sql id="findAllCondition">
+		[(${findAllCondition})]
+	</sql>
+
+	<!-- 插入 -->
+	<insert id="insert" parameterType="[(${generateModelDTO.modelPackage})]"
+						useGeneratedKeys="true" keyProperty="[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]" keyColumn="[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]">
+		<if test="[(${generateModelDTO.modelVariableName})]!=null">
+			INSERT INTO [(${generateModelDTO.modelTableName})] (
+				[(${inDataColumns})]
+			) VALUES (
+				[(${inJdbcTypeColumns})]
+			)
+		</if>
+	</insert>
+
+	<!-- 动态插入 -->
+	<insert id="insertDynamic" parameterType="[(${generateModelDTO.modelPackage})]"
+						useGeneratedKeys="true" keyProperty="[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]" keyColumn="[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]">
+		<if test="[(${generateModelDTO.modelVariableName})]!=null">
+			INSERT INTO [(${generateModelDTO.modelTableName})]
+			<set>
+				[(${dynamicAddModelColumns})]
+			</set>
+		</if>
+	</insert>
+
+	<!-- 批量插入 -->
+	<insert id="insertBatch" parameterType="java.util.List"
+						useGeneratedKeys="true" keyProperty="[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]" keyColumn="[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]">
+		<if test="[(${generateModelDTO.modelListVariableName})]!=null and [(${generateModelDTO.modelListVariableName})].size()>0">
+			INSERT INTO [(${generateModelDTO.modelTableName})] (
+				[(${inDataColumns})]
+			) VALUES 
+			<foreach collection="[(${generateModelDTO.modelListVariableName})]" item="[(${generateModelDTO.modelVariableName})]" index="index" separator=",">
+			(
+				[(${inJdbcTypeColumns})]
+			)
+			</foreach>
+		</if>
+	</insert>
+
+	<!-- 删除 By 主键 -->
+	<delete id="deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]" parameterType="[(${modelPrimaryKeyJavaTypeName})]">
+		<if test="[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]!=null and [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]!=''">
+			DELETE FROM [(${generateModelDTO.modelTableName})]
+			WHERE [(${generateModelDTO.modelPrimaryKeyInfo.name})]=[(${modelPrimaryKeyMapper})]
+		</if>
+	</delete>
+
+	<!-- 批量删除 By 主键 -->
+	<delete id="deleteBy[(${generateModelDTO.daoModelPrimaryKeyListMethodName})]" parameterType="java.util.List">
+		<if test="[(${generateModelDTO.daoModelPrimaryKeyListParamVariableName})]!=null and [(${generateModelDTO.daoModelPrimaryKeyListParamVariableName})].size()>0">
+			DELETE FROM [(${generateModelDTO.modelTableName})]
+			<where>
+				[(${generateModelDTO.modelPrimaryKeyInfo.name})] in
+				<foreach collection="[(${generateModelDTO.daoModelPrimaryKeyListParamVariableName})]" item="[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]" open="(" separator="," close=")">
+					#{[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]}
+				</foreach>
+			</where>
+		</if>
+	</delete>
+
+	<!-- 修改 By 主键 -->
+	<update id="updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]" parameterType="[(${generateModelDTO.modelPackage})]">
+		<if test="[(${generateModelDTO.modelVariableName})].[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]!=null and [(${generateModelDTO.modelVariableName})].[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]!=''">
+			UPDATE [(${generateModelDTO.modelTableName})]
+			<set>
+				[(${dynamicUpdateModelColumns})]
+			</set>
+			WHERE [(${generateModelDTO.modelPrimaryKeyInfo.name})] = #{[(${generateModelDTO.modelVariableName})].[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]}
+		</if>
+	</update>
+
+	<!-- 批量修改 By 主键 -->
+	<update id="updateBy[(${generateModelDTO.daoModelPrimaryKeyListMethodName})]" parameterType="java.util.List">
+		<if test="[(${generateModelDTO.modelListVariableName})]!=null and [(${generateModelDTO.modelListVariableName})].size()>0">
+			<foreach collection="[(${generateModelDTO.modelListVariableName})]" item="[(${generateModelDTO.modelVariableName})]" index="index" open="" close="" separator=";">
+				UPDATE [(${generateModelDTO.modelTableName})]
+				<set>
+				[(${batchDynamicUpdateModelColumns})]
+				</set>
+				<where>
+					[(${generateModelDTO.modelPrimaryKeyInfo.name})] = #{[(${generateModelDTO.modelVariableName})].[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]}
+				</where>
+			</foreach>
+		</if>
+	</update>
+
+	<!-- 主键查询 -->
+	<select id="findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]" parameterType="[(${modelPrimaryKeyJavaTypeName})]" resultType="[(${generateModelDTO.modelPackage})]">
+		<if test="[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]!=null and [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]!=''">
+			SELECT
+				<include refid="findAllColumns"/>
+			FROM [(${generateModelDTO.modelTableName})]
+			<where>
+				[(${generateModelDTO.modelPrimaryKeyInfo.name})] = [(${modelPrimaryKeyMapper})]
+			</where>
+		</if>
+	</select>
+
+	<!-- 多个主键查询 -->
+	<select id="findBy[(${generateModelDTO.daoModelPrimaryKeyListMethodName})]" parameterType="java.util.List" resultType="[(${generateModelDTO.modelPackage})]">
+		<if test="[(${generateModelDTO.daoModelPrimaryKeyListParamVariableName})]!=null and [(${generateModelDTO.daoModelPrimaryKeyListParamVariableName})].size()>0">
+			SELECT
+				<include refid="findAllColumns"/>
+			FROM [(${generateModelDTO.modelTableName})]
+			<where>
+				[(${generateModelDTO.modelPrimaryKeyInfo.name})] in
+				<foreach collection="[(${generateModelDTO.daoModelPrimaryKeyListParamVariableName})]" item="[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]" index="index" open="(" separator="," close=")">
+					#{[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]}
+				</foreach>
+			</where>
+		</if>
+	</select>
+	[# th:if="${simpleGeneratorConfigurationDTO.generateQueryModel}"]
+	<!-- findList查询数据行数 -->
+	<select id="findTotalRow" parameterType="[(${generateModelDTO.modelQueryPackage})]" resultType="int">
+		SELECT
+			COUNT(0)
+		FROM [(${generateModelDTO.modelTableName})]
+		<where>
+			<!-- 是否精确匹配, 参数不等于null, 并且等于true, 为精确匹配 -->
+			<if test="isAccurate!=null and isAccurate==true">
+				<include refid="findAllCondition"/>
+			</if>
+			<!-- 是否模糊匹配, 参数等于null, 或者等于false, 为模糊匹配 -->
+			<if test="isAccurate==null or isAccurate==false">
+				<include refid="findAllConditionVague"/>
+			</if>
+		</where>
+	</select>
+	
+	<!-- findList查询多行数据(支持: 分页, 精确匹配, 模糊匹配) -->
+	<select id="findList" parameterType="[(${generateModelDTO.modelQueryPackage})]"
+										resultType="[(${generateModelDTO.modelPackage})]">
+		SELECT
+			<include refid="findAllColumns"/>
+		FROM [(${generateModelDTO.modelTableName})]
+		<where>
+			<!-- 是否精确匹配, 参数不等于null, 并且等于true, 为精确匹配 -->
+			<if test="isAccurate!=null and isAccurate==true">
+				<include refid="findAllCondition"/>
+			</if>
+			<!-- 是否模糊匹配, 参数等于null, 或者等于false, 为模糊匹配 -->
+			<if test="isAccurate==null or isAccurate==false">
+				<include refid="findAllConditionVague"/>
+			</if>
+		</where>
+		<if test="endRowNumber!=null and endRowNumber>0">
+			limit #{startRowNumber,jdbcType=INTEGER},#{endRowNumber,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<!-- findList 动态查询多行数据(支持: 分页, 精确匹配, 模糊匹配, 自定义字段) -->
+	<select id="findListByDynamicColumn" parameterType="[(${generateModelDTO.modelQueryPackage})]"
+										resultType="[(${generateModelDTO.modelPackage})]">
+		<if test="columnList!=null and columnList.size()>0">
+			SELECT
+				<foreach collection="columnList" item="column" index="index" separator=",">
+					[(${dynamicFindColumns})]
+				</foreach>
+			FROM [(${generateModelDTO.modelTableName})]
+			<where>
+				<!-- 是否精确匹配, 参数不等于null, 并且等于true, 为精确匹配 -->
+				<if test="isAccurate!=null and isAccurate==true">
+					<include refid="findAllCondition"/>
+				</if>
+				<!-- 是否模糊匹配, 参数等于null, 或者等于false, 为模糊匹配 -->
+				<if test="isAccurate==null or isAccurate==false">
+					<include refid="findAllConditionVague"/>
+				</if>
+			</where>
+			<if test="endRowNumber!=null and endRowNumber>0">
+				limit #{startRowNumber,jdbcType=INTEGER},#{endRowNumber,jdbcType=INTEGER}
+			</if>
+		</if>
+	</select>[/]
+</mapper>

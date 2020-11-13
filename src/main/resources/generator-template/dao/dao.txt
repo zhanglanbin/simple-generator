@@ -1,0 +1,41 @@
+package [(${generateModelDTO.daoPackagePath})];
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import [(${generateModelDTO.modelPackage})];
+[# th:if="${simpleGeneratorConfigurationDTO.generateQueryModel}"]import [(${generateModelDTO.modelQueryPackage})];[/]
+
+/**
+ * @Title: [(${generateModelDTO.daoClassName})]
+ * @Description: [(${generateModelDTO.explain})]
+ * @author: [(${generateModelDTO.author})]
+ * @date: [(${notesDate})]
+ * */
+public interface [(${generateModelDTO.daoClassName})] {
+
+	public int insert(@Param("[(${generateModelDTO.modelVariableName})]") [(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]);
+
+	public int insertDynamic(@Param("[(${generateModelDTO.modelVariableName})]") [(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]);
+
+	public int insertBatch(@Param("[(${generateModelDTO.modelListVariableName})]") List<[(${generateModelDTO.modelClassName})]> [(${generateModelDTO.modelListVariableName})]);
+
+	public int deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${modelPrimaryKeyJavaTypeName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
+
+	public int deleteBy[(${generateModelDTO.daoModelPrimaryKeyListMethodName})](@Param("[(${generateModelDTO.daoModelPrimaryKeyListParamVariableName})]") List<[(${modelPrimaryKeyJavaTypeName})]> [(${generateModelDTO.daoModelPrimaryKeyListParamVariableName})]);
+
+	public int updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})](@Param("[(${generateModelDTO.modelVariableName})]") [(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]);
+
+	public int updateBy[(${generateModelDTO.daoModelPrimaryKeyListMethodName})](@Param("[(${generateModelDTO.modelListVariableName})]") List<[(${generateModelDTO.modelClassName})]> [(${generateModelDTO.modelListVariableName})]);
+
+	public [(${generateModelDTO.modelClassName})] findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${modelPrimaryKeyJavaTypeName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
+
+	public List<[(${generateModelDTO.modelClassName})]> findBy[(${generateModelDTO.daoModelPrimaryKeyListMethodName})](@Param("[(${generateModelDTO.daoModelPrimaryKeyListParamVariableName})]") List<[(${modelPrimaryKeyJavaTypeName})]> [(${generateModelDTO.daoModelPrimaryKeyListParamVariableName})]);
+	[# th:if="${simpleGeneratorConfigurationDTO.generateQueryModel}"]
+	public int findTotalRow([(${generateModelDTO.modelQueryClassName})] [(${generateModelDTO.modelQueryVariableName})]);
+	
+	public List<[(${generateModelDTO.modelClassName})]> findList([(${generateModelDTO.modelQueryClassName})] [(${generateModelDTO.modelQueryVariableName})]);
+
+	public List<[(${generateModelDTO.modelClassName})]> findListByDynamicColumn([(${generateModelDTO.modelQueryClassName})] [(${generateModelDTO.modelQueryVariableName})]);[/]
+}

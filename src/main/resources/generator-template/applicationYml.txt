@@ -1,12 +1,12 @@
-#swagger配置
+# 在线文档配置
 knife4j:
-  enable: true
+  enable: true	#是否开启在线文档
   basic:
-    enable: true
+    enable: true	#是否开启文档访问认证
     username: admin
     password: 123456
   setting:
-    enableHost: true
+    enableHost: true	#是否开启自定义host地址
 
 
 
@@ -25,7 +25,7 @@ server:
   
 spring:
   application:
-    name: ${generator.projectName}
+    name: [(${simpleGeneratorConfigurationDTO.projectName})]
   devtools:
     restart:
       enabled: false
@@ -36,7 +36,6 @@ spring:
         strategy: 
           content: 
             enabled: true #是否开启内容版本策略，默认为false
-            paths: /**  #指定要应用的版本的路径，多个以逗号分隔，默认为:[/**]
   jackson:
     #default-property-inclusion: NON_NULL  #请求不返回空字段
     date-format: 'yyyy-MM-dd HH:mm:ss'
@@ -50,9 +49,9 @@ spring:
   jms:
     pub-sub-domain: true #默认false 只提供queue模式，如果要开启topic,必须设置为true
   datasource: 
-    url: ${generator.databaseUrl}          #数据库名称
-    username: ${generator.databaseUsername}
-    password: ${generator.databasePassword}
+    url: [(${simpleGeneratorConfigurationDTO.databaseUrl})]          #数据库名称
+    username: [(${simpleGeneratorConfigurationDTO.databaseUsername})]
+    password: [(${simpleGeneratorConfigurationDTO.databasePassword})]
     driver-class-name: com.mysql.jdbc.Driver            #mysql 驱动包
     type: com.alibaba.druid.pool.DruidDataSource          #当前数据源操作类型
     #datasource druid pool
@@ -96,7 +95,7 @@ spring:
         allow: 218.70.17.230,192.168.0.68,192.168.0.82 #IP白名单(没有配置或者为空，则允许所有访问)
         deny:  #IP黑名单 (存在共同时，deny优先于allow)
       #Spring监控，对内部各接口调用的监控
-      aop-patterns: ${generator.groupId}.service.*.*,${generator.groupId}.dao.*.*,${generator.groupId}.controller.*.*,classpath:mybatis.mapper.*.*
+      aop-patterns: [(${simpleGeneratorConfigurationDTO.groupId})].service.*.*,[(${simpleGeneratorConfigurationDTO.groupId})].dao.*.*,[(${simpleGeneratorConfigurationDTO.groupId})].controller.*.*,classpath:mybatis.mapper.*.*
             #配置wall filter
       filter: 
         wall: 
@@ -135,12 +134,10 @@ logback:
 
 #mybatis配置
 mybatis:
-  type-aliases-package: ${generator.modelPackagePath}   #所有实体类所在包
+  config-location: classpath:mybatis/mybatis.cfg.xml      #mybatis配置文件所在路径
+  type-aliases-package: [(${simpleGeneratorConfigurationDTO.modelPackagePath})]   #所有实体类所在包
   mapper-locations:
     - classpath:mybatis/mapper/**/*.xml                   #mapper映射文件
-  configuration: 
-    map-underscore-to-camel-case: false    #true开启驼峰命名规则
-    cache-enabled: true
 
 
 

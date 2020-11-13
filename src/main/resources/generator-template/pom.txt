@@ -2,34 +2,32 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>${generator.groupId}</groupId>
-	<artifactId>${generator.projectName}</artifactId>
+	<groupId>[(${simpleGeneratorConfigurationDTO.groupId})]</groupId>
+	<artifactId>[(${simpleGeneratorConfigurationDTO.projectName})]</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>${generator.projectName}</name>
+	<name>[(${simpleGeneratorConfigurationDTO.projectName})]</name>
 	<packaging>jar</packaging>
 
 	<properties>
 		<skipTests>true</skipTests>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<start-class>${generator.groupId}.MainApp</start-class>
-		<parentdir>${generator.projectPath}</parentdir>
-		<maven.compiler.source>${generator.javaJdkVersion}</maven.compiler.source>
-		<maven.compiler.target>${generator.javaJdkVersion}</maven.compiler.target>
+		<start-class>[(${simpleGeneratorConfigurationDTO.groupId})].MainApp</start-class>
+		<parentdir>[(${simpleGeneratorConfigurationDTO.projectPath})]</parentdir>
+		<maven.compiler.source>[(${simpleGeneratorConfigurationDTO.javaJdkVersion})]</maven.compiler.source>
+		<maven.compiler.target>[(${simpleGeneratorConfigurationDTO.javaJdkVersion})]</maven.compiler.target>
 
 		<springboot.version>2.3.4.RELEASE</springboot.version>
 		<logback.verson>1.2.3</logback.verson>
 		<junit.version>4.12</junit.version>
 		<mysql.version>8.0.15</mysql.version>
 		<springloaded.version>1.2.8.RELEASE</springloaded.version>
-		<knife4j-spring-boot-starter.version>2.0.5</knife4j-spring-boot-starter.version>
 		<alibaba.druid.version>1.1.24</alibaba.druid.version>
 		<alibaba.fastjson.version>1.2.73</alibaba.fastjson.version>
 		<mybatis.verson>2.1.3</mybatis.verson>
 		<mysql.version>8.0.21</mysql.version>
-		<mybatis.plus.version>3.0.6</mybatis.plus.version>
-		<knife4j-spring-boot-starter.version>2.0.6</knife4j-spring-boot-starter.version>
 		<fastjson.version>1.2.15</fastjson.version>
+		<knife4j-spring-boot-starter.version>2.0.7</knife4j-spring-boot-starter.version>
 		<swagger2.version>2.9.2</swagger2.version>
 		<swagger-models.version>1.6.2</swagger-models.version>
 	</properties>
@@ -68,7 +66,7 @@
         <dependency>
 			<groupId>com.github.xiaoymin</groupId>
 			<artifactId>knife4j-spring-boot-starter</artifactId>
-			<version>2.0.7</version>
+			<version>${knife4j-spring-boot-starter.version}</version>
 			<!-- 排除包 -->
 			<exclusions>
 				<exclusion>
@@ -162,7 +160,7 @@
 
 	<build>
 		<!-- 指定package生成的文件名为myApplication.jar -->
-		<finalName>simplify-generator</finalName>
+		<finalName>${project.name}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

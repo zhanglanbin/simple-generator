@@ -1,0 +1,55 @@
+package [(${simpleGeneratorConfigurationDTO.groupId})].response;
+
+import java.io.Serializable;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+/**
+ * @Description:失败原因, 用以统一响应数据中, 赋值错误原因信息使用
+ * @author [(${simpleGeneratorConfigurationDTO.author})]
+ * @date: [(${notesDate})]
+ * */
+@ApiModel(value = "消息" ,description = "消息")
+public class MyMessage implements Serializable{
+
+	private static final long serialVersionUID = [(${serialVersionUID})];
+	/**
+	 * 代码
+	 * */
+	@ApiModelProperty(value = "代码" ,example = "99999")
+	private String code;
+	/**
+	 * 信息
+	 * */
+	@ApiModelProperty(value = "文本信息" ,example = "系统错误")
+	private Object message;
+	
+	public MyMessage() {}
+	
+	public MyMessage(String code ,Object message) {
+		this.code = code;
+		this.message = message;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public Object getMessage() {
+		return message;
+	}
+
+	public void setMessage(Object message) {
+		this.message = message;
+	}
+
+	@Override
+	public String toString() {
+		return "MyMessage [code=" + code + ", message=" + message + "]";
+	}
+}

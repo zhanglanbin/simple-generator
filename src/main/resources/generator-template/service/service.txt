@@ -1,0 +1,62 @@
+package [(${generateModelDTO.servicePackagePath})];
+
+[(${importPackage})]
+
+/**
+* @ClassName: [(${generateModelDTO.serviceClassName})]
+* @Description: [(generateModelDTO.explain)]相关接口
+* @author [(${generateModelDTO.author})]
+* @date [(${notesDate})]
+*/
+public interface [(${generateModelDTO.serviceClassName})] {
+	/**
+    * @Title: save
+    * @author [(${generateModelDTO.author})]
+    * @Description: 保存[(generateModelDTO.explain)]
+    * @param [(${generateModelDTO.modelVariableName})] [(generateModelDTO.explain)]
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]> 返回保存成功后的数据
+    * @throws
+    */
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : ${generateModelDTO.modelClassName})][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<[(${generateModelDTO.modelClassName})]>[/] insert([(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]);
+	
+	/**
+    * @Title: deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]
+    * @author [(${generateModelDTO.author})]
+    * @Description: 删除[(generateModelDTO.explain)]
+    * @param [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean> 返回成功或失败
+    * @throws
+    */
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : boolean)][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<Boolean>[/] deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelPrimaryKeyInfo.javaTypeSimpleName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
+	
+	
+	/**
+    * @Title: updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]
+    * @author [(${generateModelDTO.author})]
+    * @Description: 修改[(generateModelDTO.explain)]
+    * @param [(${generateModelDTO.modelVariableName})] [(generateModelDTO.explain)]
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean> 返回成功或失败
+    * @throws
+    */
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : boolean)][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<Boolean>[/] updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]);
+	
+	/**
+    * @Title: findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]
+    * @author [(${generateModelDTO.author})]
+    * @Description: 查询[(generateModelDTO.explain)]
+    * @param [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]> 成功则返回单条数据
+    * @throws
+    */
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : ${generateModelDTO.modelClassName})][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<[(${generateModelDTO.modelClassName})]>[/] findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelPrimaryKeyInfo.javaTypeSimpleName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
+	[# th:if="${simpleGeneratorConfigurationDTO.generateQueryModel}"]
+	/**
+    * @Title: findList
+    * @author [(${generateModelDTO.author})]
+    * @Description: 查询[(generateModelDTO.explain)]列表
+    * @param [(${generateModelDTO.modelQueryVariableName})] [(generateModelDTO.explain)]查询条件
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<[(${generateModelDTO.modelClassName})]>> 成功则返回一条或多条数据
+    * @throws
+    */
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : List)][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==false"]<[(${generateModelDTO.modelClassName})]>[/][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<[(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<List<[(${generateModelDTO.modelClassName})]>>>[/] findList([(${generateModelDTO.modelQueryClassName})] [(${generateModelDTO.modelQueryVariableName})]);[/]
+}

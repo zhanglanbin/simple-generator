@@ -1,21 +1,24 @@
-package ${generator.modelPackagePath};
+package [(${generateModelDTO.modelPackagePath})];
 
-${generator.importPackage}
-
+[(${importPackage})]
 /**
- * @Title: ${generator.modelClassName}
- * @Description: ${generator.explain}
- * @author: ${generator.author}
- * @date: ${generator.date}
+ * @Title: [(${generateModelDTO.modelClassName})]
+ * @Description: [(${generateModelDTO.explain})]
+ * @author: [(${generateModelDTO.author})]
+ * @date: [(${notesDate})]
  * */
-${generator.swaggerApiModelAnnotation}
-public class ${generator.modelClassName} implements Serializable {
+[# th:if="${generateModelDTO.swaggerAnnotation}"]@ApiModel(value = "[(${generateModelDTO.explain})]", description = "[(${generateModelDTO.explain})]")[/]
+public class [(${generateModelDTO.modelClassName})] implements Serializable {
 
-	private static final long serialVersionUID = ${generator.serialVersionUID};
-
-	${generator.modelAttribute}
-	${generator.getAndSetMethod}
-	${generator.toString}
-	${generator.hashCode}
-	${generator.equals}
+	private static final long serialVersionUID = [(${serialVersionUID})];
+	
+	[(${attribute})]
+	
+	[(${getSetMethod})]
+	
+	[(${modelToString})]
+	
+	[(${modelHashCode})]
+	
+	[(${modelEquals})]
 }

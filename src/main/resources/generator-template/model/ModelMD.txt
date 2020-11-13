@@ -1,11 +1,11 @@
-package ${generator.modelMDPackagePath};
+package [(${generateModelDTO.modelMDPackagePath})];
 
 /**
- * @Title: ${generator.modelMDClassName}
- * @Description: ${generator.explain} 对象的属性名相关定义
- * @author: ${generator.author}
- * @date: ${generator.date}
+ * @Title: [(${generateModelDTO.modelMDClassName})]
+ * @Description: [(${generateModelDTO.explain})] 对象的属性名相关定义
+ * @author: [(${generateModelDTO.author})]
+ * @date: [(${notesDate})]
  * */
-public interface ${generator.modelMDClassName} {
-	${generator.modelMDAttribute}
+public interface [(${generateModelDTO.modelMDClassName})] {
+	[(${propertyName})]
 }

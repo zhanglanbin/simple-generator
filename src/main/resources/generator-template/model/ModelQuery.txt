@@ -1,20 +1,22 @@
-package ${generator.modelQueryPackagePath};
+package [(${generateModelDTO.modelQueryPackagePath})];
 
-${generator.importPackage}
-
+[(${importPackage})]
 /**
- * @Title: ${generator.modelQueryClassName}
- * @Description: ${generator.explain}
- * @author: ${generator.author}
- * @date: ${generator.date}
+ * @Title: [(${generateModelDTO.modelQueryClassName})]
+ * @Description: [(${generateModelDTO.explain})]
+ * @author: [(${generateModelDTO.author})]
+ * @date: [(${notesDate})]
  * */
-${generator.swaggerApiModelAnnotation}
-public class ${generator.modelQueryClassName} extends ${generator.commonQueryClassName} implements Serializable {
+[# th:if="${generateModelDTO.swaggerAnnotation}"]@ApiModel(value = "[(${generateModelDTO.explain})]查询", description = "[(${generateModelDTO.explain})]查询")[/]
+public class [(${generateModelDTO.modelQueryClassName})] extends [(${commonQueryDTO.modelClassName})] implements Serializable {
 
-	private static final long serialVersionUID = ${generator.serialVersionUID};
+	private static final long serialVersionUID = [(${serialVersionUID})];
 	
-	${generator.modelAttribute}
-	${generator.getAndSetMethod}
-	${generator.toString}
-	${generator.querySynamicColumnMethod}
+	[(${attribute})]
+	
+	[(${getSetMethod})]
+	
+	[(${modelToString})]
+	
+	[(${querySynamicColumnMethod})]
 }

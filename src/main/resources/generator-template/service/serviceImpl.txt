@@ -1,0 +1,138 @@
+package [(${generateModelDTO.serviceImplPackagePath})];
+
+[(${importPackage})]
+
+/**
+* @ClassName: [(${generateModelDTO.serviceImplClassName})]
+* @Description: [(${generateModelDTO.explain})]相关接口实现
+* @author [(${generateModelDTO.author})]
+* @date [(${notesDate})]
+*/
+@Service
+public class [(${generateModelDTO.serviceImplClassName})] implements [(${generateModelDTO.serviceClassName})] {
+
+	private static final Logger log = LoggerFactory.getLogger([(${generateModelDTO.serviceImplClassName})].class);
+	
+	@Autowired
+    private [(${generateModelDTO.daoClassName})] [(${generateModelDTO.daoVariableName})];
+	
+	
+	/**
+    * @Title: save
+    * @author [(${generateModelDTO.author})]
+    * @Description: 保存[(${generateModelDTO.explain})]
+    * @param [(${generateModelDTO.modelVariableName})] [(${generateModelDTO.explain})]
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]> 返回保存成功后的数据
+    * @throws
+    */
+    @Transactional
+    @Override
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : ${generateModelDTO.modelClassName})][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<[(${generateModelDTO.modelClassName})]>[/] insert([(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]) {
+		[# th:if="${generateModelDTO.modelPrimaryKeyInfo.isString}"]String uuid = UUID.randomUUID().toString().replace("-", "").toUpperCase();
+		[(${generateModelDTO.modelVariableName})].set[(${generateModelDTO.daoModelPrimaryKeyMethodName})](uuid);[/]
+		[(${generateModelDTO.daoVariableName})].insert([(${generateModelDTO.modelVariableName})]);
+		[# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})].success([(${generateModelDTO.modelVariableName})]);[/][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==false"]return [(${generateModelDTO.modelVariableName})];[/]
+	}
+	
+	
+	/**
+    * @Title: deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]
+    * @author [(${generateModelDTO.author})]
+    * @Description: 删除[(${generateModelDTO.explain})]
+    * @param [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean> 返回成功或失败
+    * @throws
+    */
+    @Transactional
+    @Override
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : boolean)][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<Boolean>[/] deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelPrimaryKeyInfo.javaTypeSimpleName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]) {
+		int result = -1;
+		try {
+			result = [(${generateModelDTO.daoVariableName})].deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
+			if(result != 1){
+				log.debug("删除单条记录异常::{}", [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
+				[# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]throw new RuntimeException([(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})].fail(State.$99990).toString());[/][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==false"]throw new RuntimeException();[/]
+			}
+			[# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})].success();[/][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==false"]return true;[/]
+		} catch (RuntimeException re) {
+			log.error("{}, [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]::{}, 删除错误条数为::{}", re, [(${generateModelDTO.modelPrimaryKeyInfo.javaName})], result);
+			throw new RuntimeException(re);
+		} catch (Exception e) {
+			log.error("{}, [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]::{}, 删除错误条数为::{}", e, [(${generateModelDTO.modelPrimaryKeyInfo.javaName})], result);
+			throw new RuntimeException(e);
+		}
+	}
+	
+	
+	/**
+    * @Title: updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]
+    * @author [(${generateModelDTO.author})]
+    * @Description: 修改[(${generateModelDTO.explain})]
+    * @param [(${generateModelDTO.modelVariableName})] [(${generateModelDTO.explain})]
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean> 返回成功或失败
+    * @throws
+    */
+    @Transactional
+    @Override
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : boolean)][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<Boolean>[/] updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]) {
+		int result = -1;
+		try{
+			if(null == [(${generateModelDTO.modelVariableName})].get[(${generateModelDTO.daoModelPrimaryKeyMethodName})]()){
+				log.debug("修改操作参数不能为空::{}", [(${generateModelDTO.modelVariableName})]);
+				[# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})].fail(State.$99989);[/][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==false"]return false;[/]
+			}
+			
+			result = [(${generateModelDTO.daoVariableName})].updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelVariableName})]);
+			if(result != 1){
+				[# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]throw new RuntimeException([(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})].fail(State.$99988).toString());[/][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==false"]throw new RuntimeException();[/]
+			}
+			[# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})].success();[/][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==false"]return true;[/]
+		} catch(RuntimeException re) {
+			log.error("{}, [(${generateModelDTO.modelVariableName})]::{}, 修改条数错误为::{}", re, [(${generateModelDTO.modelVariableName})], result);
+			throw new RuntimeException(re);
+		} catch(Exception e) {
+			log.error("{}, [(${generateModelDTO.modelVariableName})]::{}, 修改条数错误为::{}", e, [(${generateModelDTO.modelVariableName})], result);
+			throw new RuntimeException(e);
+		}
+	}
+	
+	
+	/**
+    * @Title: findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]
+    * @author [(${generateModelDTO.author})]
+    * @Description: 查询[(${generateModelDTO.explain})]
+    * @param [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]> 成功则返回单条数据
+    * @throws
+    */
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : ${generateModelDTO.modelClassName})][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<[(${generateModelDTO.modelClassName})]>[/] findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelPrimaryKeyInfo.javaTypeSimpleName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]) {
+		[(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})] = [(${generateModelDTO.daoVariableName})].findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
+		[# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]if(null == [(${generateModelDTO.modelVariableName})]){
+			return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})].fail(State.$99987);
+		}
+		return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})].success([(${generateModelDTO.modelVariableName})]);[/][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==false"]return [(${generateModelDTO.modelVariableName})];[/]
+	}
+	
+	[# th:if="${simpleGeneratorConfigurationDTO.generateQueryModel}"]
+	/**
+    * @Title: findList
+    * @author [(${generateModelDTO.author})]
+    * @Description: 查询[(${generateModelDTO.explain})]列表
+    * @param [(${generateModelDTO.modelQueryVariableName})] [(${generateModelDTO.explain})]查询条件
+    * @return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<[(${generateModelDTO.modelClassName})]>> 成功则返回一条或多条数据
+    * @throws
+    */
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : List)][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==false"]<[(${generateModelDTO.modelClassName})]>[/][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<[(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<List<[(${generateModelDTO.modelClassName})]>>>[/] findList([(${generateModelDTO.modelQueryClassName})] [(${generateModelDTO.modelQueryVariableName})]){
+		int row = [(${generateModelDTO.daoVariableName})].findTotalRow([(${generateModelDTO.modelQueryVariableName})]);
+		if(row < 1) {
+			log.debug("没有符合该条件::{}的数据", [(${generateModelDTO.modelQueryVariableName})]);
+			[# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})].fail(State.$99987);[/][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==false"]return null;[/]
+		}
+		
+		List<[(${generateModelDTO.modelClassName})]> [(${generateModelDTO.modelListVariableName})] = [(${generateModelDTO.daoVariableName})].findList([(${generateModelDTO.modelQueryVariableName})]);
+		[# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"][(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<List<[(${generateModelDTO.modelClassName})]>> [(${pagingVariableName})] = new [(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<>();
+		[(${pagingVariableName})].setList([(${generateModelDTO.modelListVariableName})]);
+		[(${pagingVariableName})].setTotalRow(row);
+		return [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})].success([(${pagingVariableName})]);[/][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==false"]return [(${generateModelDTO.modelListVariableName})];[/]
+	}[/]
+}

@@ -10,11 +10,18 @@ public class ColumnInfo implements Serializable {
 
 	private static final long serialVersionUID = -1812119119402313291L;
 
+	/**
+	 * 数据库字段名
+	 * */
 	private String name;
 	/**
 	 * java属性名称
 	 * */
 	private String javaName;
+	/**
+	 * 是否是字符串
+	 * */
+	private boolean isString;
 	/**
 	 * mysql类型
 	 */
@@ -28,9 +35,21 @@ public class ColumnInfo implements Serializable {
 	 * */
 	private Class<?> javaType;
 	/**
+	 * java类型名称
+	 */
+	private String javaTypeSimpleName;
+	/**
 	 * java类型 list泛型
 	 * */
 	private Class<?> javaTypeByListT;
+	/**
+	 * java类型 list泛型 类型名称
+	 */
+	private String javaTypeByListTSimpleName;
+	/**
+	 * java 方法名称
+	 * */
+	private String javaMethodName;
 	/**
 	 * 排序位置
 	 */
@@ -67,6 +86,12 @@ public class ColumnInfo implements Serializable {
 	public void setJavaName(String javaName) {
 		this.javaName = javaName;
 	}
+	public boolean getIsString() {
+		return isString;
+	}
+	public void setIsString(boolean isString) {
+		this.isString = isString;
+	}
 	public String getDataType() {
 		return dataType;
 	}
@@ -85,11 +110,29 @@ public class ColumnInfo implements Serializable {
 	public void setJavaType(Class<?> javaType) {
 		this.javaType = javaType;
 	}
+	public String getJavaTypeSimpleName() {
+		return javaTypeSimpleName;
+	}
+	public void setJavaTypeSimpleName(String javaTypeSimpleName) {
+		this.javaTypeSimpleName = javaTypeSimpleName;
+	}
 	public Class<?> getJavaTypeByListT() {
 		return javaTypeByListT;
 	}
 	public void setJavaTypeByListT(Class<?> javaTypeByListT) {
 		this.javaTypeByListT = javaTypeByListT;
+	}
+	public String getJavaTypeByListTSimpleName() {
+		return javaTypeByListTSimpleName;
+	}
+	public void setJavaTypeByListTSimpleName(String javaTypeByListTSimpleName) {
+		this.javaTypeByListTSimpleName = javaTypeByListTSimpleName;
+	}
+	public String getJavaMethodName() {
+		return javaMethodName;
+	}
+	public void setJavaMethodName(String javaMethodName) {
+		this.javaMethodName = javaMethodName;
 	}
 	public int getSortPosition() {
 		return sortPosition;
@@ -132,8 +175,10 @@ public class ColumnInfo implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "ColumnInfo [name=" + name + ", javaName=" + javaName + ", dataType=" + dataType + ", jdbcType=" + jdbcType + ", javaType=" + javaType
-		        + ", javaTypeByListT=" + javaTypeByListT + ", sortPosition=" + sortPosition + ", isNullable=" + isNullable + ", constraintType="
-		        + constraintType + ", explain=" + explain + ", length=" + length + ", floatLength=" + floatLength + "]";
+		return "ColumnInfo [name=" + name + ", javaName=" + javaName + ", isString=" + isString + ", dataType=" + dataType + ", jdbcType=" + jdbcType
+		        + ", javaType=" + javaType + ", javaTypeSimpleName=" + javaTypeSimpleName + ", javaTypeByListT=" + javaTypeByListT
+		        + ", javaTypeByListTSimpleName=" + javaTypeByListTSimpleName + ", javaMethodName=" + javaMethodName + ", sortPosition=" + sortPosition
+		        + ", isNullable=" + isNullable + ", constraintType=" + constraintType + ", explain=" + explain + ", length=" + length + ", floatLength="
+		        + floatLength + "]";
 	}
 }

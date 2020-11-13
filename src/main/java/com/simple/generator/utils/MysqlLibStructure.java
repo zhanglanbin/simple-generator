@@ -207,6 +207,10 @@ public class MysqlLibStructure {
 				columnInfo.setJavaType(javaType);
 				
 				columnInfo.setJavaTypeSimpleName(javaType.getSimpleName());
+				if(String.class.getName().equals(javaType.getName())) {
+					columnInfo.setIsString(true);
+				}
+				
 				
 				
 				//解析jdbcType

@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+[# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]
 import [(${simpleGeneratorConfigurationDTO.unifiedResponsePackage})];
 import [(${simpleGeneratorConfigurationDTO.unifiedPagePackage})];
-
+[/]
 import [(${generateModelDTO.modelPackage})];
 import [(${generateModelDTO.modelQueryPackage})];
 import [(${generateModelDTO.servicePackage})];
@@ -29,42 +29,42 @@ public class [(${generateModelDTO.controllerClassName})] {
 	@Autowired
 	private [(${generateModelDTO.serviceClassName})] [(${generateModelDTO.serviceVariableName})];
 	
-	@ApiOperation(value = "保存[(${generateModelDTO.explain})]")
+	[# th:if="${generateModelDTO.swaggerAnnotation}"]@ApiOperation(value = "保存[(${generateModelDTO.explain})]")[/]
 	@ResponseBody
 	@PostMapping("/[(${generateModelDTO.modelVariableName})]")
-	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]> insert(@RequestBody [(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]) {
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : ${generateModelDTO.modelClassName})][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<[(${generateModelDTO.modelClassName})]>[/] insert(@RequestBody [(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]) {
 		return [(${generateModelDTO.serviceVariableName})].insert([(${generateModelDTO.modelVariableName})]);
 	}
 	
 	
-	@ApiOperation(value = "删除[(${generateModelDTO.explain})]")
+	[# th:if="${generateModelDTO.swaggerAnnotation}"]@ApiOperation(value = "删除[(${generateModelDTO.explain})]")[/]
 	@ResponseBody
 	@DeleteMapping("/[(${generateModelDTO.modelVariableName})]/{[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]}")
-	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean> deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})](@PathVariable [(${modelPrimaryKeyJavaTypeName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]) {
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : boolean)][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<Boolean>[/] deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})](@PathVariable [(${modelPrimaryKeyJavaTypeName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]) {
 		return [(${generateModelDTO.serviceVariableName})].deleteBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
 	}
 	
 	
-	@ApiOperation(value = "修改[(${generateModelDTO.explain})]")
+	[# th:if="${generateModelDTO.swaggerAnnotation}"]@ApiOperation(value = "修改[(${generateModelDTO.explain})]")[/]
 	@ResponseBody
 	@PutMapping("/[(${generateModelDTO.modelVariableName})]")
-	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<Boolean> updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]) {
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : boolean)][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<Boolean>[/] updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelClassName})] [(${generateModelDTO.modelVariableName})]) {
 		return [(${generateModelDTO.serviceVariableName})].updateBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelVariableName})]);
 	}
 	
 	
-	@ApiOperation(value = "查询[(${generateModelDTO.explain})]")
+	[# th:if="${generateModelDTO.swaggerAnnotation}"]@ApiOperation(value = "查询[(${generateModelDTO.explain})]")[/]
 	@ResponseBody
 	@GetMapping("/[(${generateModelDTO.modelVariableName})]/{[(${generateModelDTO.modelPrimaryKeyInfo.javaName})]}")
-	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${generateModelDTO.modelClassName})]> findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})](@PathVariable [(${modelPrimaryKeyJavaTypeName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]) {
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : ${generateModelDTO.modelClassName})][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<[(${generateModelDTO.modelClassName})]>[/] findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})](@PathVariable [(${modelPrimaryKeyJavaTypeName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]) {
 		return [(${generateModelDTO.serviceVariableName})].findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
 	}
 	
-	
-	@ApiOperation(value = "查询[(${generateModelDTO.explain})]列表")
+	[# th:if="${simpleGeneratorConfigurationDTO.generateQueryModel}"]
+	[# th:if="${generateModelDTO.swaggerAnnotation}"]@ApiOperation(value = "查询[(${generateModelDTO.explain})]列表")[/]
 	@ResponseBody
 	@GetMapping("/[(${generateModelDTO.modelVariableName})]/list")
-	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<[(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<List<[(${generateModelDTO.modelClassName})]>>> findList([(${generateModelDTO.modelQueryClassName})] [(${generateModelDTO.modelQueryVariableName})]) {
+	public [(${simpleGeneratorConfigurationDTO.isCreateProject}==true ? ${simpleGeneratorConfigurationDTO.unifiedResponseClassName} : List)][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==false"]<[(${generateModelDTO.modelClassName})]>[/][# th:if="${simpleGeneratorConfigurationDTO.isCreateProject}==true"]<[(${simpleGeneratorConfigurationDTO.unifiedPageClassName})]<List<[(${generateModelDTO.modelClassName})]>>>[/] findList([(${generateModelDTO.modelQueryClassName})] [(${generateModelDTO.modelQueryVariableName})]) {
 		return [(${generateModelDTO.serviceVariableName})].findList([(${generateModelDTO.modelQueryVariableName})]);
-	}
+	}[/]
 }

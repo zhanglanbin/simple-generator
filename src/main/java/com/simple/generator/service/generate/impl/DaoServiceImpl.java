@@ -15,6 +15,7 @@ import org.thymeleaf.context.Context;
 
 import com.simple.generator.constant.PathConstant;
 import com.simple.generator.pojo.dto.GenerateModelDTO;
+import com.simple.generator.pojo.dto.SimpleGeneratorConfigurationDTO;
 import com.simple.generator.service.generate.GenerateService;
 import com.simple.generator.service.generatro.GeneratroService;
 
@@ -27,6 +28,8 @@ public class DaoServiceImpl implements GenerateService {
 	private GeneratroService generatroService;
 	@Resource
 	private List<GenerateModelDTO> generateModelDTOList;
+	@Resource
+	private SimpleGeneratorConfigurationDTO simpleGeneratorConfigurationDTO;
 	
 	@Override
 	public boolean generate() {
@@ -36,6 +39,7 @@ public class DaoServiceImpl implements GenerateService {
 				String writerPath = generateModelDTO.getDaoJavaFilePath() + File.separatorChar + generateModelDTO.getDaoClassName()+".java";
 				Context context = new Context();
 				context.setVariable("generateModelDTO", generateModelDTO);
+				context.setVariable("simpleGeneratorConfigurationDTO", simpleGeneratorConfigurationDTO);
 				context.setVariable("notesDate", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 				context.setVariable("modelPrimaryKeyJavaTypeName", generateModelDTO.getModelPrimaryKeyInfo().getJavaType().getSimpleName());
 				boolean result = generatroService.templateAnalysisGenerateFile(context, writerPath, PathConstant.generatorTemplatePath+"dao/", "dao");

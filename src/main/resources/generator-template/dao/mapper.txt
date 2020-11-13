@@ -130,7 +130,7 @@
 			</where>
 		</if>
 	</select>
-
+	[# th:if="${simpleGeneratorConfigurationDTO.generateQueryModel}"]
 	<!-- findList查询数据行数 -->
 	<select id="findTotalRow" parameterType="[(${generateModelDTO.modelQueryPackage})]" resultType="int">
 		SELECT
@@ -147,7 +147,7 @@
 			</if>
 		</where>
 	</select>
-
+	
 	<!-- findList查询多行数据(支持: 分页, 精确匹配, 模糊匹配) -->
 	<select id="findList" parameterType="[(${generateModelDTO.modelQueryPackage})]"
 										resultType="[(${generateModelDTO.modelPackage})]">
@@ -192,5 +192,5 @@
 				limit #{startRowNumber,jdbcType=INTEGER},#{endRowNumber,jdbcType=INTEGER}
 			</if>
 		</if>
-	</select>
+	</select>[/]
 </mapper>

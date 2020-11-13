@@ -1,12 +1,12 @@
-#swagger配置
+# 在线文档配置
 knife4j:
-  enable: true
+  enable: true	#是否开启在线文档
   basic:
-    enable: true
+    enable: true	#是否开启文档访问认证
     username: admin
     password: 123456
   setting:
-    enableHost: true
+    enableHost: true	#是否开启自定义host地址
 
 
 

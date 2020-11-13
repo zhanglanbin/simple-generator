@@ -57,13 +57,19 @@ public class ServiceServiceImpl implements GenerateService {
 	
 	
 	protected String assImport(GenerateModelDTO generateModelDTO) {
-		String importStr = "import java.util.List;" + Symbol.lineStr
-				+ Symbol.lineStr
-				+ "import " + simpleGeneratorConfigurationDTO.getUnifiedResponsePackage() + ";" + Symbol.lineStr
-				+ "import " + simpleGeneratorConfigurationDTO.getUnifiedPagePackage() + ";" + Symbol.lineStr
-				+ Symbol.lineStr
-				+ "import " + generateModelDTO.getModelPackage() + ";" + Symbol.lineStr
-				+ "import " + generateModelDTO.getModelQueryPackage() + ";";
+		String importStr = "";
+		if(simpleGeneratorConfigurationDTO.isGenerateQueryModel()) {
+			importStr += "import java.util.List;" + Symbol.lineStr;
+		}
+		if(simpleGeneratorConfigurationDTO.getIsCreateProject()) {
+			importStr += Symbol.lineStr+"import " + simpleGeneratorConfigurationDTO.getUnifiedResponsePackage() + ";" + Symbol.lineStr
+			+ "import " + simpleGeneratorConfigurationDTO.getUnifiedPagePackage() + ";" + Symbol.lineStr;
+		}
+		importStr += Symbol.lineStr
+				+ "import " + generateModelDTO.getModelPackage() + ";" + Symbol.lineStr;
+		if(simpleGeneratorConfigurationDTO.isGenerateQueryModel()) {
+			importStr += "import " + generateModelDTO.getModelQueryPackage() + ";";
+		}
 		return importStr;
 	}
 }

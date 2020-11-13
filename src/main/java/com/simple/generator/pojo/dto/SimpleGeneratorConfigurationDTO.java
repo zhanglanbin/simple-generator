@@ -37,7 +37,7 @@ public class SimpleGeneratorConfigurationDTO implements Serializable {
 	/**
 	 * 是否创建工程, 默认:是
 	 * */
-	private Boolean isCreateProject = true;
+	private Boolean isCreateProject = false;
 	
 	/**
 	 * 工程路径, 如果为空, 默认为生成工具同级路径
@@ -62,7 +62,37 @@ public class SimpleGeneratorConfigurationDTO implements Serializable {
 	/**
 	 * 是否使用swagger注解
 	 * */
-	private boolean swaggerAnnotation = true;
+	private boolean swaggerAnnotation = false;
+	
+	/**
+	 * 是否生成controller层
+	 * */
+	private boolean generateController = false;
+	
+	/**
+	 * 是否生成service层
+	 * */
+	private boolean generateService = false;
+	
+	/**
+	 * 是否生成dao层
+	 * */
+	private boolean generateDao = true;
+	
+	/**
+	 * 是否生成查询model
+	 * */
+	private boolean generateQueryModel = false;
+	
+	/**
+	 * 是否生成model md
+	 * */
+	private boolean generateModelMD = false;
+	
+	/**
+	 * 是否生成pojo
+	 * */
+	private boolean generatePojo = true;
 	
 	/**
 	 * 忽略表前缀
@@ -307,6 +337,46 @@ public class SimpleGeneratorConfigurationDTO implements Serializable {
 
 	public void setSwaggerAnnotation(boolean swaggerAnnotation) {
 		this.swaggerAnnotation = swaggerAnnotation;
+	}
+
+	public boolean isGenerateController() {
+		return generateController;
+	}
+
+	public void setGenerateController(boolean generateController) {
+		this.generateController = generateController;
+	}
+
+	public boolean isGenerateService() {
+		return generateService;
+	}
+
+	public void setGenerateService(boolean generateService) {
+		this.generateService = generateService;
+	}
+
+	public boolean isGenerateDao() {
+		return generateDao;
+	}
+
+	public void setGenerateDao(boolean generateDao) {
+		this.generateDao = generateDao;
+	}
+
+	public boolean isGenerateQueryModel() {
+		return generateQueryModel;
+	}
+
+	public void setGenerateQueryModel(boolean generateQueryModel) {
+		this.generateQueryModel = generateQueryModel;
+	}
+
+	public boolean isGenerateModelMD() {
+		return generateModelMD;
+	}
+
+	public void setGenerateModelMD(boolean generateModelMD) {
+		this.generateModelMD = generateModelMD;
 	}
 
 	public List<String> getIgnoreTalbePrefixList() {
@@ -577,23 +647,34 @@ public class SimpleGeneratorConfigurationDTO implements Serializable {
 		return serialVersionUID;
 	}
 
+	
+	public boolean isGeneratePojo() {
+		return generatePojo;
+	}
+
+	public void setGeneratePojo(boolean generatePojo) {
+		this.generatePojo = generatePojo;
+	}
+
 	@Override
 	public String toString() {
 		return "SimpleGeneratorConfigurationDTO [databaseName=" + databaseName + ", databaseUrl=" + databaseUrl + ", databaseUsername=" + databaseUsername
 		        + ", databasePassword=" + databasePassword + ", isCreateProject=" + isCreateProject + ", projectPath=" + projectPath + ", projectName="
-		        + projectName + ", author=" + author + ", groupId=" + groupId + ", swaggerAnnotation=" + swaggerAnnotation + ", ignoreTalbePrefixList="
-		        + ignoreTalbePrefixList + ", modelPackagePath=" + modelPackagePath + ", modelSetMethodIsReturnThis=" + modelSetMethodIsReturnThis
-		        + ", daoPackagePath=" + daoPackagePath + ", mapperXmlFilePath=" + mapperXmlFilePath + ", servicePackageFilePath=" + servicePackageFilePath
-		        + ", serviceImplPackageFilePath=" + serviceImplPackageFilePath + ", controllerPackageFilePath=" + controllerPackageFilePath
-		        + ", controllerAnnotationList=" + controllerAnnotationList + ", generateModelConfig=" + generateModelConfig + ", toStringFormatType="
-		        + toStringFormatType + ", javaJdkVersion=" + javaJdkVersion + ", dateFormat=" + dateFormat + ", groupPropertiesList=" + groupPropertiesList
-		        + ", listVariableNameSuffix=" + listVariableNameSuffix + ", modelQueryClassSuffix=" + modelQueryClassSuffix + ", modelQuerySubPackageName="
-		        + modelQuerySubPackageName + ", modelMDClassSuffix=" + modelMDClassSuffix + ", modelMDSubPackageName=" + modelMDSubPackageName
-		        + ", daoClassSuffix=" + daoClassSuffix + ", mapperFileNameSuffix=" + mapperFileNameSuffix + ", serviceClassSuffix=" + serviceClassSuffix
-		        + ", serviceImplClassSuffix=" + serviceImplClassSuffix + ", controllerClassSuffix=" + controllerClassSuffix + ", unifiedResponseClassName="
-		        + unifiedResponseClassName + ", unifiedResponsePackage=" + unifiedResponsePackage + ", unifiedPageClassName=" + unifiedPageClassName
-		        + ", unifiedPagePackage=" + unifiedPagePackage + ", swaggerConfigPackagePath=" + swaggerConfigPackagePath + ", swaggerConfigClassName="
-		        + swaggerConfigClassName + ", logbackConfigPackagePath=" + logbackConfigPackagePath + ", logbackConfigClassName=" + logbackConfigClassName
-		        + ", logbackXmlName=" + logbackXmlName + "]";
+		        + projectName + ", author=" + author + ", groupId=" + groupId + ", swaggerAnnotation=" + swaggerAnnotation + ", generateController="
+		        + generateController + ", generateService=" + generateService + ", generateDao=" + generateDao + ", generateQueryModel=" + generateQueryModel
+		        + ", generateModelMD=" + generateModelMD + ", generatePojo=" + generatePojo + ", ignoreTalbePrefixList=" + ignoreTalbePrefixList
+		        + ", modelPackagePath=" + modelPackagePath + ", modelSetMethodIsReturnThis=" + modelSetMethodIsReturnThis + ", daoPackagePath=" + daoPackagePath
+		        + ", mapperXmlFilePath=" + mapperXmlFilePath + ", servicePackageFilePath=" + servicePackageFilePath + ", serviceImplPackageFilePath="
+		        + serviceImplPackageFilePath + ", controllerPackageFilePath=" + controllerPackageFilePath + ", controllerAnnotationList="
+		        + controllerAnnotationList + ", generateModelConfig=" + generateModelConfig + ", toStringFormatType=" + toStringFormatType + ", javaJdkVersion="
+		        + javaJdkVersion + ", dateFormat=" + dateFormat + ", groupPropertiesList=" + groupPropertiesList + ", listVariableNameSuffix="
+		        + listVariableNameSuffix + ", modelQueryClassSuffix=" + modelQueryClassSuffix + ", modelQuerySubPackageName=" + modelQuerySubPackageName
+		        + ", modelMDClassSuffix=" + modelMDClassSuffix + ", modelMDSubPackageName=" + modelMDSubPackageName + ", daoClassSuffix=" + daoClassSuffix
+		        + ", mapperFileNameSuffix=" + mapperFileNameSuffix + ", serviceClassSuffix=" + serviceClassSuffix + ", serviceImplClassSuffix="
+		        + serviceImplClassSuffix + ", controllerClassSuffix=" + controllerClassSuffix + ", unifiedResponseClassName=" + unifiedResponseClassName
+		        + ", unifiedResponsePackage=" + unifiedResponsePackage + ", unifiedPageClassName=" + unifiedPageClassName + ", unifiedPagePackage="
+		        + unifiedPagePackage + ", swaggerConfigPackagePath=" + swaggerConfigPackagePath + ", swaggerConfigClassName=" + swaggerConfigClassName
+		        + ", logbackConfigPackagePath=" + logbackConfigPackagePath + ", logbackConfigClassName=" + logbackConfigClassName + ", logbackXmlName="
+		        + logbackXmlName + "]";
 	}
 }

@@ -17,6 +17,7 @@ import com.simple.generator.constant.PathConstant;
 import com.simple.generator.constant.Symbol;
 import com.simple.generator.pojo.ColumnInfo;
 import com.simple.generator.pojo.dto.GenerateModelDTO;
+import com.simple.generator.pojo.dto.SimpleGeneratorConfigurationDTO;
 import com.simple.generator.service.generate.GenerateService;
 import com.simple.generator.service.generatro.GeneratroService;
 import com.simple.generator.utils.GeneratorUtils;
@@ -30,6 +31,8 @@ public class MapperServiceImpl implements GenerateService {
 	private GeneratroService generatroService;
 	@Resource
 	private List<GenerateModelDTO> generateModelDTOList;
+	@Resource
+	private SimpleGeneratorConfigurationDTO simpleGeneratorConfigurationDTO;
 	
 	@Override
 	public boolean generate() {
@@ -39,6 +42,7 @@ public class MapperServiceImpl implements GenerateService {
 				String writerPath = generateModelDTO.getMapperXmlFilePath() + File.separatorChar + generateModelDTO.getMapperXmlName() + ".xml";
 				Context context = new Context();
 				context.setVariable("generateModelDTO", generateModelDTO);
+				context.setVariable("simpleGeneratorConfigurationDTO", simpleGeneratorConfigurationDTO);
 				context.setVariable("modelPrimaryKeyJavaTypeName", generateModelDTO.getModelPrimaryKeyInfo().getJavaType().getSimpleName());
 				context.setVariable("findAllColumns", findAllColumns(generateModelDTO.getColumnInfos()));
 				context.setVariable("findAllConditionVague", getFindAllConditionVague(generateModelDTO));

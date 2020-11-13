@@ -59,8 +59,14 @@ public class ServiceImplServiceImpl implements GenerateService {
 	
 	
 	protected String assImport(GenerateModelDTO generateModelDTO) {
-		String importStr = "import java.util.List;"+ Symbol.lineStr
-				+ Symbol.lineStr
+		String importStr = "";
+		if(simpleGeneratorConfigurationDTO.isGenerateQueryModel()) {
+			importStr += "import java.util.List;" + Symbol.lineStr;
+		}
+		if(generateModelDTO.getModelPrimaryKeyInfo().getIsString() == true) {
+			importStr += "import java.util.UUID;"+Symbol.lineStr;
+		}
+		importStr += Symbol.lineStr
 				+ "import org.slf4j.Logger;"+ Symbol.lineStr
 				+ "import org.slf4j.LoggerFactory;"+ Symbol.lineStr
 				+ "import org.springframework.beans.factory.annotation.Autowired;"+ Symbol.lineStr
@@ -68,12 +74,16 @@ public class ServiceImplServiceImpl implements GenerateService {
 				+ "import org.springframework.transaction.annotation.Transactional;"+ Symbol.lineStr
 				+ Symbol.lineStr
 				+ "import " + generateModelDTO.getDaoPackage() + ";" + Symbol.lineStr
-				+ "import " + generateModelDTO.getModelPackage() + ";" + Symbol.lineStr
-				+ "import " + generateModelDTO.getModelQueryPackage() + ";" + Symbol.lineStr
-				+ "import " + simpleGeneratorConfigurationDTO.getUnifiedPagePackage() + ";" + Symbol.lineStr
-				+ "import " + simpleGeneratorConfigurationDTO.getUnifiedResponsePackage() + ";" + Symbol.lineStr
-				+ "import " + simpleGeneratorConfigurationDTO.getUnifiedPagePackage().replace("Page", "State") + ";" + Symbol.lineStr
-				+ "import " + generateModelDTO.getServicePackage() + ";";
+				+ "import " + generateModelDTO.getModelPackage() + ";" + Symbol.lineStr;
+		if(simpleGeneratorConfigurationDTO.isGenerateQueryModel()) {
+			importStr += "import " + generateModelDTO.getModelQueryPackage() + ";" + Symbol.lineStr;
+		}
+		if(simpleGeneratorConfigurationDTO.getIsCreateProject()) {
+			importStr += "import " + simpleGeneratorConfigurationDTO.getUnifiedPagePackage() + ";" + Symbol.lineStr
+			+ "import " + simpleGeneratorConfigurationDTO.getUnifiedResponsePackage() + ";" + Symbol.lineStr
+			+ "import " + simpleGeneratorConfigurationDTO.getUnifiedPagePackage().replace("Page", "State") + ";" + Symbol.lineStr;
+		}
+		importStr += "import " + generateModelDTO.getServicePackage() + ";";
 		return importStr;
 	}
 }

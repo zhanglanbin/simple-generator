@@ -50,6 +50,23 @@ public class [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> 
 	@ApiModelProperty(value="执行结果的数据")
     private T data;
 	
+	private [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]() {}
+	
+	private [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})](String code, String message, List<MyMessage> failMessages, List<MyMessage> otherMessages, T data) {
+		this.code = code;
+		this.message = message;
+		this.failMessages = failMessages;
+		this.otherMessages = otherMessages;
+		this.data = data;
+	}
+	private [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})](State state, List<MyMessage> failMessages, List<MyMessage> otherMessages, T data) {
+		this.code = state.getCode();
+		this.message = state.getMessage();
+		this.failMessages = failMessages;
+		this.otherMessages = otherMessages;
+		this.data = data;
+	}
+	
 	public String getCode() {
 		return code;
 	}
@@ -66,23 +83,69 @@ public class [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> 
 		return this;
 	}
 	
-	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> fail(){
-		this.code = State.FAIL.getCode();
-		this.message = State.FAIL.getMessage();
-		return this;
+	
+	public static <T> [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> fail(){
+		return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<>(State.FAIL, null, null, null);
+	}
+	public static <T> [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> fail(String message){
+		return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<>(State.FAIL.getCode(), message, null, null, null);
+	}
+	public static <T> [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> fail(State failState){
+		ArrayList<MyMessage> failMessages = new ArrayList<>();
+		failMessages.add(new MyMessage(failState.getCode(), failState.getMessage()));
+		return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T>(State.FAIL, failMessages, null, null);
+	}
+	public static <T> [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> fail(MyMessage failMessage){
+		ArrayList<MyMessage> failMessages = new ArrayList<>();
+		failMessages.add(failMessage);
+		return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T>(State.FAIL, failMessages, null, null);
+	}
+	public static <T> [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> fail(State failState, State otherState){
+		ArrayList<MyMessage> failMessages = new ArrayList<>();
+		failMessages.add(new MyMessage(failState.getCode(), failState.getMessage()));
+		
+		ArrayList<MyMessage> otherMessages = new ArrayList<>();
+		otherMessages.add(new MyMessage(otherState.getCode(), otherState.getMessage()));
+		
+		return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T>(State.FAIL, failMessages, otherMessages, null);
+	}
+	public static <T> [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> fail(State failState, MyMessage otherMessage){
+		ArrayList<MyMessage> failMessages = new ArrayList<>();
+		failMessages.add(new MyMessage(failState.getCode(), failState.getMessage()));
+		
+		ArrayList<MyMessage> otherMessages = new ArrayList<>();
+		otherMessages.add(otherMessage);
+		
+		return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T>(State.FAIL, failMessages, otherMessages, null);
+	}
+	public static <T> [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> fail(State failState, ArrayList<MyMessage> otherMessages){
+		ArrayList<MyMessage> failMessages = new ArrayList<>();
+		failMessages.add(new MyMessage(failState.getCode(), failState.getMessage()));
+		
+		return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T>(State.FAIL, failMessages, otherMessages, null);
 	}
 	
-	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> fail(String message){
-		this.code = State.FAIL.getCode();
-		this.message = message;
-		return this;
+	
+	public static <T> [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> success(){
+		return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<>(State.SUCCESS, null, null, null);
+	}
+	public static <T> [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> success(T data){
+		return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T>(State.SUCCESS, null, null, data);
 	}
 	
-	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> success(){
-		this.code = State.SUCCESS.getCode();
-		this.message = State.SUCCESS.getMessage();
-		return this;
+	public static <T> [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> success(T data, MyMessage otherMessage){
+		ArrayList<MyMessage> otherMessages = new ArrayList<>();
+		otherMessages.add(otherMessage);
+		
+		return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T>(State.SUCCESS, null, otherMessages, data);
 	}
+	
+	public static <T> [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> success(T data, ArrayList<MyMessage> otherMessages){
+		return new [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T>(State.SUCCESS, null, otherMessages, data);
+	}
+	
+	
+	
 	
 	@JsonIgnore
 	public boolean isSuccess() {
@@ -120,7 +183,19 @@ public class [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> 
 				}
 			}
 		}
-		this.otherMessages.add(new MyMessage(String.valueOf(otherMessages.size()),message));
+		this.otherMessages.add(new MyMessage(String.valueOf(this.otherMessages.size()),message));
+		return this;
+	}
+	
+	public [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> addOtherMessages(List<MyMessage> otherMessages){
+		if(null==otherMessages) {
+			synchronized ([(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})].class) {
+				if(null==otherMessages) {
+					this.otherMessages = new ArrayList<>();
+				}
+			}
+		}
+		this.otherMessages.addAll(otherMessages);
 		return this;
 	}
 	
@@ -190,6 +265,7 @@ public class [(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})]<T> 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
 	@Override
 	public String toString() {
 		return "[(${simpleGeneratorConfigurationDTO.unifiedResponseClassName})] [code=" + code + ", message=" + message + ", failMessages=" + failMessages

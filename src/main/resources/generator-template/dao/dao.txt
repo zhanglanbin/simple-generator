@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import [(${generateModelDTO.modelPackage})];
-import [(${generateModelDTO.modelQueryPackage})];
+[# th:if="${simpleGeneratorConfigurationDTO.generateQueryModel}"]import [(${generateModelDTO.modelQueryPackage})];[/]
 
 /**
  * @Title: [(${generateModelDTO.daoClassName})]
@@ -32,10 +32,10 @@ public interface [(${generateModelDTO.daoClassName})] {
 	public [(${generateModelDTO.modelClassName})] findBy[(${generateModelDTO.daoModelPrimaryKeyMethodName})]([(${modelPrimaryKeyJavaTypeName})] [(${generateModelDTO.modelPrimaryKeyInfo.javaName})]);
 
 	public List<[(${generateModelDTO.modelClassName})]> findBy[(${generateModelDTO.daoModelPrimaryKeyListMethodName})](@Param("[(${generateModelDTO.daoModelPrimaryKeyListParamVariableName})]") List<[(${modelPrimaryKeyJavaTypeName})]> [(${generateModelDTO.daoModelPrimaryKeyListParamVariableName})]);
-
+	[# th:if="${simpleGeneratorConfigurationDTO.generateQueryModel}"]
 	public int findTotalRow([(${generateModelDTO.modelQueryClassName})] [(${generateModelDTO.modelQueryVariableName})]);
-
+	
 	public List<[(${generateModelDTO.modelClassName})]> findList([(${generateModelDTO.modelQueryClassName})] [(${generateModelDTO.modelQueryVariableName})]);
 
-	public List<[(${generateModelDTO.modelClassName})]> findListByDynamicColumn([(${generateModelDTO.modelQueryClassName})] [(${generateModelDTO.modelQueryVariableName})]);
+	public List<[(${generateModelDTO.modelClassName})]> findListByDynamicColumn([(${generateModelDTO.modelQueryClassName})] [(${generateModelDTO.modelQueryVariableName})]);[/]
 }
